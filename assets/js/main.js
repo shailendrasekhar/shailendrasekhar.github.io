@@ -36,7 +36,7 @@
     
     // Update header styling
     if (targetHash !== '#header') {
-      $('#header').addClass('header-top');
+      $('#header').removeClass('header').addClass('header-top');
       
       // Ensure all sections are completely hidden first
       $('section').removeClass('section-show').css({
@@ -76,7 +76,7 @@
         }
       });
     } else {
-      $('#header').removeClass('header-top');
+      $('#header').removeClass('header-top').addClass('header');
       $('section').removeClass('section-show').css({
         'opacity': 0,
         'pointer-events': 'none',
@@ -112,10 +112,10 @@
     // Only toggle header state when no other section is active
     // Or when we need to collapse the header (scrolling down in any context)
     if (scrollPosition > windowHeight - 100) {
-      $('#header').addClass('header-top');
+      $('#header').removeClass('header').addClass('header-top');
     } else if (!nonHeaderSectionActive) {
       // Only expand the header if no other section is active
-      $('#header').removeClass('header-top');
+      $('#header').removeClass('header-top').addClass('header');
     }
   }
 
@@ -210,6 +210,11 @@
         backSpeed: 50,
         backDelay: 1000
       });
+    }
+    
+    // Check and fix header class if needed
+    if (!$('#header').hasClass('header') && !$('#header').hasClass('header-top')) {
+      $('#header').addClass('header');
     }
     
     // Initialize navigation components
