@@ -23,12 +23,8 @@
         // Transform header
         if (hash !== '#header') {
           $('#header').addClass('header-top');
-          $("section").removeClass('section-show');
-          target.addClass('section-show');
         } else {
           $('#header').removeClass('header-top');
-          $("section").removeClass('section-show');
-          $('#header').addClass('section-show');
         }
         
         // Smooth scroll
@@ -67,32 +63,17 @@
       $('#header').removeClass('header-top');
     }
     
-    // Show sections and update navigation based on scroll position
-    var currentSection = '';
-    
+    // Update navigation based on scroll position
     $('section').each(function() {
-      var sectionTop = $(this).offset().top - windowHeight/2;
-      var sectionBottom = sectionTop + $(this).outerHeight();
+      var sectionTop = $(this).offset().top - 70;
       
-      // Check if current scroll position is within this section
-      if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
-        currentSection = $(this).attr('id');
-        $("section").removeClass('section-show');
-        $(this).addClass('section-show');
-        
-        // Update navigation
+      if (scrollDistance >= sectionTop) {
+        var sectionId = $(this).attr('id');
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        $('.nav-menu, .mobile-nav').find('a[href="#' + currentSection + '"]').parent('li').addClass('active');
-        
-        // Update URL without triggering scroll
-        if (currentSection !== 'header') {
-          history.replaceState(null, null, '#' + currentSection);
-        } else {
-          history.replaceState(null, null, window.location.pathname);
-        }
+        $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
       }
     });
-  }).scroll();
+  });
 
   // Activate/show sections on load with hash links
   if (window.location.hash) {
@@ -101,21 +82,22 @@
       $('#header').addClass('header-top');
       $('.nav-menu .active, .mobile-nav .active').removeClass('active');
       $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').parent('li').addClass('active');
+      
       setTimeout(function() {
-        $("section").removeClass('section-show');
-        $(initial_nav).addClass('section-show');
         $('html, body').animate({
-          scrollTop: $(initial_nav).offset().top
+          scrollTop: $(initial_nav).offset().top - 60
         }, 1000, 'easeInOutExpo');
-      }, 350);
+      }, 100);
     }
   } else {
-    // Show home section by default
     $('#header').removeClass('header-top');
-    $('#header').addClass('section-show');
+    // Initialize active menu item
     $('.nav-menu .active, .mobile-nav .active').removeClass('active');
     $('.nav-menu, .mobile-nav').find('a[href="#header"]').parent('li').addClass('active');
   }
+
+  // Trigger scroll function on load to ensure navigation is correct
+  $(window).trigger('scroll');
 
   // Mobile Navigation
   if ($('.nav-menu').length) {

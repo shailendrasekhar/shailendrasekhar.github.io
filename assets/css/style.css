@@ -79,22 +79,19 @@ svg {
 # Header
 --------------------------------------------------------------*/
 #header {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100vh;
   z-index: 997;
-  padding: 0;
-  background: rgba(0, 0, 0, 0.9);
   transition: all 0.5s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
 }
 
 #header * {
-  transition: ease-in-out 0s;
+  transition: ease-in-out 0.3s;
 }
 
 #header .container {
@@ -326,9 +323,11 @@ svg {
 #header.header-top {
   position: fixed;
   top: 0;
+  left: 0;
   height: 60px;
   padding: 15px 0;
   z-index: 998;
+  background: rgba(0, 0, 0, 0.9);
 }
 
 #header.header-top .social-links, #header.header-top h2 {
@@ -365,23 +364,14 @@ svg {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  position: relative;
   padding: 60px 0;
-  overflow: visible;
-  min-height: 100vh;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out;
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.9);
-  margin-top: 0;
 }
 
 section:not(#header) {
-  display: none;
-  padding-top: 100vh;
   margin-top: 0;
-  position: relative;
-  z-index: 996;
+  padding-top: 60px;
 }
 
 section.section-show {
