@@ -38,22 +38,26 @@
     if (targetHash !== '#header') {
       $('#header').addClass('header-top');
       
-      // Ensure all sections are hidden first
+      // Ensure all sections are completely hidden first
       $('section').removeClass('section-show').css({
         'opacity': 0,
         'pointer-events': 'none',
-        'visibility': 'hidden'
+        'visibility': 'hidden',
+        'display': 'none' // Completely hide sections
       });
       
       // Show the target section immediately
       $target.addClass('section-show').css({
         'opacity': 1,
         'pointer-events': 'auto',
-        'visibility': 'visible'
+        'visibility': 'visible',
+        'display': 'block' // Explicitly make visible
       });
       
+      // Force browser reflow to ensure changes take effect
+      void $target[0].offsetWidth;
+      
       // Reset scroll position of the section to top when navigating to it
-      // Use requestAnimationFrame to ensure this happens after the section is visible
       requestAnimationFrame(function() {
         $target.scrollTop(0);
         
@@ -66,7 +70,8 @@
           
           $target.css({
             'height': sectionHeight + 'px',
-            'overflow-y': 'auto'
+            'overflow-y': 'auto',
+            'z-index': 10 // Ensure it's above other sections
           });
         }
       });
@@ -75,7 +80,8 @@
       $('section').removeClass('section-show').css({
         'opacity': 0,
         'pointer-events': 'none',
-        'visibility': 'hidden'
+        'visibility': 'hidden',
+        'display': 'none' // Completely hide all sections
       });
     }
     

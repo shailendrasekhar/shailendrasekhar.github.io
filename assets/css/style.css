@@ -348,6 +348,7 @@ section {
   pointer-events: none;
   height: 100%;
   -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+  display: none; /* Ensure sections are not visible at all when not active */
 }
 
 section.section-show {
@@ -359,6 +360,7 @@ section.section-show {
   padding-bottom: 45px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  display: block; /* Make active section visible */
 }
 
 section .container {
@@ -375,6 +377,13 @@ section .container {
   section.section-show {
     padding-top: 80px;
     min-height: calc(100vh - 60px);
+    /* Ensure it has higher z-index on mobile to prevent overlapping */
+    z-index: 5;
+  }
+  
+  /* Remove any padding that might make hidden sections partially visible */
+  .about, .education, .experience, .projects, .skills {
+    padding: 0;
   }
   
   section .container {
@@ -523,6 +532,21 @@ section .container {
   height: 100%;
   max-height: 100vh;
   padding-bottom: 60px;
+}
+
+/* Fix for mobile */
+@media (max-width: 768px) {
+  .education:not(.section-show) {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .education.section-show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .education .resume-item {
