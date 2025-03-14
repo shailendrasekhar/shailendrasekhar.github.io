@@ -16,9 +16,10 @@
       if (target.length) {
         e.preventDefault();
         
-        // Update navigation
+        // Update navigation - ensure we're targeting the correct nav item
+        var $navItem = $(this).closest('li');
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        $(this).closest('li').addClass('active');
+        $navItem.addClass('active');
         
         // Transform header
         if (hash !== '#header') {
@@ -81,8 +82,11 @@
         // Remove active class from all nav items
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
         
-        // Add active class to current section's nav item
-        $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
+        // Add active class to current section's nav item - ensure we're targeting the correct nav item
+        var $navItem = $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').closest('li');
+        if ($navItem.length) {
+          $navItem.addClass('active');
+        }
         
         // Show current section
         if (sectionId !== 'header') {
