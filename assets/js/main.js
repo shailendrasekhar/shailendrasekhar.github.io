@@ -74,6 +74,10 @@
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
         $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
         
+        // Show current section
+        $('section').removeClass('section-show');
+        $(this).addClass('section-show');
+        
         // Trigger AOS animations when section is in view
         if ($(this).find('[data-aos]').length) {
           $(this).find('[data-aos]').each(function() {
@@ -92,9 +96,13 @@
       $('.nav-menu .active, .mobile-nav .active').removeClass('active');
       $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').parent('li').addClass('active');
       
+      // Show initial section
+      $('section').removeClass('section-show');
+      $(initial_nav).addClass('section-show');
+      
       setTimeout(function() {
         $('html, body').animate({
-          scrollTop: $(initial_nav).offset().top - 60
+          scrollTop: $(initial_nav).offset().top - 100
         }, 1000, 'easeInOutExpo');
       }, 100);
     }
@@ -103,6 +111,10 @@
     // Initialize active menu item
     $('.nav-menu .active, .mobile-nav .active').removeClass('active');
     $('.nav-menu, .mobile-nav').find('a[href="#header"]').parent('li').addClass('active');
+    
+    // Show initial section
+    $('section').removeClass('section-show');
+    $('#header').addClass('section-show');
   }
 
   // Trigger scroll function on load to ensure navigation is correct
