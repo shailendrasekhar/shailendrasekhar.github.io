@@ -20,8 +20,12 @@
           $(this).closest('li').addClass('active');
         }
 
+        // Show the target section
+        $("section").removeClass('section-show');
+        $(hash).addClass('section-show');
+
         $('html, body').animate({
-          scrollTop: target.offset().top - 70
+          scrollTop: target.offset().top
         }, 1000, 'easeInOutExpo');
 
         if ($('body').hasClass('mobile-nav-active')) {
@@ -35,15 +39,14 @@
     }
   });
 
-  // Update active menu item on scroll
+  // Show/hide sections on scroll
   $(window).scroll(function() {
     var scrollDistance = $(window).scrollTop();
     
-    // Assign active class to nav links while scrolling
-    $('section').each(function(i) {
-      if ($(this).position().top <= scrollDistance + 200) {
-        $('.nav-menu a.active').removeClass('active');
-        $('.nav-menu a').eq(i).addClass('active');
+    // Show/hide sections based on scroll position
+    $('section').each(function() {
+      if ($(this).offset().top <= scrollDistance + $(window).height() / 2) {
+        $(this).addClass('section-show');
       }
     });
   }).scroll();
