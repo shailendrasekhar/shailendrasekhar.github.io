@@ -7,187 +7,221 @@
 !(function($) {
   "use strict";
 
-  // Nav Menu
-  $(document).on('click', '.nav-menu a, .mobile-nav a', function(e) {
-    if (location.pathname.replace(/^\/|\/$/g, '') == this.pathname.replace(/^\/|\/$/g, '') && location.hostname == this.hostname) {
-      var hash = this.hash;
-      var target = $(hash);
-      
-      if (target.length) {
-        e.preventDefault();
-        
-        // Update navigation - ensure we're targeting the correct nav item
-        var $navItem = $(this).closest('li');
-        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        $navItem.addClass('active');
-        
-        // Store the current navigation target for better detection
-        window.lastNavigationTarget = hash;
-        
-        // Transform header
-        if (hash !== '#header') {
-          $('#header').addClass('header-top');
-          
-          // Hide all sections first
-          $('section:not(#header)').removeClass('section-show');
-          
-          // Show target section
-          $(hash).addClass('section-show');
-        } else {
-          $('#header').removeClass('header-top');
-        }
-        
-        // Calculate scroll position and animate
-        var offset = hash === '#header' ? 0 : 100;
-        $('html, body').animate({
-          scrollTop: target.offset().top - offset
-        }, 1000, 'easeInOutExpo', function() {
-          // Update URL after animation
-          if (hash !== '#header') {
-            window.location.hash = hash;
-          } else {
-            history.replaceState('', document.title, window.location.pathname);
-          }
-          
-          // Extra check to ensure navigation is correct after scroll completes
-          setTimeout(function() {
-            $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-            $('.nav-menu, .mobile-nav').find('a[href="' + hash + '"]').closest('li').addClass('active');
-          }, 100);
-        });
-        
-        // Handle mobile nav
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-          $('.mobile-nav-overly').fadeOut();
-        }
-        
-        return false;
-      }
-    }
-  });
+  // Global variables for navigation state
+  var isScrolling = false;
+  var activeSection = '';
+  var sectionPositions = {};
+  var navTimeout;
 
-  // Show/hide sections on scroll
-  $(window).scroll(function() {
-    var scrollDistance = $(window).scrollTop();
-    var windowHeight = $(window).height();
+  // Initialize section positions
+  function updateSectionPositions() {
+    $('section').each(function() {
+      var id = $(this).attr('id');
+      if (id) {
+        sectionPositions['#' + id] = $(this).offset().top;
+      }
+    });
+  }
+
+  // Update the navigation state
+  function updateNavigation(targetHash, skipAnimation) {
+    if (!targetHash) return;
     
-    // Update header state based on scroll position
-    if (scrollDistance > windowHeight - 100) {
+    var $target = $(targetHash);
+    if (!$target.length) return;
+    
+    // Update active navigation item
+    $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+    $('.nav-menu a[href="' + targetHash + '"], .mobile-nav a[href="' + targetHash + '"]').closest('li').addClass('active');
+    
+    // Update header styling
+    if (targetHash !== '#header') {
       $('#header').addClass('header-top');
     } else {
       $('#header').removeClass('header-top');
     }
     
-    // Don't update navigation during programmatic scrolls
-    if (window.isScrolling) return;
+    // Show the target section
+    $('section').removeClass('section-show');
+    $target.addClass('section-show');
     
-    // Update navigation based on scroll position
-    var activeSection = null;
-    var minDistance = Infinity;
+    // Update URL
+    if (targetHash !== '#header') {
+      if (history.pushState) {
+        history.pushState(null, null, targetHash);
+      } else {
+        location.hash = targetHash;
+      }
+    } else if (history.pushState) {
+      history.pushState('', document.title, window.location.pathname);
+    }
     
-    // First pass: find the section closest to the current scroll position
-    $('section').each(function() {
-      var $section = $(this);
-      var sectionId = $section.attr('id');
-      var sectionTop = $section.offset().top - 100;
-      var distance = Math.abs(scrollDistance - sectionTop);
+    // Scroll to the target section
+    if (!skipAnimation) {
+      isScrolling = true;
+      var offset = targetHash === '#header' ? 0 : 100;
       
-      // If this is the manually clicked section, prioritize it
-      if (window.lastNavigationTarget === '#' + sectionId) {
-        activeSection = $section;
-        return false; // Break the loop
+      $('html, body').animate({
+        scrollTop: $target.offset().top - offset
+      }, 1000, 'easeInOutExpo', function() {
+        isScrolling = false;
+      });
+    }
+  }
+  
+  // Throttle function to limit execution frequency
+  function throttle(func, delay) {
+    var lastCall = 0;
+    return function() {
+      var now = new Date().getTime();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        func.apply(this, arguments);
       }
-      
-      // Otherwise find closest section
-      if (distance < minDistance) {
-        minDistance = distance;
-        activeSection = $section;
-      }
-    });
+    };
+  }
+
+  // Handle the scroll event to update navigation state
+  function handleScroll() {
+    if (isScrolling) return;
     
-    // Now update based on the found section
-    if (activeSection) {
-      var sectionId = activeSection.attr('id');
+    var scrollPosition = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    
+    // Update header state based on scroll position
+    if (scrollPosition > windowHeight - 100) {
+      $('#header').addClass('header-top');
+    } else {
+      $('#header').removeClass('header-top');
+    }
+    
+    // Find the current section
+    var currentSection = '';
+    var smallestDistance = Infinity;
+    
+    for (var sectionId in sectionPositions) {
+      var distance = Math.abs(scrollPosition - (sectionPositions[sectionId] - 150));
       
-      // Remove active class from all nav items
-      $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-      
-      // Add active class to current section's nav item
-      var $navItem = $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').closest('li');
-      if ($navItem.length) {
-        $navItem.addClass('active');
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+        currentSection = sectionId;
       }
+    }
+    
+    // Only update if the section has changed
+    if (currentSection && currentSection !== activeSection) {
+      activeSection = currentSection;
       
-      // Show current section
-      if (sectionId !== 'header') {
-        $('section:not(#header)').removeClass('section-show');
-        activeSection.addClass('section-show');
+      // Debounce navigation updates
+      clearTimeout(navTimeout);
+      navTimeout = setTimeout(function() {
+        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+        $('.nav-menu a[href="' + currentSection + '"], .mobile-nav a[href="' + currentSection + '"]').closest('li').addClass('active');
+        
+        if (currentSection !== '#header') {
+          $('section').not(currentSection).removeClass('section-show');
+          $(currentSection).addClass('section-show');
+        }
+      }, 100);
+    }
+  }
+
+  // Handle click events on navigation links
+  $(document).on('click', '.nav-menu a, .mobile-nav a', function(e) {
+    var hash = this.hash;
+    
+    if (hash && $(hash).length) {
+      e.preventDefault();
+      updateNavigation(hash, false);
+      
+      // Close mobile nav if open
+      if ($('body').hasClass('mobile-nav-active')) {
+        $('body').removeClass('mobile-nav-active');
+        $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+        $('.mobile-nav-overly').fadeOut();
       }
     }
   });
 
-  // Activate/show sections on load with hash links
-  if (window.location.hash) {
-    var initial_nav = window.location.hash;
-    if ($(initial_nav).length) {
-      $('#header').addClass('header-top');
-      $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-      $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').closest('li').addClass('active');
-      
-      // Show initial section
-      $('section').removeClass('section-show');
-      $(initial_nav).addClass('section-show');
-      
-      setTimeout(function() {
-        $('html, body').animate({
-          scrollTop: $(initial_nav).offset().top - 100
-        }, 1000, 'easeInOutExpo');
-      }, 100);
-    }
-  } else {
-    $('#header').removeClass('header-top');
-    // Initialize active menu item
-    $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-    $('.nav-menu, .mobile-nav').find('a[href="#header"]').closest('li').addClass('active');
+  // Initialize navigation on page load
+  function initNavigation() {
+    updateSectionPositions();
     
-    // Show initial section
-    $('section').removeClass('section-show');
-    $('#header').addClass('section-show');
+    // Check for hash in URL
+    if (window.location.hash && $(window.location.hash).length) {
+      updateNavigation(window.location.hash, true);
+      
+      // Scroll to the section after a short delay
+      setTimeout(function() {
+        isScrolling = true;
+        $('html, body').animate({
+          scrollTop: $(window.location.hash).offset().top - 100
+        }, 1000, 'easeInOutExpo', function() {
+          isScrolling = false;
+        });
+      }, 200);
+    } else {
+      // Show the header/home section by default
+      updateNavigation('#header', true);
+    }
   }
 
-  // Trigger scroll function on load to ensure navigation is correct
-  $(window).trigger('scroll');
+  // Initialize mobile navigation
+  function initMobileNav() {
+    if ($('.nav-menu').length) {
+      var $mobile_nav = $('.nav-menu').clone().prop({
+        class: 'mobile-nav d-lg-none'
+      });
+      
+      $('body').append($mobile_nav);
+      $('body').prepend('<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu"></i></button>');
+      
+      // Toggle mobile nav
+      $(document).on('click', '.mobile-nav-toggle', function(e) {
+        $('body').toggleClass('mobile-nav-active');
+        $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+      });
 
-  // Mobile Navigation
-  if ($('.nav-menu').length) {
-    var $mobile_nav = $('.nav-menu').clone().prop({
-      class: 'mobile-nav d-lg-none'
-    });
-    $('body').append($mobile_nav);
-    $('body').prepend('<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu"></i></button>');
-    $('body').append('<div class="mobile-nav-overly"></div>');
-
-    $(document).on('click', '.mobile-nav-toggle', function(e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-      $('.mobile-nav-overly').toggle();
-    });
-
-    $(document).click(function(e) {
-      var container = $(".mobile-nav, .mobile-nav-toggle");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-          $('.mobile-nav-overly').fadeOut();
+      // Close mobile nav when clicking outside
+      $(document).on('click', function(e) {
+        var container = $(".mobile-nav, .mobile-nav-toggle");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+          if ($('body').hasClass('mobile-nav-active')) {
+            $('body').removeClass('mobile-nav-active');
+            $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+          }
         }
-      }
-    });
-  } else if ($(".mobile-nav, .mobile-nav-toggle").length) {
-    $(".mobile-nav, .mobile-nav-toggle").hide();
+      });
+    } else if ($(".mobile-nav, .mobile-nav-toggle").length) {
+      $(".mobile-nav, .mobile-nav-toggle").hide();
+    }
   }
+
+  // Handle window resize (update section positions)
+  $(window).on('resize', throttle(function() {
+    updateSectionPositions();
+  }, 250));
+
+  // Initialize everything on page load
+  $(window).on('load', function() {
+    // Initialize typing animation if Typed.js exists
+    if ($('.typing').length && typeof Typed !== 'undefined') {
+      new Typed('.typing', {
+        strings: ["Software Engineer", "ML Engineer", "Full Stack Developer"],
+        loop: true,
+        typeSpeed: 100,
+        backSpeed: 50,
+        backDelay: 2000
+      });
+    }
+    
+    // Initialize navigation components
+    initNavigation();
+    initMobileNav();
+    
+    // Setup the throttled scroll handler
+    $(window).on('scroll', throttle(handleScroll, 100));
+  });
 
   // jQuery counterUp
   $('[data-toggle="counter-up"]').counterUp({
@@ -250,18 +284,9 @@
     // Initialize AOS with custom settings
     AOS.init({
       duration: 1000,
+      easing: 'ease-in-out',
       once: true,
-      offset: 100,
-      delay: 100
-    });
-    
-    // Trigger initial animations for visible sections
-    $('section').each(function() {
-      if ($(this).isInViewport()) {
-        $(this).find('[data-aos]').each(function() {
-          $(this).addClass('aos-animate');
-        });
-      }
+      mirror: false
     });
   });
 
