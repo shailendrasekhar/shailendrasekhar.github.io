@@ -21,6 +21,9 @@
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
         $navItem.addClass('active');
         
+        // Store the current navigation target for better detection
+        window.lastNavigationTarget = hash;
+        
         // Transform header
         if (hash !== '#header') {
           $('#header').addClass('header-top');
@@ -45,6 +48,12 @@
           } else {
             history.replaceState('', document.title, window.location.pathname);
           }
+          
+          // Extra check to ensure navigation is correct after scroll completes
+          setTimeout(function() {
+            $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+            $('.nav-menu, .mobile-nav').find('a[href="' + hash + '"]').closest('li').addClass('active');
+          }, 100);
         });
         
         // Handle mobile nav
@@ -71,30 +80,52 @@
       $('#header').removeClass('header-top');
     }
     
+    // Don't update navigation during programmatic scrolls
+    if (window.isScrolling) return;
+    
     // Update navigation based on scroll position
+    var activeSection = null;
+    var minDistance = Infinity;
+    
+    // First pass: find the section closest to the current scroll position
     $('section').each(function() {
       var $section = $(this);
       var sectionId = $section.attr('id');
       var sectionTop = $section.offset().top - 100;
-      var sectionBottom = sectionTop + $section.outerHeight();
+      var distance = Math.abs(scrollDistance - sectionTop);
       
-      if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
-        // Remove active class from all nav items
-        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        
-        // Add active class to current section's nav item - ensure we're targeting the correct nav item
-        var $navItem = $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').closest('li');
-        if ($navItem.length) {
-          $navItem.addClass('active');
-        }
-        
-        // Show current section
-        if (sectionId !== 'header') {
-          $('section:not(#header)').removeClass('section-show');
-          $section.addClass('section-show');
-        }
+      // If this is the manually clicked section, prioritize it
+      if (window.lastNavigationTarget === '#' + sectionId) {
+        activeSection = $section;
+        return false; // Break the loop
+      }
+      
+      // Otherwise find closest section
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeSection = $section;
       }
     });
+    
+    // Now update based on the found section
+    if (activeSection) {
+      var sectionId = activeSection.attr('id');
+      
+      // Remove active class from all nav items
+      $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+      
+      // Add active class to current section's nav item
+      var $navItem = $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').closest('li');
+      if ($navItem.length) {
+        $navItem.addClass('active');
+      }
+      
+      // Show current section
+      if (sectionId !== 'header') {
+        $('section:not(#header)').removeClass('section-show');
+        activeSection.addClass('section-show');
+      }
+    }
   });
 
   // Activate/show sections on load with hash links
@@ -103,7 +134,7 @@
     if ($(initial_nav).length) {
       $('#header').addClass('header-top');
       $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-      $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').parent('li').addClass('active');
+      $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').closest('li').addClass('active');
       
       // Show initial section
       $('section').removeClass('section-show');
@@ -119,7 +150,7 @@
     $('#header').removeClass('header-top');
     // Initialize active menu item
     $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-    $('.nav-menu, .mobile-nav').find('a[href="#header"]').parent('li').addClass('active');
+    $('.nav-menu, .mobile-nav').find('a[href="#header"]').closest('li').addClass('active');
     
     // Show initial section
     $('section').removeClass('section-show');
