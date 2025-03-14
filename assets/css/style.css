@@ -84,10 +84,24 @@ svg {
 #header {
   transition: all 0.5s ease;
   z-index: 40;
-  padding: 30px 0;
+  padding: 0;
   overflow: hidden;
   position: relative;
   background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#header .container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  max-width: 900px;
 }
 
 #header #logo h1 {
@@ -119,6 +133,9 @@ svg {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 100;
+  min-height: unset;
+  display: block;
+  padding: 0;
 }
 
 #header.header-top h1 {
@@ -153,11 +170,23 @@ svg {
 }
 
 @media (max-width: 768px) {
+  #header {
+    padding: 0;
+    min-height: 100vh;
+  }
+  
+  #header .container {
+    padding: 20px;
+  }
+  
   #header.header-top {
     height: 60px;
+    padding: 0;
+    min-height: unset;
   }
+  
   #header.header-top h1 {
-    font-size: 26px;
+    font-size: 24px; /* Slightly smaller font on mobile */
   }
 }
 
@@ -1352,4 +1381,40 @@ section .container {
   #header.header-top {
     padding: 15px 0;
   }
+}
+
+#header h2 {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #fff;
+}
+
+#header h2 .typing {
+  color: #12d640;
+}
+
+#header .social-links {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Add space between social icons */
+}
+
+#header .social-links a {
+  font-size: 18px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  line-height: 1;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: 0.3s;
+}
+
+#header .social-links a:hover {
+  background: #12d640;
+  color: #fff;
 }
