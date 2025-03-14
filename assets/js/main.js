@@ -27,9 +27,10 @@
           $('#header').removeClass('header-top');
         }
         
-        // Smooth scroll
+        // Smooth scroll with offset
+        var offset = hash === '#header' ? 0 : 100;
         $('html, body').animate({
-          scrollTop: target.offset().top - (hash === '#header' ? 0 : 60)
+          scrollTop: target.offset().top - offset
         }, 1000, 'easeInOutExpo', function() {
           // Update URL after animation
           if (hash !== '#header') {
@@ -65,7 +66,7 @@
     
     // Update navigation based on scroll position
     $('section').each(function() {
-      var sectionTop = $(this).offset().top - 70;
+      var sectionTop = $(this).offset().top - 100;
       var sectionBottom = sectionTop + $(this).outerHeight();
       
       if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
