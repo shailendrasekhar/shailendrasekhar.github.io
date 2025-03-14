@@ -144,6 +144,14 @@ svg {
   background: #12d640;
 }
 
+#header .social-links a.scholar {
+  background: rgba(66, 133, 244, 0.1);
+}
+
+#header .social-links a.scholar:hover {
+  background: #4285f4;
+}
+
 @media (max-width: 992px) {
   #header h1 {
     font-size: 36px;
@@ -972,6 +980,10 @@ section .container {
 
 .contact .info-box .social-links a:hover {
   color: #12d640;
+}
+
+.contact .info-box .social-links a.scholar:hover {
+  color: #4285f4;
 }
 
 .contact .php-email-form {
