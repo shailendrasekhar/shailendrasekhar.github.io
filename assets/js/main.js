@@ -20,13 +20,27 @@
           $(this).closest('li').addClass('active');
         }
 
+        // Transform header to header-top
+        if (hash !== '#header') {
+          $('#header').addClass('header-top');
+        } else {
+          $('#header').removeClass('header-top');
+        }
+
         // Show the target section
         $("section").removeClass('section-show');
         $(hash).addClass('section-show');
 
         $('html, body').animate({
           scrollTop: target.offset().top
-        }, 1000, 'easeInOutExpo');
+        }, 1000, 'easeInOutExpo', function() {
+          // Update URL hash after animation completes
+          if (hash !== '#header') {
+            window.location.hash = hash;
+          } else {
+            history.replaceState('', document.title, window.location.pathname);
+          }
+        });
 
         if ($('body').hasClass('mobile-nav-active')) {
           $('body').removeClass('mobile-nav-active');
@@ -43,7 +57,16 @@
   $(window).scroll(function() {
     var scrollDistance = $(window).scrollTop();
     
-    // Show/hide sections based on scroll position
+    // Transform header based on scroll position
+    if (scrollDistance > 100) {
+      $('#header').addClass('header-top');
+    } else if (scrollDistance === 0) {
+      $('#header').removeClass('header-top');
+      $("section").removeClass('section-show');
+      $('#header').addClass('section-show');
+    }
+    
+    // Show sections based on scroll position
     $('section').each(function() {
       if ($(this).offset().top <= scrollDistance + $(window).height() / 2) {
         $(this).addClass('section-show');
@@ -55,14 +78,20 @@
   if (window.location.hash) {
     var initial_nav = window.location.hash;
     if ($(initial_nav).length) {
+      $('#header').addClass('header-top');
       $('.nav-menu .active, .mobile-nav .active').removeClass('active');
       $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').parent('li').addClass('active');
       setTimeout(function() {
+        $("section").removeClass('section-show');
+        $(initial_nav).addClass('section-show');
         $('html, body').animate({
-          scrollTop: $(initial_nav).offset().top - 70
+          scrollTop: $(initial_nav).offset().top
         }, 1000, 'easeInOutExpo');
       }, 350);
     }
+  } else {
+    $('#header').removeClass('header-top');
+    $('#header').addClass('section-show');
   }
 
   // Mobile Navigation
