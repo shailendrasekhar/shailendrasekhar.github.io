@@ -336,6 +336,7 @@ section {
   opacity: 0;
   transition: ease-in-out 0.4s;
   z-index: 2;
+  visibility: hidden;
 }
 
 section.section-show {
@@ -343,6 +344,8 @@ section.section-show {
   bottom: auto;
   opacity: 1;
   padding-bottom: 45px;
+  visibility: visible;
+  min-height: calc(100vh - 160px); /* Ensure sections take up at least the viewport height minus header */
 }
 
 section .container {
@@ -350,6 +353,7 @@ section .container {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {
@@ -358,6 +362,7 @@ section .container {
   }
   section.section-show {
     top: 80px;
+    min-height: calc(100vh - 140px);
   }
 }
 
@@ -393,17 +398,16 @@ section .container {
 # About
 --------------------------------------------------------------*/
 .about {
-  position: relative;
-  padding: 100px 0;
+  position: absolute;
+  width: 100%;
   background: rgba(0, 0, 0, 0.9);
-  margin-top: 0;
-  min-height: calc(100vh - 60px);
+  transition: ease-in-out 0.4s;
+  z-index: 2;
 }
 
 .about-me {
-  padding: 0;
+  padding: 30px 0;
   position: relative;
-  z-index: 1;
 }
 
 .about-me .content h3 {
@@ -450,6 +454,16 @@ section .container {
   .about-me .content {
     padding-top: 30px;
   }
+}
+
+.about.section-show {
+  display: block;
+  opacity: 1;
+}
+
+.about-me .content p {
+  color: #fff;
+  margin-bottom: 15px;
 }
 
 /*--------------------------------------------------------------

@@ -37,13 +37,18 @@
     // Update header styling
     if (targetHash !== '#header') {
       $('#header').addClass('header-top');
+      
+      // Ensure all sections are hidden first
+      $('section').removeClass('section-show').css('opacity', 0);
+      
+      // Show the target section with a slight delay to ensure clean transition
+      setTimeout(function() {
+        $target.addClass('section-show').css('opacity', 1);
+      }, 50);
     } else {
       $('#header').removeClass('header-top');
+      $('section').removeClass('section-show').css('opacity', 0);
     }
-    
-    // Show the target section
-    $('section').removeClass('section-show');
-    $target.addClass('section-show');
     
     // Update URL
     if (targetHash !== '#header') {
@@ -93,6 +98,15 @@
       $('#header').addClass('header-top');
     } else {
       $('#header').removeClass('header-top');
+      
+      // When scrolled to top, always show home
+      if (scrollPosition < 50) {
+        activeSection = '#header';
+        $('section').removeClass('section-show');
+        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+        $('.nav-menu a[href="#header"], .mobile-nav a[href="#header"]').closest('li').addClass('active');
+        return;
+      }
     }
     
     // Find the current section
@@ -119,7 +133,9 @@
         $('.nav-menu a[href="' + currentSection + '"], .mobile-nav a[href="' + currentSection + '"]').closest('li').addClass('active');
         
         if (currentSection !== '#header') {
+          // Hide all other sections first
           $('section').not(currentSection).removeClass('section-show');
+          // Then show current section
           $(currentSection).addClass('section-show');
         }
       }, 100);
