@@ -206,22 +206,12 @@
 
   // Initialize everything on page load
   $(window).on('load', function() {
-    // Force fix the header visibility
-    $('#header').css({
-      'visibility': 'visible',
-      'opacity': '1',
-      'background-color': 'rgba(0, 0, 0, 0.9)'
-    });
+    // Initialize navigation components
+    initNavigation();
+    initMobileNav();
     
-    console.log('Header status:', {
-      'has header class': $('#header').hasClass('header'),
-      'has header-top class': $('#header').hasClass('header-top'),
-      'is visible': $('#header').is(':visible'),
-      'display': $('#header').css('display'),
-      'opacity': $('#header').css('opacity'),
-      'visibility': $('#header').css('visibility'),
-      'z-index': $('#header').css('z-index')
-    });
+    // Set up minimal scroll handler for header state only
+    $(window).on('scroll', throttle(handleScroll, 100));
     
     // Initialize typing animation if Typed.js exists
     if ($('.typing').length && typeof Typed !== 'undefined') {
@@ -233,19 +223,6 @@
         backDelay: 1000
       });
     }
-    
-    // Check and fix header class if needed
-    if (!$('#header').hasClass('header') && !$('#header').hasClass('header-top')) {
-      $('#header').addClass('header');
-      console.log('Added header class');
-    }
-    
-    // Initialize navigation components
-    initNavigation();
-    initMobileNav();
-    
-    // Set up minimal scroll handler for header state only
-    $(window).on('scroll', throttle(handleScroll, 100));
   });
 
   // jQuery counterUp
