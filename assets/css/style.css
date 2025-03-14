@@ -438,11 +438,6 @@ section .container {
   background: rgba(0, 0, 0, 0.9);
   margin-top: 0;
   min-height: calc(100vh - 60px);
-  display: none;
-}
-
-.about.section-show {
-  display: block;
 }
 
 .about-me {
@@ -506,7 +501,6 @@ section .container {
   background: rgba(0, 0, 0, 0.9);
   margin-top: 0;
   min-height: calc(100vh - 60px);
-  display: none;
 }
 
 .education.section-show {
