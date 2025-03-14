@@ -37,6 +37,7 @@
     // Update header styling
     if (targetHash !== '#header') {
       $('#header').removeClass('header').addClass('header-top');
+      $('body').addClass('header-top-active'); // Add class to body to adjust section padding
       
       // Ensure all sections are completely hidden first
       $('section').removeClass('section-show').css({
@@ -71,12 +72,14 @@
           $target.css({
             'height': sectionHeight + 'px',
             'overflow-y': 'auto',
-            'z-index': 10 // Ensure it's above other sections
+            'z-index': 10, // Ensure it's above other sections
+            'padding-top': headerHeight + 'px' // Add padding to prevent content from being hidden by header
           });
         }
       });
     } else {
       $('#header').removeClass('header-top').addClass('header');
+      $('body').removeClass('header-top-active'); // Remove class from body
       $('section').removeClass('section-show').css({
         'opacity': 0,
         'pointer-events': 'none',
@@ -101,7 +104,7 @@
   }
   
   // We'll no longer need the scroll handler for section highlighting
-  // This function will be replaced with a simpler version
+  // This function will handle header state based on scroll position
   function handleScroll() {
     var scrollPosition = $(window).scrollTop();
     var windowHeight = $(window).height();
@@ -113,9 +116,11 @@
     // Or when we need to collapse the header (scrolling down in any context)
     if (scrollPosition > windowHeight - 100) {
       $('#header').removeClass('header').addClass('header-top');
+      $('body').addClass('header-top-active'); // Add class to body
     } else if (!nonHeaderSectionActive) {
       // Only expand the header if no other section is active
       $('#header').removeClass('header-top').addClass('header');
+      $('body').removeClass('header-top-active'); // Remove class from body
     }
   }
 
