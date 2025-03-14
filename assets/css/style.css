@@ -110,20 +110,13 @@ svg {
   padding: 0;
   line-height: 1.2;
   text-transform: uppercase;
-  background: url("../img/overlay-bg.jpg") text;
-  -webkit-background-clip: text;
-  background-clip: text;
   color: #fff;
-  -webkit-text-fill-color: transparent;
   text-align: center;
 }
 
 #header h1 a {
-  color: inherit;
-  -webkit-text-fill-color: transparent;
-  background: url("../img/overlay-bg.jpg") text;
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: #fff;
+  text-decoration: none;
 }
 
 #header h2 {
@@ -193,20 +186,21 @@ svg {
 }
 
 #header.header-top h1 {
-  font-size: 26px;
+  font-size: 24px;
   margin: 0;
-  padding: 0;
+  padding: 0 10px 0 0;
   line-height: 1;
   text-align: left;
-  background: none;
-  -webkit-text-fill-color: #fff;
   color: #fff;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #header.header-top h1 a {
   color: #fff;
-  -webkit-text-fill-color: #fff;
-  background: none;
+  text-decoration: none;
 }
 
 #header.header-top .nav-menu {
@@ -256,7 +250,7 @@ svg {
   }
   
   #header h1 {
-    font-size: 48px;
+    font-size: 42px;
   }
   
   #header h2 {
@@ -269,11 +263,10 @@ svg {
   }
   
   #header.header-top h1 {
-    font-size: 24px;
-  }
-  
-  #header.header-top .container {
-    padding: 0 15px;
+    font-size: 20px;
+    margin-left: 5px;
+    padding-right: 5px;
+    max-width: 60%;
   }
 
   #header.header-top .mobile-nav-toggle {
