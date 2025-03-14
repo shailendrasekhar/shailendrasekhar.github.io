@@ -347,6 +347,7 @@ section {
   z-index: 2;
   pointer-events: none;
   height: 100%;
+  -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
 }
 
 section.section-show {
@@ -367,12 +368,28 @@ section .container {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-top: 20px;
   margin-bottom: 20px;
+  position: relative; /* Add this to ensure proper stacking context */
 }
 
 @media (max-width: 768px) {
   section.section-show {
     padding-top: 80px;
     min-height: calc(100vh - 60px);
+  }
+  
+  section .container {
+    padding: 20px;
+  }
+}
+
+/* Fix for iOS Safari scrolling */
+@supports (-webkit-touch-callout: none) {
+  section {
+    height: -webkit-fill-available;
+  }
+  
+  section.section-show {
+    height: -webkit-fill-available;
   }
 }
 
@@ -483,10 +500,17 @@ section .container {
 .education {
   position: absolute;
   width: 100%;
+  height: auto;
+  min-height: 100%;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 0.3s ease;
   z-index: 2;
   overflow-y: auto;
+}
+
+.education .container {
+  margin-bottom: 30px;
+  overflow: visible;
 }
 
 .education .section-title {
@@ -496,6 +520,19 @@ section .container {
 .education.section-show {
   display: block;
   opacity: 1;
+  height: 100%;
+  max-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.education .resume-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.education .resume-item h4 {
+  margin-bottom: 10px;
+  color: #12d640;
 }
 
 /*--------------------------------------------------------------
@@ -504,15 +541,35 @@ section .container {
 .experience {
   position: absolute;
   width: 100%;
+  height: auto;
+  min-height: 100%;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 0.3s ease;
   z-index: 2;
   overflow-y: auto;
 }
 
+.experience .container {
+  margin-bottom: 30px;
+  overflow: visible;
+}
+
 .experience.section-show {
   display: block;
   opacity: 1;
+  height: 100%;
+  max-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.experience .resume-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.experience .resume-item h4 {
+  margin-bottom: 10px;
+  color: #12d640;
 }
 
 /*--------------------------------------------------------------

@@ -39,16 +39,44 @@
       $('#header').addClass('header-top');
       
       // Ensure all sections are hidden first
-      $('section').removeClass('section-show').css('opacity', 0);
+      $('section').removeClass('section-show').css({
+        'opacity': 0,
+        'pointer-events': 'none',
+        'visibility': 'hidden'
+      });
       
       // Show the target section immediately
-      $target.addClass('section-show').css('opacity', 1);
+      $target.addClass('section-show').css({
+        'opacity': 1,
+        'pointer-events': 'auto',
+        'visibility': 'visible'
+      });
       
       // Reset scroll position of the section to top when navigating to it
-      $target.scrollTop(0);
+      // Use requestAnimationFrame to ensure this happens after the section is visible
+      requestAnimationFrame(function() {
+        $target.scrollTop(0);
+        
+        // Special handling for education and experience sections
+        if (targetHash === '#education' || targetHash === '#experience') {
+          // Make sure these sections have proper height to enable scrolling
+          var headerHeight = $('#header').outerHeight();
+          var windowHeight = $(window).height();
+          var sectionHeight = windowHeight - headerHeight;
+          
+          $target.css({
+            'height': sectionHeight + 'px',
+            'overflow-y': 'auto'
+          });
+        }
+      });
     } else {
       $('#header').removeClass('header-top');
-      $('section').removeClass('section-show').css('opacity', 0);
+      $('section').removeClass('section-show').css({
+        'opacity': 0,
+        'pointer-events': 'none',
+        'visibility': 'hidden'
+      });
     }
     
     // Update URL without scrolling
@@ -141,11 +169,23 @@
     }
   }
 
-  // Handle window resize (update section positions)
+  // Handle window resize
   $(window).on('resize', throttle(function() {
-    // No longer need to update section positions
-    // Just ensure header is sized properly
+    // Update header state
     handleScroll();
+    
+    // Update section heights if they're visible
+    var currentSection = $('.section-show');
+    if (currentSection.length && (currentSection.attr('id') === 'education' || currentSection.attr('id') === 'experience')) {
+      var headerHeight = $('#header').outerHeight();
+      var windowHeight = $(window).height();
+      var sectionHeight = windowHeight - headerHeight;
+      
+      currentSection.css({
+        'height': sectionHeight + 'px',
+        'overflow-y': 'auto'
+      });
+    }
   }, 250));
 
   // Initialize everything on page load
