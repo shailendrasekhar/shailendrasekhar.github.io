@@ -90,8 +90,67 @@ svg {
   min-height: 100vh;
   transition: all 0.5s ease;
   overflow: hidden;
+  text-align: center;
 }
 
+#header .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 0 20px;
+}
+
+#header h1 {
+  margin: 0;
+  font-size: 64px;
+  font-weight: 700;
+  padding: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+  background: url("../img/overlay-bg.jpg") text;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+#header h2 {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #fff;
+  text-align: center;
+}
+
+#header .social-links {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+#header .social-links a {
+  font-size: 18px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  line-height: 1;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: 0.3s;
+}
+
+#header .social-links a:hover {
+  background: #12d640;
+  color: #fff;
+}
+
+/* Ensure header-top state maintains proper alignment */
 #header.header-top {
   position: fixed !important;
   top: 0 !important;
@@ -107,17 +166,21 @@ svg {
   min-height: unset;
   padding: 0;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #header.header-top .container {
-  padding: 0 20px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: 100%;
   width: 100%;
-  margin: 0;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
 }
 
 #header.header-top h1 {
@@ -125,6 +188,7 @@ svg {
   margin: 0;
   padding: 0;
   line-height: 1;
+  text-align: left;
 }
 
 #header.header-top .nav-menu {
@@ -169,23 +233,29 @@ svg {
 }
 
 @media (max-width: 768px) {
+  #header {
+    padding: 20px 0;
+  }
+  
+  #header h1 {
+    font-size: 48px;
+  }
+  
+  #header h2 {
+    font-size: 20px;
+  }
+  
   #header.header-top {
     height: 60px;
     padding: 0;
-    min-height: unset;
-    width: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
   }
-
-  #header.header-top .container {
-    padding: 0 15px;
-    width: 100%;
-    margin: 0;
-  }
-
+  
   #header.header-top h1 {
     font-size: 24px;
+  }
+  
+  #header.header-top .container {
+    padding: 0 15px;
   }
 
   #header.header-top .mobile-nav-toggle {
