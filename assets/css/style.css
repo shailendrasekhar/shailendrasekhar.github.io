@@ -499,7 +499,7 @@ section .container {
   position: relative;
   padding: 100px 0;
   background: rgba(0, 0, 0, 0.9);
-  margin-top: 100vh;
+  margin-top: 0;
   min-height: calc(100vh - 60px);
 }
 
