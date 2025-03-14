@@ -35,18 +35,31 @@
           $(hash).addClass('section-show');
         }
         
-        // Smooth scroll with offset
+        // Calculate the target scroll position
+        var targetPosition = target.offset().top;
+        var currentPosition = $(window).scrollTop();
         var offset = hash === '#header' ? 0 : 100;
-        $('html, body').animate({
-          scrollTop: target.offset().top - offset
-        }, 1000, 'easeInOutExpo', function() {
-          // Update URL after animation
+        
+        // Only animate if we're not already at the target position
+        if (Math.abs(targetPosition - currentPosition) > 10) {
+          $('html, body').animate({
+            scrollTop: targetPosition - offset
+          }, 1000, 'easeInOutExpo', function() {
+            // Update URL after animation
+            if (hash !== '#header') {
+              window.location.hash = hash;
+            } else {
+              history.replaceState('', document.title, window.location.pathname);
+            }
+          });
+        } else {
+          // If we're already at the target position, just update the URL
           if (hash !== '#header') {
             window.location.hash = hash;
           } else {
             history.replaceState('', document.title, window.location.pathname);
           }
-        });
+        }
         
         // Handle mobile nav
         if ($('body').hasClass('mobile-nav-active')) {
