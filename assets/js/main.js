@@ -43,6 +43,9 @@
       
       // Show the target section immediately
       $target.addClass('section-show').css('opacity', 1);
+      
+      // Reset scroll position of the section to top when navigating to it
+      $target.scrollTop(0);
     } else {
       $('#header').removeClass('header-top');
       $('section').removeClass('section-show').css('opacity', 0);
