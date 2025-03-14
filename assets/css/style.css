@@ -432,12 +432,22 @@ section .container {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
-.about {
+#about {
   position: relative;
   padding: 100px 0;
   background: rgba(0, 0, 0, 0.9);
   margin-top: 0;
   min-height: calc(100vh - 60px);
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+#about.section-show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .about-me {
@@ -495,12 +505,22 @@ section .container {
 /*--------------------------------------------------------------
 # Education
 --------------------------------------------------------------*/
-.education {
+#education {
   position: relative;
   padding: 100px 0;
   background: rgba(0, 0, 0, 0.9);
   margin-top: 0;
   min-height: calc(100vh - 60px);
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+#education.section-show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 /*--------------------------------------------------------------

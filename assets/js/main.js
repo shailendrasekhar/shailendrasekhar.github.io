@@ -98,7 +98,7 @@
         // Show current section
         if (sectionId !== 'header') {
           $('section:not(#header)').removeClass('section-show');
-          $(this).addClass('section-show');
+          $('#' + sectionId).addClass('section-show');
         }
         
         // Trigger AOS animations when section is in view
