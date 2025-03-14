@@ -83,7 +83,7 @@ svg {
 --------------------------------------------------------------*/
 #header {
   transition: all 0.5s ease;
-  z-index: 997;
+  z-index: 40;
   padding: 30px 0;
   overflow: hidden;
   position: relative;
@@ -118,6 +118,7 @@ svg {
   transition: all 0.5s;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
 }
 
 #header.header-top h1 {
@@ -361,6 +362,7 @@ section.section-show {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: block; /* Make active section visible */
+  z-index: 50; /* Ensure active sections are always above header except when header is header-top */
 }
 
 section .container {
@@ -378,7 +380,8 @@ section .container {
     padding-top: 80px;
     min-height: calc(100vh - 60px);
     /* Ensure it has higher z-index on mobile to prevent overlapping */
-    z-index: 5;
+    z-index: 50;
+    position: fixed; /* Keep section fixed on mobile when scrolling */
   }
   
   /* Remove any padding that might make hidden sections partially visible */

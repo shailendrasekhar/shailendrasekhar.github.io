@@ -106,10 +106,15 @@
     var scrollPosition = $(window).scrollTop();
     var windowHeight = $(window).height();
     
-    // Only handle the header collapse/expand based on scroll position
+    // Check if any non-header section is currently active
+    var nonHeaderSectionActive = $('section:not(#header).section-show').length > 0;
+    
+    // Only toggle header state when no other section is active
+    // Or when we need to collapse the header (scrolling down in any context)
     if (scrollPosition > windowHeight - 100) {
       $('#header').addClass('header-top');
-    } else {
+    } else if (!nonHeaderSectionActive) {
+      // Only expand the header if no other section is active
       $('#header').removeClass('header-top');
     }
   }
