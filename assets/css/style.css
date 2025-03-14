@@ -328,6 +328,7 @@ svg {
   top: 0;
   height: 60px;
   padding: 15px 0;
+  z-index: 998;
 }
 
 #header.header-top .social-links, #header.header-top h2 {
@@ -379,6 +380,8 @@ section:not(#header) {
   display: none;
   padding-top: 100vh;
   margin-top: 0;
+  position: relative;
+  z-index: 996;
 }
 
 section.section-show {

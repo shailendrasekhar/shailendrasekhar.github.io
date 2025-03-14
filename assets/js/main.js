@@ -23,13 +23,13 @@
         // Transform header
         if (hash !== '#header') {
           $('#header').addClass('header-top');
+          $("section").removeClass('section-show');
+          target.addClass('section-show');
         } else {
           $('#header').removeClass('header-top');
           $("section").removeClass('section-show');
+          $('#header').addClass('section-show');
         }
-        
-        // Show target section
-        target.addClass('section-show');
         
         // Smooth scroll
         $('html, body').animate({
@@ -77,6 +77,7 @@
       // Check if current scroll position is within this section
       if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
         currentSection = $(this).attr('id');
+        $("section").removeClass('section-show');
         $(this).addClass('section-show');
         
         // Update navigation
@@ -89,8 +90,6 @@
         } else {
           history.replaceState(null, null, window.location.pathname);
         }
-      } else {
-        $(this).removeClass('section-show');
       }
     });
   }).scroll();
