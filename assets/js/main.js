@@ -8,19 +8,19 @@
   "use strict";
 
   // Global variables for navigation state
-  var isScrolling = false;
   var activeSection = '';
-  var sectionPositions = {};
   var navTimeout;
 
-  // Initialize section positions
-  function updateSectionPositions() {
-    $('section').each(function() {
-      var id = $(this).attr('id');
-      if (id) {
-        sectionPositions['#' + id] = $(this).offset().top;
+  // Throttle function to limit execution frequency
+  function throttle(func, delay) {
+    var lastCall = 0;
+    return function() {
+      var now = new Date().getTime();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        func.apply(this, arguments);
       }
-    });
+    };
   }
 
   // Update the navigation state
@@ -41,141 +41,66 @@
       // Ensure all sections are hidden first
       $('section').removeClass('section-show').css('opacity', 0);
       
-      // Show the target section with a slight delay to ensure clean transition
-      setTimeout(function() {
-        $target.addClass('section-show').css('opacity', 1);
-      }, 50);
+      // Show the target section immediately
+      $target.addClass('section-show').css('opacity', 1);
     } else {
       $('#header').removeClass('header-top');
       $('section').removeClass('section-show').css('opacity', 0);
     }
     
-    // Update URL
+    // Update URL without scrolling
     if (targetHash !== '#header') {
       if (history.pushState) {
         history.pushState(null, null, targetHash);
       } else {
-        location.hash = targetHash;
+        // Prevent default hash behavior that would cause scrolling
+        window.location.hash = targetHash;
+        // Immediately scroll back to current position to prevent jumping
+        window.scrollTo(0, 0);
       }
     } else if (history.pushState) {
       history.pushState('', document.title, window.location.pathname);
     }
-    
-    // Scroll to the target section
-    if (!skipAnimation) {
-      isScrolling = true;
-      var offset = targetHash === '#header' ? 0 : 100;
-      
-      $('html, body').animate({
-        scrollTop: $target.offset().top - offset
-      }, 1000, 'easeInOutExpo', function() {
-        isScrolling = false;
-      });
-    }
   }
   
-  // Throttle function to limit execution frequency
-  function throttle(func, delay) {
-    var lastCall = 0;
-    return function() {
-      var now = new Date().getTime();
-      if (now - lastCall >= delay) {
-        lastCall = now;
-        func.apply(this, arguments);
-      }
-    };
-  }
-
-  // Handle the scroll event to update navigation state
+  // We'll no longer need the scroll handler for section highlighting
+  // This function will be replaced with a simpler version
   function handleScroll() {
-    if (isScrolling) return;
-    
     var scrollPosition = $(window).scrollTop();
     var windowHeight = $(window).height();
     
-    // Update header state based on scroll position
+    // Only handle the header collapse/expand based on scroll position
     if (scrollPosition > windowHeight - 100) {
       $('#header').addClass('header-top');
     } else {
       $('#header').removeClass('header-top');
-      
-      // When scrolled to top, always show home
-      if (scrollPosition < 50) {
-        activeSection = '#header';
-        $('section').removeClass('section-show');
-        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        $('.nav-menu a[href="#header"], .mobile-nav a[href="#header"]').closest('li').addClass('active');
-        return;
-      }
-    }
-    
-    // Find the current section
-    var currentSection = '';
-    var smallestDistance = Infinity;
-    
-    for (var sectionId in sectionPositions) {
-      var distance = Math.abs(scrollPosition - (sectionPositions[sectionId] - 150));
-      
-      if (distance < smallestDistance) {
-        smallestDistance = distance;
-        currentSection = sectionId;
-      }
-    }
-    
-    // Only update if the section has changed
-    if (currentSection && currentSection !== activeSection) {
-      activeSection = currentSection;
-      
-      // Debounce navigation updates
-      clearTimeout(navTimeout);
-      navTimeout = setTimeout(function() {
-        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-        $('.nav-menu a[href="' + currentSection + '"], .mobile-nav a[href="' + currentSection + '"]').closest('li').addClass('active');
-        
-        if (currentSection !== '#header') {
-          // Hide all other sections first
-          $('section').not(currentSection).removeClass('section-show');
-          // Then show current section
-          $(currentSection).addClass('section-show');
-        }
-      }, 100);
     }
   }
 
   // Handle click events on navigation links
   $(document).on('click', '.nav-menu a, .mobile-nav a', function(e) {
+    e.preventDefault(); // Prevent default anchor behavior
     var hash = this.hash;
     
     if (hash && $(hash).length) {
-      e.preventDefault();
-      updateNavigation(hash, false);
+      updateNavigation(hash, true);
       
       // Close mobile nav if open
       if ($('body').hasClass('mobile-nav-active')) {
         $('body').removeClass('mobile-nav-active');
         $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-        $('.mobile-nav-overly').fadeOut();
       }
     }
   });
 
   // Initialize navigation on page load
   function initNavigation() {
-    updateSectionPositions();
+    // We'll no longer need to calculate section positions for scroll-based navigation
+    // updateSectionPositions();
     
     // Check for hash in URL
     if (window.location.hash && $(window.location.hash).length) {
       updateNavigation(window.location.hash, true);
-      
-      // Scroll to the section after a short delay
-      setTimeout(function() {
-        isScrolling = true;
-        $('html, body').animate({
-          scrollTop: $(window.location.hash).offset().top - 100
-        }, 1000, 'easeInOutExpo', function() {
-          isScrolling = false;
-        });
-      }, 200);
     } else {
       // Show the header/home section by default
       updateNavigation('#header', true);
@@ -215,7 +140,9 @@
 
   // Handle window resize (update section positions)
   $(window).on('resize', throttle(function() {
-    updateSectionPositions();
+    // No longer need to update section positions
+    // Just ensure header is sized properly
+    handleScroll();
   }, 250));
 
   // Initialize everything on page load
@@ -235,7 +162,7 @@
     initNavigation();
     initMobileNav();
     
-    // Setup the throttled scroll handler
+    // Set up minimal scroll handler for header state only
     $(window).on('scroll', throttle(handleScroll, 100));
   });
 
