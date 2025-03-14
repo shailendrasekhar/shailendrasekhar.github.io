@@ -13,6 +13,8 @@ body {
   color: #fff;
   position: relative;
   background: transparent;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 body::before {
@@ -24,6 +26,7 @@ body::before {
   right: 0;
   top: 0;
   height: 100vh;
+  z-index: -1;
 }
 
 @media (min-width: 1024px) {
@@ -345,13 +348,22 @@ svg {
 # Sections General
 --------------------------------------------------------------*/
 section {
+  position: relative;
   padding: 60px 0;
-  overflow: hidden;
+  overflow: visible;
+  min-height: auto;
+  margin-top: 70px;
+}
+
+section:first-of-type {
+  margin-top: 0;
 }
 
 section .container {
   background: rgba(0, 0, 0, 0);
   padding: 30px;
+  position: relative;
+  z-index: 2;
 }
 
 .section-title {
