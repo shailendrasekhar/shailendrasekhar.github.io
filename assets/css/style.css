@@ -113,8 +113,17 @@ svg {
   background: url("../img/overlay-bg.jpg") text;
   -webkit-background-clip: text;
   background-clip: text;
+  color: #fff;
   -webkit-text-fill-color: transparent;
   text-align: center;
+}
+
+#header h1 a {
+  color: inherit;
+  -webkit-text-fill-color: transparent;
+  background: url("../img/overlay-bg.jpg") text;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 #header h2 {
@@ -189,6 +198,15 @@ svg {
   padding: 0;
   line-height: 1;
   text-align: left;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+}
+
+#header.header-top h1 a {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  background: none;
 }
 
 #header.header-top .nav-menu {
