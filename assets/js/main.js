@@ -12,42 +12,44 @@
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var hash = this.hash;
       var target = $(hash);
+      
       if (target.length) {
         e.preventDefault();
-
-        if ($(this).parents('.nav-menu, .mobile-nav').length) {
-          $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-          $(this).closest('li').addClass('active');
-        }
-
-        // Transform header to header-top
+        
+        // Update navigation
+        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+        $(this).closest('li').addClass('active');
+        
+        // Transform header
         if (hash !== '#header') {
           $('#header').addClass('header-top');
         } else {
           $('#header').removeClass('header-top');
+          $("section").removeClass('section-show');
         }
-
-        // Show the target section
-        $("section").removeClass('section-show');
-        $(hash).addClass('section-show');
-
+        
+        // Show target section
+        target.addClass('section-show');
+        
+        // Smooth scroll
         $('html, body').animate({
-          scrollTop: target.offset().top
+          scrollTop: target.offset().top - (hash === '#header' ? 0 : 70)
         }, 1000, 'easeInOutExpo', function() {
-          // Update URL hash after animation completes
+          // Update URL after animation
           if (hash !== '#header') {
             window.location.hash = hash;
           } else {
             history.replaceState('', document.title, window.location.pathname);
           }
         });
-
+        
+        // Handle mobile nav
         if ($('body').hasClass('mobile-nav-active')) {
           $('body').removeClass('mobile-nav-active');
           $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
           $('.mobile-nav-overly').fadeOut();
         }
-
+        
         return false;
       }
     }
@@ -58,18 +60,33 @@
     var scrollDistance = $(window).scrollTop();
     
     // Transform header based on scroll position
-    if (scrollDistance > 100) {
+    if (scrollDistance > 50) {
       $('#header').addClass('header-top');
-    } else if (scrollDistance === 0) {
+    } else {
       $('#header').removeClass('header-top');
-      $("section").removeClass('section-show');
-      $('#header').addClass('section-show');
     }
     
-    // Show sections based on scroll position
+    // Show sections and update navigation based on scroll position
+    var currentSection = '';
+    
     $('section').each(function() {
-      if ($(this).offset().top <= scrollDistance + $(window).height() / 2) {
+      var sectionTop = $(this).offset().top - 90; // Account for header height
+      var sectionBottom = sectionTop + $(this).outerHeight();
+      
+      if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
+        currentSection = $(this).attr('id');
         $(this).addClass('section-show');
+        
+        // Update navigation
+        $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+        $('.nav-menu, .mobile-nav').find('a[href="#' + currentSection + '"]').parent('li').addClass('active');
+        
+        // Update URL without triggering scroll
+        if (currentSection !== 'header') {
+          history.replaceState(null, null, '#' + currentSection);
+        } else {
+          history.replaceState(null, null, window.location.pathname);
+        }
       }
     });
   }).scroll();
