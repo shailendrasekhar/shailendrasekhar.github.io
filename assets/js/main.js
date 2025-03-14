@@ -23,43 +23,28 @@
         // Transform header
         if (hash !== '#header') {
           $('#header').addClass('header-top');
+          
+          // Hide all sections first
+          $('section:not(#header)').removeClass('section-show');
+          
+          // Show target section
+          $(hash).addClass('section-show');
         } else {
           $('#header').removeClass('header-top');
         }
         
-        // Hide all sections first
-        $('section:not(#header)').removeClass('section-show');
-        
-        // Show target section
-        if (hash !== '#header') {
-          $(hash).addClass('section-show');
-        }
-        
-        // Calculate the target scroll position
-        var targetPosition = target.offset().top;
-        var currentPosition = $(window).scrollTop();
+        // Calculate scroll position and animate
         var offset = hash === '#header' ? 0 : 100;
-        
-        // Only animate if we're not already at the target position
-        if (Math.abs(targetPosition - currentPosition) > 10) {
-          $('html, body').animate({
-            scrollTop: targetPosition - offset
-          }, 1000, 'easeInOutExpo', function() {
-            // Update URL after animation
-            if (hash !== '#header') {
-              window.location.hash = hash;
-            } else {
-              history.replaceState('', document.title, window.location.pathname);
-            }
-          });
-        } else {
-          // If we're already at the target position, just update the URL
+        $('html, body').animate({
+          scrollTop: target.offset().top - offset
+        }, 1000, 'easeInOutExpo', function() {
+          // Update URL after animation
           if (hash !== '#header') {
             window.location.hash = hash;
           } else {
             history.replaceState('', document.title, window.location.pathname);
           }
-        }
+        });
         
         // Handle mobile nav
         if ($('body').hasClass('mobile-nav-active')) {
@@ -87,24 +72,22 @@
     
     // Update navigation based on scroll position
     $('section').each(function() {
-      var sectionTop = $(this).offset().top - 100;
-      var sectionBottom = sectionTop + $(this).outerHeight();
+      var $section = $(this);
+      var sectionId = $section.attr('id');
+      var sectionTop = $section.offset().top - 100;
+      var sectionBottom = sectionTop + $section.outerHeight();
       
       if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
-        var sectionId = $(this).attr('id');
+        // Remove active class from all nav items
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+        
+        // Add active class to current section's nav item
         $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
         
         // Show current section
         if (sectionId !== 'header') {
-          $(this).addClass('section-show');
-        }
-        
-        // Trigger AOS animations when section is in view
-        if ($(this).find('[data-aos]').length) {
-          $(this).find('[data-aos]').each(function() {
-            $(this).addClass('aos-animate');
-          });
+          $('section:not(#header)').removeClass('section-show');
+          $section.addClass('section-show');
         }
       }
     });
