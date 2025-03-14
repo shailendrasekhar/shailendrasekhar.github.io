@@ -193,11 +193,11 @@
     // Initialize typing animation if Typed.js exists
     if ($('.typing').length && typeof Typed !== 'undefined') {
       new Typed('.typing', {
-        strings: ["Software Engineer", "ML Engineer", "Full Stack Developer"],
+        strings: ["a Robotic Software Engineer", "an AI Researcher and Educator"],
         loop: true,
         typeSpeed: 100,
         backSpeed: 50,
-        backDelay: 2000
+        backDelay: 1000
       });
     }
     
