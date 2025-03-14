@@ -110,8 +110,11 @@
       }, 350);
     }
   } else {
+    // Show home section by default
     $('#header').removeClass('header-top');
     $('#header').addClass('section-show');
+    $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+    $('.nav-menu, .mobile-nav').find('a[href="#header"]').parent('li').addClass('active');
   }
 
   // Mobile Navigation
