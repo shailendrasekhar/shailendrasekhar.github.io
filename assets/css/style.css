@@ -429,19 +429,32 @@ section .container {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+.about {
+  position: relative;
+  padding: 80px 0;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.about-me {
+  padding: 0;
+}
+
 .about-me .content h3 {
   font-weight: 700;
   font-size: 26px;
   color: #1c7d32;
+  margin-bottom: 20px;
 }
 
 .about-me .content ul {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 .about-me .content ul li {
   padding-bottom: 10px;
+  color: #fff;
 }
 
 .about-me .content ul i {
@@ -452,6 +465,24 @@ section .container {
 
 .about-me .content p:last-child {
   margin-bottom: 0;
+  color: #fff;
+}
+
+.about-me .img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 60px 0;
+  }
+  
+  .about-me .content {
+    padding-top: 30px;
+  }
 }
 
 /*--------------------------------------------------------------

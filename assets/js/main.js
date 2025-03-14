@@ -66,11 +66,19 @@
     // Update navigation based on scroll position
     $('section').each(function() {
       var sectionTop = $(this).offset().top - 70;
+      var sectionBottom = sectionTop + $(this).outerHeight();
       
-      if (scrollDistance >= sectionTop) {
+      if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
         var sectionId = $(this).attr('id');
         $('.nav-menu .active, .mobile-nav .active').removeClass('active');
         $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
+        
+        // Trigger AOS animations when section is in view
+        if ($(this).find('[data-aos]').length) {
+          $(this).find('[data-aos]').each(function() {
+            $(this).addClass('aos-animate');
+          });
+        }
       }
     });
   });
@@ -183,5 +191,34 @@
   $(document).ready(function() {
     $('.venobox').venobox();
   });
+
+  // Initialize AOS animations
+  $(document).ready(function() {
+    // Initialize AOS with custom settings
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+      delay: 100
+    });
+    
+    // Trigger initial animations for visible sections
+    $('section').each(function() {
+      if ($(this).isInViewport()) {
+        $(this).find('[data-aos]').each(function() {
+          $(this).addClass('aos-animate');
+        });
+      }
+    });
+  });
+
+  // Helper function to check if element is in viewport
+  $.fn.isInViewport = function() {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+  };
 
 })(jQuery);
