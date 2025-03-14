@@ -87,14 +87,18 @@ svg {
   padding: 0;
   overflow: hidden;
   position: relative;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border-bottom: 5px solid #12d640 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-/* Add styles for the .header class */
+/* Make sure the header class is applied */
 #header.header {
   z-index: 40;
   position: relative;
@@ -104,7 +108,7 @@ svg {
   min-height: 100vh;
   transition: all 0.5s ease;
   overflow: hidden;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 #header .container {
@@ -115,6 +119,8 @@ svg {
   justify-content: center;
   padding: 30px;
   max-width: 900px;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 #header #logo h1 {
@@ -135,20 +141,25 @@ svg {
   max-height: 30px;
 }
 
+/* ONLY ONE header-top definition - all others removed */
 #header.header-top {
-  height: 80px;
-  top: 0;
-  background: rgba(0, 0, 0, 0.85);
+  height: 60px;
   position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  transition: all 0.5s;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  z-index: 100;
+  width: 100%;
+  padding: 15px 0;
+  background: rgba(0, 0, 0, 0.95) !important;
+  z-index: 998;
   min-height: unset;
   display: block;
-  padding: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all 0.5s ease;
+  border-bottom: 3px solid #12d640 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 #header.header-top h1 {
@@ -332,6 +343,8 @@ svg {
 }
 
 /* Header Top */
+/* Remove this duplicate header-top style that was causing conflicts */
+/* 
 #header.header-top {
   position: fixed;
   top: 0;
@@ -342,7 +355,9 @@ svg {
   background: rgba(0, 0, 0, 0.9);
   width: 100%;
 }
+*/
 
+/* Keep these rules for the header-top state */
 #header.header-top .social-links, #header.header-top h2 {
   display: none;
 }
@@ -1430,4 +1445,42 @@ section .container {
 #header .social-links a:hover {
   background: #12d640;
   color: #fff;
+}
+
+/* Add more visible styling for the regular header */
+#header, #header.header {
+  background: rgba(0, 0, 0, 0.7); /* Add some background color */
+  z-index: 40;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+/* Force header visibility */
+#header, #header.header, #header.header-top {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
+
+#header.header-top {
+  position: fixed !important;
+  top: 0 !important;
+}
+
+#header .container {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.nav-menu {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }

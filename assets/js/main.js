@@ -201,6 +201,23 @@
 
   // Initialize everything on page load
   $(window).on('load', function() {
+    // Force fix the header visibility
+    $('#header').css({
+      'visibility': 'visible',
+      'opacity': '1',
+      'background-color': 'rgba(0, 0, 0, 0.9)'
+    });
+    
+    console.log('Header status:', {
+      'has header class': $('#header').hasClass('header'),
+      'has header-top class': $('#header').hasClass('header-top'),
+      'is visible': $('#header').is(':visible'),
+      'display': $('#header').css('display'),
+      'opacity': $('#header').css('opacity'),
+      'visibility': $('#header').css('visibility'),
+      'z-index': $('#header').css('z-index')
+    });
+    
     // Initialize typing animation if Typed.js exists
     if ($('.typing').length && typeof Typed !== 'undefined') {
       new Typed('.typing', {
@@ -215,6 +232,7 @@
     // Check and fix header class if needed
     if (!$('#header').hasClass('header') && !$('#header').hasClass('header-top')) {
       $('#header').addClass('header');
+      console.log('Added header class');
     }
     
     // Initialize navigation components
@@ -300,5 +318,83 @@
     var viewportBottom = viewportTop + $(window).height();
     return elementBottom > viewportTop && elementTop < viewportBottom;
   };
+
+  // Add a visible marker to the header to verify it's working
+  $(document).ready(function() {
+    // Create a visible marker
+    var $marker = $('<div>')
+      .text('HEADER VISIBILITY TEST')
+      .css({
+        'position': 'absolute',
+        'top': '5px',
+        'right': '5px',
+        'background-color': 'red',
+        'color': 'white',
+        'padding': '5px',
+        'border-radius': '3px',
+        'font-size': '12px',
+        'z-index': '99999'
+      });
+    
+    // Add the marker to the header
+    $('#header').append($marker);
+    
+    // Log to console that we've tried to make the header visible
+    console.log('Header visibility test marker added');
+    
+    // After 5 seconds, remove the marker
+    setTimeout(function() {
+      $marker.fadeOut('slow', function() {
+        $(this).remove();
+      });
+    }, 5000);
+  });
+
+  // Emergency Navigation Management
+  $(document).ready(function() {
+    var $emergencyNav = $('#emergency-nav');
+    var $header = $('#header');
+    
+    // Function to check if header is visible and working
+    function isHeaderWorking() {
+      return (
+        $header.is(':visible') && 
+        $header.css('opacity') > 0 && 
+        $header.css('visibility') !== 'hidden' &&
+        $('.nav-menu').is(':visible')
+      );
+    }
+    
+    // Check if we need the emergency nav
+    function checkEmergencyNav() {
+      if (isHeaderWorking()) {
+        // Header appears to be working, hide the emergency nav
+        $emergencyNav.fadeOut('slow');
+        console.log('Header working, hiding emergency nav');
+      } else {
+        // Header not working, show the emergency nav
+        $emergencyNav.fadeIn('fast');
+        console.log('Header not working, showing emergency nav');
+      }
+    }
+    
+    // Initial check after a delay to let the page load
+    setTimeout(checkEmergencyNav, 1000);
+    
+    // Also recheck every 3 seconds
+    setInterval(checkEmergencyNav, 3000);
+    
+    // Handle clicks on emergency nav links
+    $emergencyNav.find('a').on('click', function(e) {
+      e.preventDefault();
+      var target = $(this).attr('href');
+      
+      // Manually trigger navigation
+      updateNavigation(target, true);
+      
+      // After navigation, check if header is now working
+      setTimeout(checkEmergencyNav, 500);
+    });
+  });
 
 })(jQuery);
