@@ -58,6 +58,7 @@
   // Show/hide sections on scroll
   $(window).scroll(function() {
     var scrollDistance = $(window).scrollTop();
+    var windowHeight = $(window).height();
     
     // Transform header based on scroll position
     if (scrollDistance > 50) {
@@ -72,7 +73,9 @@
     $('section').each(function() {
       var sectionTop = $(this).offset().top - 90; // Account for header height
       var sectionBottom = sectionTop + $(this).outerHeight();
+      var sectionMiddle = sectionTop + ($(this).outerHeight() / 2);
       
+      // Check if current scroll position is within this section
       if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
         currentSection = $(this).attr('id');
         $(this).addClass('section-show');
@@ -87,6 +90,8 @@
         } else {
           history.replaceState(null, null, window.location.pathname);
         }
+      } else {
+        $(this).removeClass('section-show');
       }
     });
   }).scroll();

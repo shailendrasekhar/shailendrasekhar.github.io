@@ -88,6 +88,7 @@ svg {
   transition: all 0.5s ease-in-out;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #header * {
@@ -101,6 +102,7 @@ svg {
   justify-content: center;
   text-align: center;
   padding: 0 15px;
+  height: 100%;
 }
 
 #header h1 {
@@ -372,7 +374,7 @@ section {
 
 section:not(#header) {
   display: none;
-  padding-top: 90px; /* Account for fixed header */
+  padding-top: 90px;
 }
 
 section.section-show {
@@ -382,7 +384,7 @@ section.section-show {
 }
 
 section:first-of-type {
-  margin-top: 100vh;
+  margin-top: 0;
 }
 
 section .container {
