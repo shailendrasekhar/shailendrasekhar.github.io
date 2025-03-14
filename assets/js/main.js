@@ -324,37 +324,6 @@
     return elementBottom > viewportTop && elementTop < viewportBottom;
   };
 
-  // Add a visible marker to the header to verify it's working
-  $(document).ready(function() {
-    // Create a visible marker
-    var $marker = $('<div>')
-      .text('HEADER VISIBILITY TEST')
-      .css({
-        'position': 'absolute',
-        'top': '5px',
-        'right': '5px',
-        'background-color': 'red',
-        'color': 'white',
-        'padding': '5px',
-        'border-radius': '3px',
-        'font-size': '12px',
-        'z-index': '99999'
-      });
-    
-    // Add the marker to the header
-    $('#header').append($marker);
-    
-    // Log to console that we've tried to make the header visible
-    console.log('Header visibility test marker added');
-    
-    // After 5 seconds, remove the marker
-    setTimeout(function() {
-      $marker.fadeOut('slow', function() {
-        $(this).remove();
-      });
-    }, 5000);
-  });
-
   // Emergency Navigation Management
   $(document).ready(function() {
     var $emergencyNav = $('#emergency-nav');
