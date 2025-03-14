@@ -33,7 +33,7 @@
         
         // Smooth scroll
         $('html, body').animate({
-          scrollTop: target.offset().top - (hash === '#header' ? 0 : 70)
+          scrollTop: target.offset().top - (hash === '#header' ? 0 : 60)
         }, 1000, 'easeInOutExpo', function() {
           // Update URL after animation
           if (hash !== '#header') {
@@ -60,8 +60,8 @@
     var scrollDistance = $(window).scrollTop();
     var windowHeight = $(window).height();
     
-    // Transform header based on scroll position
-    if (scrollDistance > 50) {
+    // Update header state based on scroll position
+    if (scrollDistance > windowHeight - 100) {
       $('#header').addClass('header-top');
     } else {
       $('#header').removeClass('header-top');
@@ -71,9 +71,8 @@
     var currentSection = '';
     
     $('section').each(function() {
-      var sectionTop = $(this).offset().top - 90; // Account for header height
+      var sectionTop = $(this).offset().top - windowHeight/2;
       var sectionBottom = sectionTop + $(this).outerHeight();
-      var sectionMiddle = sectionTop + ($(this).outerHeight() / 2);
       
       // Check if current scroll position is within this section
       if (scrollDistance >= sectionTop && scrollDistance < sectionBottom) {
