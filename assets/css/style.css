@@ -375,7 +375,6 @@ section {
 section:not(#header) {
   margin-top: 0;
   padding-top: 100px;
-  min-height: 100vh;
 }
 
 section.section-show {
@@ -438,7 +437,12 @@ section .container {
   padding: 100px 0;
   background: rgba(0, 0, 0, 0.9);
   margin-top: 0;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
+  display: none;
+}
+
+.about.section-show {
+  display: block;
 }
 
 .about-me {
@@ -491,6 +495,22 @@ section .container {
   .about-me .content {
     padding-top: 30px;
   }
+}
+
+/*--------------------------------------------------------------
+# Education
+--------------------------------------------------------------*/
+.education {
+  position: relative;
+  padding: 100px 0;
+  background: rgba(0, 0, 0, 0.9);
+  margin-top: 0;
+  min-height: calc(100vh - 60px);
+  display: none;
+}
+
+.education.section-show {
+  display: block;
 }
 
 /*--------------------------------------------------------------

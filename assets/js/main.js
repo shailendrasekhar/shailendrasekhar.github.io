@@ -27,6 +27,14 @@
           $('#header').removeClass('header-top');
         }
         
+        // Hide all sections first
+        $('section:not(#header)').removeClass('section-show');
+        
+        // Show target section
+        if (hash !== '#header') {
+          $(hash).addClass('section-show');
+        }
+        
         // Smooth scroll with offset
         var offset = hash === '#header' ? 0 : 100;
         $('html, body').animate({
@@ -75,8 +83,10 @@
         $('.nav-menu, .mobile-nav').find('a[href="#' + sectionId + '"]').parent('li').addClass('active');
         
         // Show current section
-        $('section').removeClass('section-show');
-        $(this).addClass('section-show');
+        if (sectionId !== 'header') {
+          $('section:not(#header)').removeClass('section-show');
+          $(this).addClass('section-show');
+        }
         
         // Trigger AOS animations when section is in view
         if ($(this).find('[data-aos]').length) {
