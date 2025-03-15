@@ -246,71 +246,84 @@ svg {
 
 @media (max-width: 768px) {
   #header {
-    padding: 20px 0;
-    height: 100vh;
-    overflow: auto;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #header .container {
-    width: 100%;
-    padding: 0 15px;
+    padding: 0;
+    height: 60px !important;
     min-height: unset;
-    margin: 0 auto;
-  }
-  
-  #header h1 {
-    font-size: 32px;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    word-wrap: break-word;
-  }
-  
-  #header h2 {
-    font-size: 18px;
-    margin: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9) !important;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    overflow: visible;
   }
   
   #header.header-top {
-    height: 60px;
+    height: 60px !important;
+  }
+  
+  #header .container,
+  #header.header-top .container {
+    width: 100%;
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Hide the name and title on mobile */
+  #header h1, 
+  #header h2,
+  #header.header-top h1 {
+    display: none;
+  }
+  
+  /* Show desktop navigation menu centered on mobile */
+  #header .nav-menu,
+  #header.header-top .nav-menu {
+    display: flex !important;
+    margin: 0;
     padding: 0;
   }
   
-  #header.header-top h1 {
-    font-size: 20px;
-    margin-left: 5px;
-    padding-right: 5px;
-    max-width: 60%;
+  /* Make the desktop navigation menu horizontal but scrollable on mobile */
+  #header .nav-menu ul,
+  #header.header-top .nav-menu ul {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 10px;
+    margin: 0;
+    white-space: nowrap;
   }
   
+  #header .nav-menu li,
+  #header.header-top .nav-menu li {
+    margin: 0 10px;
+  }
+  
+  #header .nav-menu a,
+  #header.header-top .nav-menu a {
+    padding: 10px 5px;
+    font-size: 14px;
+  }
+  
+  /* Ensure social links don't interfere with nav */
+  #header .social-links {
+    display: none;
+  }
+  
+  /* Show the mobile toggle button */
+  #header .mobile-nav-toggle,
   #header.header-top .mobile-nav-toggle {
     display: block;
   }
   
-  #header.header-top .nav-menu {
-    display: none;
-  }
-  
-  .typing {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  
-  #header .social-links {
-    margin-top: 30px;
-    gap: 10px;
-  }
-  
-  #header .social-links a {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-  
-  .background-image {
-    object-position: center;
+  /* Sections need to start below the header */
+  body.header-top-active section.section-show:not(#header) {
+    padding-top: 80px;
   }
 }
 
@@ -384,22 +397,30 @@ svg {
   top: 15px;
   z-index: 9998;
   border: 0;
-  background: none;
-  font-size: 24px;
+  background: rgba(18, 214, 64, 0.2);
+  font-size: 28px;
   transition: all 0.4s;
   outline: none !important;
   line-height: 1;
   cursor: pointer;
-  text-align: right;
+  text-align: center;
   color: #fff;
+  padding: 8px 10px;
+  border-radius: 5px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-nav-toggle i {
-  color: #12d640;
+  color: #fff;
+  transition: all 0.3s;
 }
 
-.mobile-nav-active {
-  overflow: hidden;
+.mobile-nav-active .mobile-nav-toggle {
+  background: rgba(18, 214, 64, 0.8);
 }
 
 .mobile-nav-active .mobile-nav-toggle i {
@@ -418,9 +439,11 @@ svg {
   background: rgba(0, 0, 0, 0.9);
   transition: 0.4s;
   overflow-y: auto;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
 }
 
-.mobile-nav-active .mobile-nav-menu {
+.mobile-nav-active .mobile-nav-menu,
+.mobile-nav-menu.active {
   right: 0;
 }
 
@@ -428,10 +451,13 @@ svg {
   padding: 0;
   margin: 0;
   list-style: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .mobile-nav-menu li {
   margin: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobile-nav-menu a {
@@ -439,18 +465,21 @@ svg {
   position: relative;
   color: #fff;
   font-size: 18px;
-  line-height: 1;
+  line-height: 1.5;
   font-weight: 500;
-  padding: 5px 15px;
+  padding: 15px 20px;
   text-decoration: none;
   transition: 0.3s;
+  border-left: 3px solid transparent;
 }
 
 .mobile-nav-menu a:hover,
 .mobile-nav-menu .active > a,
 .mobile-nav-menu li:hover > a {
   color: #12d640;
-  padding-left: 20px;
+  padding-left: 25px;
+  border-left: 3px solid #12d640;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 991px) {
@@ -1650,5 +1679,52 @@ body.header-top-active section.section-show .container {
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
+  }
+}
+
+/* Fix for desktop navigation in mobile view */
+@media (max-width: 768px) {
+  #header .nav-menu,
+  #header.header-top .nav-menu {
+    display: flex !important;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  #header .nav-menu ul,
+  #header.header-top .nav-menu ul {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  /* Hide scrollbar but allow scrolling */
+  #header .nav-menu ul::-webkit-scrollbar,
+  #header.header-top .nav-menu ul::-webkit-scrollbar {
+    display: none;
+  }
+  
+  #header .nav-menu ul,
+  #header.header-top .nav-menu ul {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  #header .nav-menu li,
+  #header.header-top .nav-menu li {
+    margin: 0 8px;
+    white-space: nowrap;
+  }
+  
+  #header .nav-menu a,
+  #header.header-top .nav-menu a {
+    padding: 10px 5px;
+    font-size: 14px;
+    white-space: nowrap;
   }
 }

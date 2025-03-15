@@ -82,11 +82,12 @@
   
   <header id="header" class="header">
     <div class="container">
-      <h1><a href="index.html">Shailendra Sekhar Bathula</a></h1>
-      <h2 style="color:#fff">I am <span class="typing" style="color:#12D640"></span></h2>
+      <!-- Keep the name in the HTML but hidden via CSS for SEO purposes -->
+      <h1 class="d-none d-lg-block"><a href="index.html">Shailendra Sekhar Bathula</a></h1>
+      <h2 class="d-none d-lg-block" style="color:#fff">I am <span class="typing" style="color:#12D640"></span></h2>
       
-      <!-- Desktop Navigation -->
-      <nav class="nav-menu d-none d-lg-block">
+      <!-- Desktop Navigation - Visible on both desktop and mobile -->
+      <nav class="nav-menu">
         <ul>
           <li class="active"><a href="#header"> <span>Home</span></a></li>
           <li><a href="#about"> <span>About</span></a></li>
@@ -105,7 +106,6 @@
       </button>
       
       <div class="social-links">
-        <!-- <a href="mailto:shailendrasekhar@gmail.com" target="_blank" class="gmail"><i class="bx bxl-google"></i></a> -->
         <a href="https://www.linkedin.com/in/shailendrasekhar" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         <a href="https://github.com/shailendrasekhar" target="_blank" class="github"><i class="bx bxl-github"></i></a>
         <a href="https://scholar.google.com/citations?user=WCKveKkAAAAJ&hl=en" target="_blank" class="scholar"><i class="bx bxl-google"></i></a>
@@ -113,7 +113,7 @@
     </div>
   </header>
   
-  <!-- Mobile Navigation Menu -->
+  <!-- Mobile Navigation Menu - Vertical layout -->
   <div class="mobile-nav-menu d-lg-none">
     <ul>
       <li class="active"><a href="#header">Home</a></li>

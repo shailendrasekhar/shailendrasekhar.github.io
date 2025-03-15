@@ -160,12 +160,20 @@
     $(document).on('click', '.mobile-nav-toggle', function(e) {
       $('body').toggleClass('mobile-nav-active');
       $('.mobile-nav-toggle i').toggleClass('bx-menu bx-x');
+      $('.mobile-nav-menu').toggleClass('active');
     });
 
     // Close mobile nav when clicking on links
     $('.mobile-nav-menu a').on('click', function() {
-      $('body').removeClass('mobile-nav-active');
-      $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+      var hash = this.hash;
+      if (hash && $(hash).length) {
+        $('body').removeClass('mobile-nav-active');
+        $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+        $('.mobile-nav-menu').removeClass('active');
+        
+        // Navigate to the section
+        updateNavigation(hash, true);
+      }
     });
 
     // Close mobile nav when clicking outside
@@ -175,6 +183,7 @@
         if ($('body').hasClass('mobile-nav-active')) {
           $('body').removeClass('mobile-nav-active');
           $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+          $('.mobile-nav-menu').removeClass('active');
         }
       }
     });
@@ -341,6 +350,60 @@
       // After navigation, check if header is now working
       setTimeout(checkEmergencyNav, 500);
     });
+  });
+
+  // On page load
+  $(document).ready(function() {
+    // Initialize navigation
+    initNavigation();
+    
+    // Initialize mobile navigation
+    initMobileNav();
+    
+    // Handle scroll for header state
+    $(window).on('scroll', throttle(handleScroll, 100));
+    
+    // Make sure typing animation works
+    if ($("#header .typing").length) {
+      var typed_strings = ["Software Engineer", "Machine Learning Engineer", "AI Enthusiast"];
+      var typed = new Typed('#header .typing', {
+        strings: typed_strings,
+        loop: true,
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000
+      });
+    }
+    
+    // Ensure mobile navigation is properly set up
+    var $mobileNavToggle = $('.mobile-nav-toggle');
+    var $mobileNavMenu = $('.mobile-nav-menu');
+    
+    // Check if mobile navigation elements exist
+    if ($mobileNavToggle.length && $mobileNavMenu.length) {
+      console.log('Mobile navigation initialized');
+      
+      // Set initial state
+      if (window.innerWidth <= 991) {
+        $mobileNavToggle.show();
+      } else {
+        $mobileNavToggle.hide();
+      }
+      
+      // Handle window resize
+      $(window).on('resize', function() {
+        if (window.innerWidth <= 991) {
+          $mobileNavToggle.show();
+        } else {
+          $mobileNavToggle.hide();
+          // Close mobile nav if open
+          if ($('body').hasClass('mobile-nav-active')) {
+            $('body').removeClass('mobile-nav-active');
+            $mobileNavMenu.removeClass('active');
+          }
+        }
+      });
+    }
   });
 
 })(jQuery);
