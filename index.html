@@ -17,6 +17,9 @@
   <link rel="icon" type="image/png" href="assets/img/logo.png"/>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
 
   <title>My Portfolio</title>
   <meta content="" name="description">
@@ -81,6 +84,8 @@
     <div class="container">
       <h1><a href="index.html">Shailendra Sekhar Bathula</a></h1>
       <h2 style="color:#fff">I am <span class="typing" style="color:#12D640"></span></h2>
+      
+      <!-- Desktop Navigation -->
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="#header"> <span>Home</span></a></li>
@@ -93,6 +98,12 @@
           <li><a href="#contact"> <span>Contact</span></a></li>
         </ul>
       </nav>
+      
+      <!-- Mobile Navigation Toggle -->
+      <button class="mobile-nav-toggle d-lg-none">
+        <i class="bx bx-menu"></i>
+      </button>
+      
       <div class="social-links">
         <!-- <a href="mailto:shailendrasekhar@gmail.com" target="_blank" class="gmail"><i class="bx bxl-google"></i></a> -->
         <a href="https://www.linkedin.com/in/shailendrasekhar" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
@@ -101,6 +112,20 @@
       </div>
     </div>
   </header>
+  
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-nav-menu d-lg-none">
+    <ul>
+      <li class="active"><a href="#header">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
   
   <!-- ======= End Header ======= -->
 
@@ -349,16 +374,22 @@
         <h2>Projects</h2>
       </div>
       <div class="row">
-        <div class="col-lg-12" data-aos="fade-up" style="display:inline-block;">
-          <div class="col-md-4 mt-4 mt-md-0 icon-box" data-aos="fade-up" data-aos-delay="100" style="padding:0px 0px;padding-bottom:5px;display:inline-block;">
-            <a href="https://github.com/arasgungore/filters-and-fractals" target="_blank" rel="noreferrer"><img style="padding:5px 5px;" src="assets/img/projects/image_manipulation_and_fractals.jpg" class="img-fluid" width="300" height="300"></a>
-            <a href="https://github.com/arasgungore/filters-and-fractals" target="_blank" rel="noreferrer"><h5 style="padding:5px 5px;color:#12d640"><strong>Filters and Fractals</strong></h5></a>
-            <p style="padding:0px 2px;color:#fff;">A C project which implements various image processing operations and recursive fractal generating algorithms.</p>
-          </div>
-          <div class="col-md-4 mt-4 mt-md-0 icon-box" data-aos="fade-up" data-aos-delay="100" style="padding:0px 0px;padding-bottom:5px;display:inline-block;">
-            <a href="https://github.com/arasgungore/N-puzzle-solver" target="_blank" rel="noreferrer"><img style="padding:5px 5px;" src="assets/img/projects/n_puzzle_solver.jpg" class="img-fluid" width="324" height="324"></a>
-            <a href="https://github.com/arasgungore/N-puzzle-solver" target="_blank" rel="noreferrer"><h5 style="padding:5px 5px;color:#12d640"><strong>N&#8209;Puzzle Solver</strong></h5></a>
-            <p style="padding:0px 2px;color:#fff;">A C++ project which efficiently solves any given N&#8209;puzzle using backtracking on a decision tree.</p>
+        <div class="col-lg-12" data-aos="fade-up">
+          <div class="row project-container">
+            <div class="col-md-4 col-sm-6 mb-4 project-item" data-aos="fade-up" data-aos-delay="100">
+              <a href="https://github.com/arasgungore/filters-and-fractals" target="_blank" rel="noreferrer">
+                <img src="assets/img/projects/image_manipulation_and_fractals.jpg" class="img-fluid" alt="Filters and Fractals">
+                <h5 style="color:#12d640; margin-top: 15px;"><strong>Filters and Fractals</strong></h5>
+              </a>
+              <p style="color:#fff;">A C project which implements various image processing operations and recursive fractal generating algorithms.</p>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 project-item" data-aos="fade-up" data-aos-delay="100">
+              <a href="https://github.com/arasgungore/N-puzzle-solver" target="_blank" rel="noreferrer">
+                <img src="assets/img/projects/n_puzzle_solver.jpg" class="img-fluid" alt="N-Puzzle Solver">
+                <h5 style="color:#12d640; margin-top: 15px;"><strong>N&#8209;Puzzle Solver</strong></h5>
+              </a>
+              <p style="color:#fff;">A C++ project which efficiently solves any given N&#8209;puzzle using backtracking on a decision tree.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -380,7 +411,7 @@
         <div class="col-lg-12" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 icon-box" data-aos="fade-up" data-aos-delay="100">
             <h4 style="text-align:left;color:#12d640;">Languages</h4>
-            <div style="text-align:left;">
+            <div style="text-align:left; display: flex; flex-wrap: wrap;">
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://www.cprogramming.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/c.svg" alt="c" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">C</figcaption>
@@ -419,7 +450,7 @@
           </div>
           <div class="col-md-12 mt-4 mt-md-0 icon-box" data-aos="fade-up" data-aos-delay="100">
             <h4 style="text-align:left;color:#12d640;">Technologies</h4>
-            <div style="text-align:left;">
+            <div style="text-align:left; display: flex; flex-wrap: wrap;">
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://www.qt.io" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Qt_logo_2016.svg" alt="qt" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">Qt</figcaption>
@@ -493,7 +524,7 @@
           </div>
           <div class="col-md-12 mt-4 mt-md-0 icon-box" data-aos="fade-up" data-aos-delay="100">
             <h4 style="text-align:left;color:#12d640;">Libraries</h4>
-            <div style="text-align:left;">
+            <div style="text-align:left; display: flex; flex-wrap: wrap;">
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://opencv.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">OpenCV</figcaption>
@@ -594,12 +625,19 @@
       <div class="row">
         <div class="col-lg-12 text-center mb-4">
           <a href="assets/pdfs/CV.pdf" download class="btn btn-success btn-lg" style="background-color: #12d640; border: none; padding: 10px 30px; border-radius: 5px; color: white; font-weight: bold;">
-            <i class="bx bx-download"></i> Download
+            <i class="bx bx-download"></i> Download CV
           </a>
         </div>
         <div class="col-lg-12">
           <div style="border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden;">
-            <iframe src="assets/pdfs/CV.pdf" width="100%" style="min-height: 1200px; border: none;"></iframe>
+            <iframe src="assets/pdfs/CV.pdf" width="100%" style="min-height: 1200px; height: 85vh; border: none;"></iframe>
+          </div>
+          <!-- Mobile PDF notice -->
+          <div class="d-block d-sm-none text-center mt-3 p-3" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <p class="mb-2">For the best viewing experience on mobile, consider downloading the PDF.</p>
+            <a href="assets/pdfs/CV.pdf" download class="btn btn-sm" style="background-color: rgba(18, 214, 64, 0.2); color: #12d640; border: none;">
+              <i class="bx bx-download"></i> Download for better viewing
+            </a>
           </div>
         </div>
       </div>
@@ -657,7 +695,9 @@
           <div class="error-message"></div>
           <div class="sent-message">Your message has been sent. Thank you!</div>
         </div>
-        <div class="text-center"><button type="submit">Send Message</button></div>
+        <div class="text-center">
+          <button type="submit" style="padding: 12px 28px; font-size: 16px;">Send Message</button>
+        </div>
       </form>
     </div>
   </section>
