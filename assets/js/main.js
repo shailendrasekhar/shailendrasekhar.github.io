@@ -165,19 +165,46 @@
     const body = document.querySelector('body');
     
     if (mobileNavToggle) {
-      mobileNavToggle.addEventListener('click', function(e) {
+      // Remove any existing event listeners
+      mobileNavToggle.removeEventListener('click', toggleMobileNav);
+      mobileNavToggle.removeEventListener('touchstart', toggleMobileNav);
+      
+      // Define the toggle function separately so we can reuse it
+      function toggleMobileNav(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         body.classList.toggle('mobile-nav-active');
         mobileNavToggle.classList.toggle('active');
         
         // Toggle hamburger/close icon
         const icon = mobileNavToggle.querySelector('i');
-        if (icon.classList.contains('bx-menu')) {
-          icon.classList.remove('bx-menu');
-          icon.classList.add('bx-x');
-        } else {
-          icon.classList.remove('bx-x');
-          icon.classList.add('bx-menu');
+        if (icon) {
+          if (icon.classList.contains('bx-menu')) {
+            icon.classList.remove('bx-menu');
+            icon.classList.add('bx-x');
+          } else {
+            icon.classList.remove('bx-x');
+            icon.classList.add('bx-menu');
+          }
         }
+        
+        // Log to console for debugging
+        console.log('Mobile nav toggle clicked');
+        return false;
+      }
+      
+      // Add both click and touch events
+      mobileNavToggle.addEventListener('click', toggleMobileNav);
+      mobileNavToggle.addEventListener('touchstart', toggleMobileNav);
+      
+      // Add visible active state
+      mobileNavToggle.addEventListener('touchstart', function() {
+        this.classList.add('touched');
+      });
+      
+      mobileNavToggle.addEventListener('touchend', function() {
+        this.classList.remove('touched');
       });
     }
     
@@ -200,23 +227,31 @@
         if (mobileNavToggle) {
           mobileNavToggle.classList.remove('active');
           const icon = mobileNavToggle.querySelector('i');
-          icon.classList.remove('bx-x');
-          icon.classList.add('bx-menu');
+          if (icon) {
+            icon.classList.remove('bx-x');
+            icon.classList.add('bx-menu');
+          }
         }
       });
     });
     
     // Close mobile nav when clicking outside of it
     document.addEventListener('click', (e) => {
-      if (!mobileNavMenu.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+      if (body.classList.contains('mobile-nav-active') && 
+          mobileNavMenu && mobileNavToggle && 
+          !mobileNavMenu.contains(e.target) && 
+          !mobileNavToggle.contains(e.target)) {
+        
         body.classList.remove('mobile-nav-active');
         
         // Reset hamburger icon
         if (mobileNavToggle) {
           mobileNavToggle.classList.remove('active');
           const icon = mobileNavToggle.querySelector('i');
-          icon.classList.remove('bx-x');
-          icon.classList.add('bx-menu');
+          if (icon) {
+            icon.classList.remove('bx-x');
+            icon.classList.add('bx-menu');
+          }
         }
       }
     });

@@ -481,7 +481,59 @@ body.mobile-nav-active::before {
 }
 
 .mobile-nav-toggle {
-  display: none;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  z-index: 20000; /* Make sure it's above everything */
+  border: 0;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  transition: all 0.4s;
+  outline: none !important;
+  line-height: 1;
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto !important; /* Force pointer events */
+  touch-action: manipulation; /* Optimize for touch */
+}
+
+/* Add a pseudo-element to increase touch area without changing appearance */
+.mobile-nav-toggle::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  left: -10px;
+  z-index: -1;
+}
+
+/* Fix any potential issues with the body or overlay elements */
+body::after {
+  content: none !important; /* Prevent any potential overlay issues */
+}
+
+body.mobile-nav-active::before {
+  z-index: 19999; /* Just below the toggle */
+}
+
+/* Ensure mobile nav toggle is properly styled and accessible */
+.mobile-nav-toggle i {
+  pointer-events: none; /* Prevent the icon from intercepting clicks */
+}
+
+.mobile-nav-menu {
+  z-index: 19998; /* Below the toggle button */
 }
 
 @media (max-width: 768px) {
@@ -490,28 +542,19 @@ body.mobile-nav-active::before {
     display: none;
   }
   
-  /* Mobile navigation toggle button */
+  /* Fix hamburger menu visibility and positioning for mobile specifically */
   .mobile-nav-toggle {
-    display: block;
+    display: block !important;
     position: fixed;
     right: 15px;
     top: 15px;
-    z-index: 9999;
-    border: 0;
-    background: rgba(0, 0, 0, 0.5);
-    font-size: 24px;
-    transition: all 0.4s;
-    outline: none !important;
-    line-height: 1;
-    cursor: pointer;
-    text-align: center;
-    color: #fff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 20000;
+    width: 44px; /* Slightly larger for easier touch */
+    height: 44px; /* Slightly larger for easier touch */
+    background: rgba(0, 0, 0, 0.7); /* More visible background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow for better visibility */
+    user-select: none; /* Prevent text selection */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
   }
   
   .mobile-nav-toggle i {
@@ -1698,101 +1741,121 @@ body.header-top-active section.section-show .container {
 
 /* Additional mobile optimizations */
 @media (max-width: 768px) {
-  /* Default header styling for mobile - visible by default (home page) */
+  /* Reset the conflicting styles first - remove our custom code */
+  body.section-active:not(.home-active) #header,
+  body:not(.mobile-nav-active) .about.section-show ~ #header,
+  body:not(.mobile-nav-active) .education.section-show ~ #header,
+  body:not(.mobile-nav-active) .experience.section-show ~ #header,
+  body:not(.mobile-nav-active) .projects.section-show ~ #header,
+  body:not(.mobile-nav-active) .skills.section-show ~ #header {
+    /* Remove these rules to restore original behavior */
+    display: initial;
+    visibility: initial;
+    height: initial;
+    min-height: initial;
+    padding: initial;
+    margin: initial;
+    overflow: initial;
+  }
+  
+  /* Basic mobile header styling */
   #header {
-    padding: 0;
-    height: 100vh;
-    min-height: 100vh;
+    height: 60px !important;
+    min-height: 60px !important;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    display: flex !important;
+    align-items: center;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.9) !important;
-    z-index: 9999;
-    overflow-y: auto;
-    display: block !important;
-    visibility: visible !important;
+    overflow: visible;
   }
   
-  /* Hide header when any other section is active */
-  body.section-active:not(.home-active) #header {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    overflow: hidden !important;
+  /* This is the default style for when header is visible but collapsed */
+  #header.header-top {
+    height: 60px !important;
+    min-height: 60px !important;
   }
   
-  /* When other sections are active, take up full viewport */
-  body.section-active:not(.home-active) section.section-show:not(#header) {
-    padding-top: 0 !important;
-    top: 0 !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    position: fixed;
-    width: 100%;
-    overflow-y: auto;
-    z-index: 100;
-  }
-  
-  /* When on home, keep original styles */
-  body.home-active section.section-show {
-    padding-top: 60px;
-  }
-  
-  /* Improve container sizing */
-  .container {
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  /* Fix for video background */
-  .background-image {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-  }
-  
-  /* Fix sections display and positioning */
-  section {
-    opacity: 0;
-    visibility: hidden;
-    z-index: 50;
-  }
-  
-  section.section-show {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    pointer-events: auto !important;
-  }
-  
-  /* Add simple section navigation for mobile */
-  .mobile-section-nav {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+  /* Allow horizontal scrolling of the navigation */
+  #header .nav-menu ul,
+  #header.header-top .nav-menu ul {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    z-index: 9999;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0 10px;
+    margin: 0;
   }
   
-  .mobile-section-nav a {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transition: 0.3s;
+  /* Fix hamburger menu visibility and positioning */
+  .mobile-nav-toggle {
+    display: block !important;
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    z-index: 20000;
   }
   
-  .mobile-section-nav a.active {
-    background: #12d640;
+  /* Hide desktop navigation on mobile */
+  #header .nav-menu,
+  #header.header-top .nav-menu {
+    display: none !important;
+  }
+  
+  /* Make sure mobile menu itself is properly positioned */
+  .mobile-nav-menu {
+    right: -300px;
+    top: 0;
+    width: 280px;
+    z-index: 10001;
+    visibility: visible;
+  }
+  
+  /* When mobile nav is active, show the menu */
+  .mobile-nav-active .mobile-nav-menu {
+    right: 0;
+  }
+  
+  /* Properly position sections under the header */
+  body.header-top-active section.section-show:not(#header) {
+    padding-top: 60px !important;
+    top: 0 !important;
+    height: calc(100vh - 60px) !important;
+    min-height: calc(100vh - 60px) !important;
+    max-height: calc(100vh - 60px) !important;
+    position: fixed !important;
+    width: 100% !important;
+    z-index: 50 !important;
+  }
+  
+  /* Special case: Home page */
+  #header.section-show {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Hide header when not on home page */
+  .about.section-show ~ #header:not(.header-top),
+  .education.section-show ~ #header:not(.header-top),
+  .experience.section-show ~ #header:not(.header-top),
+  .projects.section-show ~ #header:not(.header-top),
+  .skills.section-show ~ #header:not(.header-top) {
+    display: none !important;
+  }
+  
+  /* Ensure header is shown (but collapsed) when navigating to other sections */
+  .about.section-show ~ #header.header-top,
+  .education.section-show ~ #header.header-top,
+  .experience.section-show ~ #header.header-top,
+  .projects.section-show ~ #header.header-top,
+  .skills.section-show ~ #header.header-top {
+    display: flex !important;
+    height: 60px !important;
+    min-height: 60px !important;
   }
 }
 
@@ -1821,4 +1884,21 @@ body.header-top-active section.section-show .container {
     display: block !important;
     z-index: 100 !important;
   }
+}
+
+.mobile-nav-toggle.touched,
+.mobile-nav-toggle:active {
+  transform: scale(0.95);
+  background: rgba(18, 214, 64, 0.8) !important;
+  color: #000 !important;
+}
+
+/* Active state styles */
+.mobile-nav-toggle.active {
+  background: #12d640 !important;
+  color: #000 !important;
+}
+
+.mobile-nav-toggle.active i {
+  color: #000 !important;
 }
