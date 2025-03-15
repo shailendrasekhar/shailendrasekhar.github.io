@@ -245,7 +245,7 @@ svg {
   #header {
     padding: 0;
     height: 100vh;
-    min-height: unset;
+    min-height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
@@ -253,6 +253,8 @@ svg {
     background: rgba(0, 0, 0, 0.9) !important;
     z-index: 9999;
     overflow-y: auto;
+    display: block !important;
+    visibility: visible !important;
   }
   
   #header.header-top {
@@ -1696,8 +1698,24 @@ body.header-top-active section.section-show .container {
 
 /* Additional mobile optimizations */
 @media (max-width: 768px) {
-  /* Hide header on mobile but keep home page content */
+  /* Default header styling for mobile - visible by default (home page) */
   #header {
+    padding: 0;
+    height: 100vh;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9) !important;
+    z-index: 9999;
+    overflow-y: auto;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Hide header when any other section is active */
+  body.section-active:not(.home-active) #header {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
@@ -1707,22 +1725,21 @@ body.header-top-active section.section-show .container {
     overflow: hidden !important;
   }
   
-  /* Allow sections to be displayed without header */
-  body.header-top-active section.section-show:not(#header) {
+  /* When other sections are active, take up full viewport */
+  body.section-active:not(.home-active) section.section-show:not(#header) {
     padding-top: 0 !important;
     top: 0 !important;
     height: 100vh !important;
     max-height: 100vh !important;
+    position: fixed;
+    width: 100%;
+    overflow-y: auto;
+    z-index: 100;
   }
   
-  /* Remove header-based spacing */
-  section.section-show {
-    padding-top: 0 !important;
-  }
-  
-  /* Ensure sections are clearly visible */
-  section {
-    z-index: 100 !important;
+  /* When on home, keep original styles */
+  body.home-active section.section-show {
+    padding-top: 60px;
   }
   
   /* Improve container sizing */
@@ -1740,31 +1757,68 @@ body.header-top-active section.section-show .container {
     object-fit: cover;
   }
   
-  /* Improve long name handling in header */
-  #header h1 a {
-    display: inline-block;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+  /* Fix sections display and positioning */
+  section {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 50;
+  }
+  
+  section.section-show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Add simple section navigation for mobile */
+  .mobile-section-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 9999;
+  }
+  
+  .mobile-section-nav a {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: 0.3s;
+  }
+  
+  .mobile-section-nav a.active {
+    background: #12d640;
   }
 }
 
-/* Fix for desktop navigation in mobile view */
+/* Fix for JavaScript section activation */
 @media (max-width: 768px) {
-  /* Hide desktop navigation on mobile since header is hidden */
-  #header .nav-menu,
-  #header.header-top .nav-menu {
-    display: none !important;
+  /* Ensure sections have proper z-index and positioning on mobile */
+  .about.section-show,
+  .education.section-show,
+  .experience.section-show,
+  .projects.section-show,
+  .skills.section-show {
+    z-index: 150 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 100% !important;
+    position: fixed !important;
+    overflow-y: auto !important;
+    padding-top: 0 !important;
   }
   
-  /* Hide mobile navigation toggle since there's no header */
-  .mobile-nav-toggle {
-    display: none !important;
-  }
-  
-  /* Hide mobile navigation menu */
-  .mobile-nav-menu {
-    display: none !important;
+  /* First section (home) behaves differently */
+  #header.section-show {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    visibility: visible !important;
+    display: block !important;
+    z-index: 100 !important;
   }
 }
