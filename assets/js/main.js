@@ -30,9 +30,10 @@
     var $target = $(targetHash);
     if (!$target.length) return;
     
-    // Update active navigation item
-    $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-    $('.nav-menu a[href="' + targetHash + '"], .mobile-nav a[href="' + targetHash + '"]').closest('li').addClass('active');
+    // Update active navigation item for both desktop and mobile menus
+    $('.nav-menu .active, .mobile-nav-menu .active').removeClass('active');
+    $('.nav-menu a[href="' + targetHash + '"]').closest('li').addClass('active');
+    $('.mobile-nav-menu a[href="' + targetHash + '"]').closest('li').addClass('active');
     
     // Update header styling
     if (targetHash !== '#header') {
@@ -125,7 +126,7 @@
   }
 
   // Handle click events on navigation links
-  $(document).on('click', '.nav-menu a, .mobile-nav a', function(e) {
+  $(document).on('click', '.nav-menu a, .mobile-nav a, .mobile-nav-menu a', function(e) {
     e.preventDefault(); // Prevent default anchor behavior
     var hash = this.hash;
     
@@ -135,7 +136,9 @@
       // Close mobile nav if open
       if ($('body').hasClass('mobile-nav-active')) {
         $('body').removeClass('mobile-nav-active');
-        $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+        // Use the correct icon classes for the BoxIcons (bx)
+        var icon = $('.mobile-nav-toggle i');
+        icon.removeClass('bx-x').addClass('bx-menu');
       }
     }
   });
@@ -154,33 +157,66 @@
     }
   }
 
-  // Initialize mobile navigation
+  // Mobile Navigation
   function initMobileNav() {
-    // Toggle mobile nav
-    $(document).on('click', '.mobile-nav-toggle', function(e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('.mobile-nav-toggle i').toggleClass('bx-menu bx-x');
-    });
-
-    // Close mobile nav when clicking on links
-    $('.mobile-nav-menu a').on('click', function() {
-      var hash = this.hash;
-      if (hash && $(hash).length) {
-        $('body').removeClass('mobile-nav-active');
-        $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+    // Toggle mobile navigation when hamburger is clicked
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+    const body = document.querySelector('body');
+    
+    if (mobileNavToggle) {
+      mobileNavToggle.addEventListener('click', function(e) {
+        body.classList.toggle('mobile-nav-active');
+        mobileNavToggle.classList.toggle('active');
         
-        // Navigate to the section
-        updateNavigation(hash, true);
-      }
+        // Toggle hamburger/close icon
+        const icon = mobileNavToggle.querySelector('i');
+        if (icon.classList.contains('bx-menu')) {
+          icon.classList.remove('bx-menu');
+          icon.classList.add('bx-x');
+        } else {
+          icon.classList.remove('bx-x');
+          icon.classList.add('bx-menu');
+        }
+      });
+    }
+    
+    // Close mobile nav when a link is clicked
+    document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const hash = link.getAttribute('href');
+        
+        // Only proceed if the hash exists and the target section exists
+        if (hash && document.querySelector(hash)) {
+          // Call updateNavigation to show the correct section
+          updateNavigation(hash, true);
+        }
+        
+        // Close the mobile menu
+        body.classList.remove('mobile-nav-active');
+        
+        // Reset hamburger icon
+        if (mobileNavToggle) {
+          mobileNavToggle.classList.remove('active');
+          const icon = mobileNavToggle.querySelector('i');
+          icon.classList.remove('bx-x');
+          icon.classList.add('bx-menu');
+        }
+      });
     });
-
-    // Close mobile nav when clicking outside
-    $(document).on('click', function(e) {
-      var container = $(".mobile-nav-menu, .mobile-nav-toggle");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+    
+    // Close mobile nav when clicking outside of it
+    document.addEventListener('click', (e) => {
+      if (!mobileNavMenu.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+        body.classList.remove('mobile-nav-active');
+        
+        // Reset hamburger icon
+        if (mobileNavToggle) {
+          mobileNavToggle.classList.remove('active');
+          const icon = mobileNavToggle.querySelector('i');
+          icon.classList.remove('bx-x');
+          icon.classList.add('bx-menu');
         }
       }
     });
@@ -360,17 +396,17 @@
     // Handle scroll for header state
     $(window).on('scroll', throttle(handleScroll, 100));
     
-    // Make sure typing animation works
-    if ($("#header .typing").length) {
-      var typed_strings = ["Software Engineer", "Machine Learning Engineer", "AI Enthusiast"];
-      var typed = new Typed('#header .typing', {
-        strings: typed_strings,
-        loop: true,
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000
-      });
-    }
+    // Make sure typing animation works - REMOVED to prevent conflict with HTML-defined animation
+    // if ($("#header .typing").length) {
+    //   var typed_strings = ["Software Engineer", "Machine Learning Engineer", "AI Enthusiast"];
+    //   var typed = new Typed('#header .typing', {
+    //     strings: typed_strings,
+    //     loop: true,
+    //     typeSpeed: 50,
+    //     backSpeed: 30,
+    //     backDelay: 2000
+    //   });
+    // }
     
     // Ensure mobile navigation is properly set up
     var $mobileNavToggle = $('.mobile-nav-toggle');

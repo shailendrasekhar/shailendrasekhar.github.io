@@ -95,12 +95,9 @@ svg {
 
 #header .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
-  height: 100%;
-  padding: 0 20px;
+  align-items: center;
+  padding: 20px 0;
 }
 
 #header h1 {
@@ -247,7 +244,7 @@ svg {
 @media (max-width: 768px) {
   #header {
     padding: 0;
-    height: 60px !important;
+    height: 100vh;
     min-height: unset;
     position: fixed;
     top: 0;
@@ -255,13 +252,12 @@ svg {
     width: 100%;
     background: rgba(0, 0, 0, 0.9) !important;
     z-index: 9999;
-    display: flex;
-    align-items: center;
-    overflow: visible;
+    overflow-y: auto;
   }
   
   #header.header-top {
     height: 60px !important;
+    overflow: visible;
   }
   
   #header .container,
@@ -269,15 +265,34 @@ svg {
     width: 100%;
     padding: 0 15px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   
-  /* Hide the name and title on mobile */
+  /* Resize the name and title on mobile */
   #header h1, 
-  #header h2,
   #header.header-top h1 {
-    display: none;
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  #header h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Social links on mobile */
+  #header .social-links {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  #header .social-links a {
+    margin: 0 10px;
   }
   
   /* Show desktop navigation menu centered on mobile */
@@ -341,7 +356,9 @@ svg {
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu {
-  margin-top: 30px;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-menu ul {
@@ -351,90 +368,34 @@ svg {
   list-style: none;
 }
 
-.nav-menu li + li {
-  margin-left: 30px;
+.nav-menu li {
+  margin: 0 15px;
 }
 
 .nav-menu a {
-  display: block;
-  position: relative;
-  color: rgba(255, 255, 255, 0.7);
+  color: #fff;
+  padding: 10px 8px;
+  text-decoration: none;
   font-size: 16px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   transition: 0.3s;
 }
 
-.nav-menu a:before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: #12d640;
-  visibility: hidden;
-  width: 0px;
-  transition: all 0.3s ease-in-out 0s;
+.nav-menu a:hover, .nav-menu .active > a {
+  color: #12d640;
 }
 
-.nav-menu a:hover:before, .nav-menu li:hover > a:before, .nav-menu .active > a:before {
-  visibility: visible;
-  width: 25px;
-}
-
-.nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Mobile Navigation */
-.mobile-nav-toggle {
-  position: fixed;
-  right: 15px;
-  top: 15px;
-  z-index: 9998;
-  border: 0;
-  background: rgba(18, 214, 64, 0.2);
-  font-size: 28px;
-  transition: all 0.4s;
-  outline: none !important;
-  line-height: 1;
-  cursor: pointer;
-  text-align: center;
-  color: #fff;
-  padding: 8px 10px;
-  border-radius: 5px;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-nav-toggle i {
-  color: #fff;
-  transition: all 0.3s;
-}
-
-.mobile-nav-active .mobile-nav-toggle {
-  background: rgba(18, 214, 64, 0.8);
-}
-
-.mobile-nav-active .mobile-nav-toggle i {
-  color: #fff;
-}
-
+/* Mobile Navigation - vertical menu */
 .mobile-nav-menu {
   position: fixed;
   top: 0;
-  right: -100%;
-  width: 80%;
+  right: -280px;
+  width: 280px;
   height: 100%;
-  z-index: 9999;
-  padding: 70px 0 0;
   background: rgba(0, 0, 0, 0.9);
-  transition: 0.3s;
+  padding: 80px 20px 0;
+  transition: right 0.3s ease;
+  z-index: 9998;
   overflow-y: auto;
 }
 
@@ -443,67 +404,50 @@ svg {
 }
 
 .mobile-nav-menu ul {
+  list-style: none;
   padding: 0;
   margin: 0;
-  list-style: none;
   display: flex;
   flex-direction: column;
 }
 
 .mobile-nav-menu li {
-  margin: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+  width: 100%;
 }
 
 .mobile-nav-menu a {
   display: block;
-  position: relative;
   color: #fff;
   font-size: 16px;
-  padding: 15px 20px;
-  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 15px;
+  transition: 0.3s;
 }
 
 .mobile-nav-menu a:hover,
-.mobile-nav-menu .active > a,
-.mobile-nav-menu li:hover > a {
+.mobile-nav-menu .active > a {
   color: #12d640;
+  text-decoration: none;
 }
 
-/* Hide name in header on mobile */
+.mobile-nav-toggle {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  /* Hide name in header */
-  #header h1, 
-  #header h2,
-  #header.header-top h1,
-  #header.header-top h2 {
-    display: none;
-  }
-  
   /* Hide desktop navigation on mobile */
-  #header .nav-menu,
-  #header.header-top .nav-menu {
+  .nav-menu {
     display: none;
   }
   
-  /* Center the navigation menu */
-  #header .container,
-  #header.header-top .container {
-    justify-content: center;
-  }
-  
-  /* Hide social links on mobile to make room for nav */
-  #header .social-links {
-    display: none;
-  }
-  
-  /* Make sure mobile toggle is visible */
+  /* Mobile navigation toggle button */
   .mobile-nav-toggle {
     display: block;
     position: fixed;
     right: 15px;
     top: 15px;
-    z-index: 9997;
+    z-index: 9999;
     border: 0;
     background: none;
     font-size: 24px;
@@ -513,6 +457,26 @@ svg {
     cursor: pointer;
     text-align: right;
     color: #fff;
+  }
+  
+  .mobile-nav-toggle i {
+    color: #fff;
+  }
+  
+  .mobile-nav-toggle:hover {
+    color: #12d640;
+  }
+  
+  /* Header styling for mobile */
+  #header {
+    height: 60px !important;
+    min-height: unset;
+    display: flex;
+    align-items: center;
+  }
+  
+  #header.header-top {
+    height: 60px !important;
   }
 }
 
