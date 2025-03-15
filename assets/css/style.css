@@ -247,14 +247,29 @@ svg {
 @media (max-width: 768px) {
   #header {
     padding: 20px 0;
+    height: 100vh;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #header .container {
+    width: 100%;
+    padding: 0 15px;
+    min-height: unset;
+    margin: 0 auto;
   }
   
   #header h1 {
-    font-size: 42px;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    word-wrap: break-word;
   }
   
   #header h2 {
-    font-size: 20px;
+    font-size: 18px;
+    margin: 10px 0;
   }
   
   #header.header-top {
@@ -268,13 +283,45 @@ svg {
     padding-right: 5px;
     max-width: 60%;
   }
-
+  
   #header.header-top .mobile-nav-toggle {
     display: block;
   }
-
+  
   #header.header-top .nav-menu {
     display: none;
+  }
+  
+  .typing {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  #header .social-links {
+    margin-top: 30px;
+    gap: 10px;
+  }
+  
+  #header .social-links a {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .background-image {
+    object-position: center;
+  }
+}
+
+/* Extremely small screens */
+@media (max-width: 375px) {
+  #header h1 {
+    font-size: 28px;
+  }
+  
+  #header h2 {
+    font-size: 16px;
   }
 }
 
@@ -1564,4 +1611,44 @@ section .container {
 /* Remove any top padding on section container when header is top */
 body.header-top-active section.section-show .container {
   padding-top: 20px;
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 768px) {
+  /* Improve container sizing */
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Ensure no horizontal overflow */
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  /* Better content fitting */
+  p, h1, h2, h3, h4, h5, h6 {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  
+  /* Fix for video background */
+  .background-image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+  
+  /* Improve long name handling in header */
+  #header h1 a {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
 }
