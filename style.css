@@ -1,10 +1,45 @@
+/* ===== Theme Variables ===== */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #1a0dab;
+  --section-bg: #f9f9f9;
+  --card-shadow: rgba(0, 0, 0, 0.06);
+  --header-bg: #fcfcfc;
+  --hover-color: #0056b3;
+}
+
+body.dark-theme {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --link-color: #8ab4f8;
+  --section-bg: #1e1e1e;
+  --card-shadow: rgba(255, 255, 255, 0.05);
+  --header-bg: #000000;
+  --hover-color: #8ab4f8;
+}
+
+/* ===== Layout & Global Styles ===== */
+body {
+  padding-top: 80px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+html {
+  scroll-padding-top: 50px;
+  scroll-behavior: smooth;
+}
+
+/* ===== Header ===== */
 #header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #000;
-  color: #fff;
+  background: var(--header-bg);
+  color: var(--text-color);
   z-index: 9999;
   padding: 10px 0;
 }
@@ -16,7 +51,27 @@
   padding: 0 25px;
 }
 
-/* Social links on the left */
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-center {
+  flex: 1;
+  justify-content: center;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+/* ===== Social Links ===== */
 #header .social-links {
   display: flex;
   align-items: center;
@@ -30,17 +85,17 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  color: #fff;
+  color: var(--text-color);
   transition: background 0.3s ease-in-out, color 0.3s;
 }
 
 #header .social-links a:hover {
   background: #0c0c0c;
-  color: #0056b3;
+  color: var(--hover-color);
   border-radius: 50%;
 }
 
-/* Nav menu in the center or right */
+/* ===== Nav Menu ===== */
 #header .nav-menu ul {
   display: flex;
   list-style: none;
@@ -50,27 +105,34 @@
 }
 
 #header .nav-menu ul li a {
-  color: white;
+  color: var(--text-color);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
 }
 
 #header .nav-menu ul li a:hover {
-  color: #0056b3;
+  color: var(--hover-color);
 }
 
-
-body {
-  padding-top: 80px; 
+/* ===== Dark Mode Toggle ===== */
+#dark-mode-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.3s;
 }
-html {
-  scroll-padding-top: 50px; 
-  scroll-behavior: smooth;
+
+#dark-mode-toggle:hover {
+  color: var(--hover-color);
 }
 
+/* ===== Sections ===== */
 #home {
-  height: 100vh; 
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,24 +142,25 @@ html {
   margin-bottom: 60px;
 }
 
-
+/* ===== Images & Cards ===== */
 .about-image {
   max-width: 100%;
   height: auto;
   display: block;
   margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px var(--card-shadow);
 }
 
 .section-card {
-  background-color: #f9f9f9;
+  background-color: var(--section-bg);
   border-radius: 12px;
   padding: 30px;
   margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px var(--card-shadow);
 }
 
+/* ===== Education Section ===== */
 .edu-logo {
   display: block;
   margin-bottom: 10px;
@@ -123,22 +186,38 @@ html {
   white-space: nowrap;
   font-size: 0.95em;
   margin-left: 20px;
-  color: #101010;
+  color: var(--text-color);
 }
 
+/* ===== Responsive: Mobile Layout ===== */
 @media (max-width: 768px) {
   #header .container {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    padding: 10px 15px;
   }
 
-  .nav-menu {
+  .header-left {
+    order: 2;
+    flex: 1;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .header-center {
     display: none;
   }
 
+  .header-right {
+    order: 1;
+    flex: 0;
+    justify-content: flex-start;
+  }
+
   .social-links {
-    margin-bottom: 0px;
     justify-content: center;
+    width: 100%;
   }
 }

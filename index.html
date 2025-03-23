@@ -26,30 +26,39 @@
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PVVJWSWK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <header id="header" class="header">
-    <div class="container">
-      <div class="social-links">
-        <a href="https://www.linkedin.com/in/shailendrasekhar" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-        <a href="https://github.com/shailendrasekhar" target="_blank" class="github"><i class="bx bxl-github"></i></a>
-        <a href="https://scholar.google.com/citations?user=WCKveKkAAAAJ&hl=en" target="_blank" class="scholar"><i class="bx bxl-google"></i></a>
+    <header id="header" class="header">
+      <div class="container">
+    
+        <!-- Left: Social Links -->
+        <div class="header-left">
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/shailendrasekhar" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            <a href="https://github.com/shailendrasekhar" target="_blank" class="github"><i class="bx bxl-github"></i></a>
+            <a href="https://scholar.google.com/citations?user=WCKveKkAAAAJ&hl=en" target="_blank" class="scholar"><i class="bx bxl-google"></i></a>
+          </div>
+        </div>
+    
+        <!-- Center: Navigation Menu -->
+        <div class="header-center">
+          <nav class="nav-menu">
+            <ul>
+              <li class="active"><a href="#home"><span>Home</span></a></li>
+              <li><a href="#about"><span>About Me</span></a></li>
+              <li><a href="#education"><span>Education</span></a></li>
+              <li><a href="#experience"><span>Experience</span></a></li>
+              <li><a href="#skills"><span>Skills</span></a></li>
+            </ul>
+          </nav>
+        </div>
+    
+        <!-- Right: Dark Mode Toggle -->
+        <div class="header-right">
+          <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+        </div>
+    
       </div>
-
-      <nav class="nav-menu">
-        <ul>
-          <li class="active"><a href="#home"> <span>Home</span></a></li>
-          <li><a href="#about"> <span>About Me</span></a></li>
-          <li><a href="#education"> <span>Education</span></a></li>
-          <li><a href="#experience"> <span>Experience</span></a></li>
-          <li><a href="#skills"> <span>Skills</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="placeholder"></div>
-      <!-- <button class="mobile-nav-toggle d-lg-none" type="button" aria-label="Toggle mobile menu" aria-expanded="false" role="button" tabindex="0">
-        <i class="bx bx-menu"></i>
-      </button> -->
-    </div>
-  </header>
+    </header>
+    
 
   <!-- <nav class="mobile-nav-menu d-lg-none">
     <ul>
@@ -382,11 +391,6 @@
             <h4 style="text-align:left;color:#0056b3;">Technologies</h4>
             <div style="text-align:left; display: flex; flex-wrap: wrap;">
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.qt.io" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Qt_logo_2016.svg" alt="qt" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Qt</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://www.latex-project.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.latex-project.org/img/latex-project-logo.svg" alt="latex" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">LaTeX</figcaption>
               </figure>
@@ -453,7 +457,7 @@
             </div>
           </div>
           <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <h4 style="text-align:left;color:#0056b3;">Libraries</h4>
+            <h4 style="text-align:left;color:#0056b3;">ML Libraries</h4>
             <div style="text-align:left; display: flex; flex-wrap: wrap;">
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://opencv.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40" height="40" /> </a>
@@ -499,20 +503,34 @@
                 <a href="https://seaborn.pydata.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" alt="seaborn" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">Seaborn</figcaption>
               </figure>
+
+              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                <a href="https://www.langchain.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://images.seeklogo.com/logo-png/61/1/langchain-icon-logo-png_seeklogo-611655.png" alt="Langchain" width="40" height="40" /> </a>
+                <figcaption style="text-align:center;">Langchain</figcaption>
+              </figure>
               
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://moveit.picknik.ai" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://moveit.picknik.ai/main/_static/rolling-small.png" alt="Moveit2" width="40" height="40" /> </a>
+                <a href="https://huggingface.co/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Transformers" width="40" height="40" /> </a>
+                <figcaption style="text-align:center;">Hugging Face</figcaption>
+              </figure>
+
+              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                <a href="https://stable-baselines3.readthedocs.io/en/master/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://stable-baselines3.readthedocs.io/en/master/_static/logo.png" alt="Stable Baselines3" width="40" height="40" /> </a>
+                <figcaption style="text-align:center;">Stable Baselines3</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
+            <h4 style="text-align:left;color:#0056b3;">Robotics Libraries</h4>
+            <div style="text-align:left; display: flex; flex-wrap: wrap;">
+              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                <a href="https://moveit.picknik.ai" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://moveit.ai/assets/images/blog_posts/2022_06_02_MoveItHumble_lowres.png" alt="Moveit2" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">Moveit2</figcaption>
               </figure>
               
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://gazebosim.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://gazebosim.org/docs/latest/_static/gazebo_horz_neg.svg" alt="Gazebo" width="40" height="40" /> </a>
+                <a href="https://gazebosim.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://classic.gazebosim.org/assets/logos/gazebo_vert_pos-fd53607be2db733ff38e9a9cdae9185722e5810ea7b089405dfd36917bc4c42f.png" alt="Gazebo" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">Gazebo</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://stable-baselines3.readthedocs.io/en/master/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://stable-baselines3.readthedocs.io/en/master/_static/logo.png" alt="Stable Baselines3" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Stable Baselines3</figcaption>
               </figure>
               
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
@@ -523,16 +541,6 @@
               <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
                 <a href="https://www.behaviortree.dev/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.behaviortree.dev/img/logo.png" alt="BehaviorTree.CPP" width="40" height="40" /> </a>
                 <figcaption style="text-align:center;">BTree.CPP</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.langchain.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://images.seeklogo.com/logo-png/61/1/langchain-icon-logo-png_seeklogo-611655.png" alt="Langchain" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Langchain</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://huggingface.co/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Transformers" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Hugging Face</figcaption>
               </figure>
             </div>
           </div>
@@ -551,7 +559,8 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/venobox/venobox.min.js"></script>
   <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="main.js"></script>
+  <script src="assets/js/darkmode.js"></script>
+  <!-- <script src="main.js"></script> -->
 
   <script type="text/javascript">
     var typed = new Typed('.typing',{
