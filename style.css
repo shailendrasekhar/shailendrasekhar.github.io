@@ -142,6 +142,10 @@ html {
   margin-bottom: 60px;
 }
 
+section {
+  scroll-margin-top: 90px; /* Adjust to match header height */
+}
+
 /* ===== Images & Cards ===== */
 .about-image {
   max-width: 100%;
