@@ -189,6 +189,106 @@ html {
   color: var(--text-color);
 }
 
+/* ===== Chatbot Widget ===== */
+#chatbot-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 320px;
+  background: var(--section-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px var(--card-shadow);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #e0e0e0;
+}
+
+#chatbot-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--header-bg);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+#chatbot-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 220px;
+  background: transparent;
+}
+
+.chatbot-message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  word-break: break-word;
+  font-size: 0.98em;
+}
+
+.chatbot-message.bot {
+  background: #e3f0ff;
+  color: #222;
+  align-self: flex-start;
+}
+
+.chatbot-message.user {
+  background: #0056b3;
+  color: #fff;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+#chatbot-form {
+  display: flex;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  background: var(--section-bg);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+#chatbot-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 1em;
+  background: #f5f5f5;
+  margin-right: 8px;
+}
+
+#chatbot-form button {
+  background: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#chatbot-form button:hover {
+  background: #003d80;
+}
+
 /* ===== Responsive: Mobile Layout ===== */
 @media (max-width: 768px) {
   #header .container {
@@ -219,5 +319,11 @@ html {
   .social-links {
     justify-content: center;
     width: 100%;
+  }
+
+  #chatbot-container {
+    width: 95vw;
+    right: 2vw;
+    bottom: 10px;
   }
 }
