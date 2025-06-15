@@ -44,9 +44,6 @@
             <ul>
               <li class="active"><a href="#home"><span>Home</span></a></li>
               <li><a href="#about"><span>About Me</span></a></li>
-              <li><a href="#education"><span>Education</span></a></li>
-              <li><a href="#experience"><span>Experience</span></a></li>
-              <li><a href="#skills"><span>Skills</span></a></li>
             </ul>
           </nav>
         </div>
@@ -69,7 +66,6 @@
       <li><a href="#skills">Skills</a></li>
     </ul>
   </nav> -->
-
   <section id="home" class="home d-flex flex-column justify-content-center align-items-center">
     <div class="container text-center">
       <h1><a href="index.html">Shailendra Sekhar</a></h1>
@@ -77,12 +73,11 @@
     </div>
   </section>
 
-  <section id="about" class="about">
+  <section id="about" class="about" style="display: none;">
     <div class="container">
       <div class="section-title">
         <h2>About Me</h2>
       </div>
-  
       <div class="section-card" data-aos="fade-up">
         <div class="row">
           <!-- Left: Image -->
@@ -101,7 +96,7 @@
               Hi there, my name is <strong>Shailendra Sekhar</strong>.<br><br>
               I am a passionate AI researcher and engineer, driven by the challenge of transforming cutting-edge artificial intelligence into real-world solutions. My work spans deep learning, reinforcement learning, robotics, and intelligent systems, with a strong focus on building AI-driven models that enhance automation, decision-making, and human-machine collaboration.
             </p>
-            <p>
+            <!-- <p>
               Currently, at <strong>iHub-Data, IIIT Hyderabad</strong>, I am developing assistive technologies that integrate brain-computer interfaces (BCIs) with robotic systems. My research revolves around translating neural signals into real-time robotic control, creating innovative solutions that push the boundaries of AI-driven accessibility in healthcare.
             </p>
             <p>
@@ -109,445 +104,207 @@
             </p>
             <p>
               I am particularly passionate about <strong>explainability in AI</strong>, ensuring that reinforcement learning and autonomous decision-making systems are not just powerful but also transparent and robust. Whether through intelligent automation, predictive modeling, or robotics, my goal is to create AI that is not only innovative but also ethical, reliable, and deeply integrated into human-centered applications.
-            </p>
+            </p> -->
+  
+            <div class="about-subsections-row">
+              <!-- Education Subsection -->
+              <div class="about-subsection">
+                <h3>Education</h3>
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://www.uga.edu/" target="_blank" style="color:#0056b3">University of Georgia</a></h4>
+                    <em>Athens, Georgia, United States</em>
+                    <h5><em>Master of Science in Artificial Intelligence</em></h5>
+                    <em>August 2021 - August 2024</em>
+                  </div>
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://www.gitam.edu/" target="_blank" style="color:#0056b3">GITAM University</a></h4>
+                    <em>Hyderabad, Telangana, India</em>
+                    <h5><em>Bachelor of Technology in Electronics and Communication Engineering</em></h5>
+                    <em>August 2015 - May 2019</em>
+                  </div>
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://www.gopalancolleges.com/gpuc/" target="_blank" style="color:#0056b3">Gopalan PU College</a></h4>
+                    <em>Bangalore, Karnataka, India</em>
+                    <h5><em>Pre-University Certificate</em></h5>
+                    <em>August 2013 - March 2015</em>
+                  </div>
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://thecathedralhighschool.in/" target="_blank" style="color:#0056b3">Cathedral High School</a></h4>
+                    <em>Bangalore, Karnataka, India</em>
+                    <h5><em>High School Diploma</em></h5>
+                    <em>August 2011 - March 2013</em>
+                  </div>
+                </div>
+              </div>
+              <!-- Experience Subsection -->
+              <div class="about-subsection">
+                <h3>Experience</h3>
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://ihub-data.iiit.ac.in/" target="_blank" style="color:#0056b3">IHub-Data</a></h4>
+                    <em>Hyderabad, Telangana, India</em>
+                    <h5><em>Young Research Assistant</em></h5>
+                    <em>December 2024 - Present</em>
+                    <!-- <ul>
+                      <li>Developed a Proof of Concept for brain-controlled assistive robotics in healthcare, focusing on robotic arms for pick-and-place operations.</li>
+                      <li>Trained Selective State Space models with Mamba Architecture to map EEG signals to objects of interest.</li>
+                      <li>Designed deep learning models for object detection and point cloud processing for cameras. Integrated a robotic arm with a camera to identify object location, orientation, dimensions, and grasp points.</li>
+                      <li>Built a motion planning system that computes obstacle-free trajectories for robotic arm movement. Implemented the entire pipeline in ROS2 Humble.</li>
+                    </ul> -->
+                  </div>
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://herolab.org/" target="_blank" style="color:#0056b3">Heterogeneous Robotics Lab</a></h4>
+                    <em>Athens, Georgia, United States</em>
+                    <h5><em>Graduate Research Assistant</em></h5>
+                    <em>January 2024 - August 2024</em>
+                    <!-- <ul>
+                      <li>Pioneered a framework combining Deep Reinforcement Learning (DRL) with Behavior Trees (BTs) to develop effective and interpretable models for real-world applications.</li>
+                      <li>Implemented interactive imitation learning techniques to automate the construction of Behavior Trees by leveraging expert and their trajectories.</li>
+                      <li>Developed a decision tree-based system that iteratively optimized performance by aggregating expert feedback on model decisions in an iterative loop.</li>
+                      <li>Designed an action template library to store decision rules extracted from the final decision tree, reducing rule complexity using logic minimizers and regularizers.</li>
+                      <li>Created compact and verifiable control policies represented as Behavior Trees, improving transparency and interpretability of RL models.</li>
+                    </ul> -->
+                  </div>
+                  <div class="timeline-item">
+                    <span class="timeline-dot"></span>
+                    <h4><a href="https://www.nus.edu.sg/" target="_blank" style="color:#0056b3">National University of Singapore</a></h4>
+                    <em>Singapore, Singapore</em>
+                    <h5><em>Data Science Intern</em></h5>
+                    <em>May 2019 - June 2019</em>
+                    <!-- <ul>
+                      <li>Conducted advanced exploratory data analysis (EDA) to uncover trends and correlations in daily news, extracting valuable insights to inform stock market predictions.</li>
+                      <li>Integrated Natural Language Processing (NLP) techniques, including keyword detection and sentiment analysis, into the data pipeline to assess and interpret news content accurately.</li>
+                      <li>Designed and implemented a predictive model leveraging CNNs and RNNs with LSTM to forecast stock market opening values based on news headlines.</li>
+                      <li>Developed a multi-step pipeline for data preprocessing, model training, and evaluation, ensuring a robust and reliable forecasting system.</li>
+                    </ul> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Subsection below -->
+            <div class="about-subsection">
+              <h3>Skills</h3>
+              
+              <div class="row">
+                <div class="col-lg-12" data-aos="fade-up">
+                  <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4 style="text-align:left;color:#0056b3;">Languages</h4>
+                    <div style="text-align:left; display: flex; flex-wrap: wrap;">
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.cplusplus.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;">
+                          <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/cplusplus.svg" alt="cplusplus" width="40" height="40" />
+                        </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.python.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;">
+                          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40" />
+                        </a>
+                      </figure>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4 style="text-align:left;color:#0056b3;">Technologies</h4>
+                    <div style="text-align:left; display: flex; flex-wrap: wrap;">
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.mysql.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40" /> </a>
+                      </figure>
+            
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://git-scm.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/git.svg" alt="git" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.docker.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://unity.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/unity3d/unity3d-icon.svg" alt="unity" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.linux.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.ros.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/ros.svg" alt="ros" width="40" height="40" /> </a>
+                      </figure>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4 style="text-align:left;color:#0056b3;">Libraries</h4>
+                    <div style="text-align:left; display: flex; flex-wrap: wrap;">
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://opencv.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://scikit-learn.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="scikit_learn" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://pytorch.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/pytorch/pytorch-icon.svg" alt="pytorch" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://keras.io" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/keras.svg" alt="keras" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.tensorflow.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="tensorflow" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://numpy.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/numpy.svg" alt="numpy" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://pandas.pydata.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://matplotlib.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/matplotlib.svg" alt="matplotlib" width="40" height="40" /> </a>
+                      </figure>
+                      
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://seaborn.pydata.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" alt="seaborn" width="40" height="40" /> </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://www.langchain.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://images.seeklogo.com/logo-png/61/1/langchain-icon-logo-png_seeklogo-611655.png" alt="Langchain" width="40" height="40" /> </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://huggingface.co/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Transformers" width="40" height="40" /> </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://stable-baselines3.readthedocs.io/en/master/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://stable-baselines3.readthedocs.io/en/master/_static/logo.png" alt="Stable Baselines3" width="40" height="40" /> </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://moveit.picknik.ai" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://moveit.ai/assets/images/blog_posts/2022_06_02_MoveItHumble_lowres.png" alt="Moveit2" width="40" height="40" /> </a>
+                      </figure>
+                      <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
+                        <a href="https://gazebosim.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://classic.gazebosim.org/assets/logos/gazebo_vert_pos-fd53607be2db733ff38e9a9cdae9185722e5810ea7b089405dfd36917bc4c42f.png" alt="Gazebo" width="40" height="40" /> </a>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div>    </div>
   </section>
-  
-  <section id="education" class="services">
-    <div class="container">
-      <div class="section-title">
-        <h2>Education</h2>
-      </div>
 
-      <div class="col-lg-12" data-aos="fade-up">
-        <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-          <a href="https://www.uga.edu/" target="_blank">
-            <img src="https://brand.uga.edu/wp-content/uploads/GEORGIA-FS-FC-2048x883.png" class="img-fluid edu-logo" alt="UGA Logo">
-          </a>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h4>
-                <a href="https://www.uga.edu/" target="_blank" style="color:#0056b3">University of Georgia</a>
-              </h4>
-            </div>
-            <div class="edu-right">
-              <em>Athens, Georgia, United States</em>
-            </div>
-          </div>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h5><em>Master of Science in Artificial Intelligence</em></h5>
-            </div>
-            <div class="edu-right">
-              <em>August 2021 - August 2024</em>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="col-lg-12" data-aos="fade-up">
-        <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-          <a href="https://www.gitam.edu/" target="_blank">
-            <img src="https://login.gitam.edu/Images/gitam-Logo-new.png" class="img-fluid edu-logo" alt="GITAM University Logo">
-          </a>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h4>
-                <a href="https://www.gitam.edu/" target="_blank" style="color:#0056b3">GITAM University</a>
-              </h4>
-            </div>
-            <div class="edu-right">
-              <em>Hyderabad, Telangana, India</em>
-            </div>
-          </div>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h5><em>Bachelor of Technology in Electronics and Communication Engineering</em></h5>
-            </div>
-            <div class="edu-right">
-              <em>August 2015 - May 2019</em>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="col-lg-12" data-aos="fade-up">
-        <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-          <a href="https://www.gopalancolleges.com/gpuc/" target="_blank">
-            <img src="https://www.gopalancolleges.com/gpuc/images/logo.png" class="img-fluid edu-logo" alt="Gopalan PU College Logo">
-          </a>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h4>
-                <a href="https://www.gopalancolleges.com/gpuc/" target="_blank" style="color:#0056b3">Gopalan PU College</a>
-              </h4>
-            </div>
-            <div class="edu-right">
-              <em>Bangalore, Karnataka, India</em>
-            </div>
-          </div>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h5><em>Pre-University Certificate</em></h5>
-            </div>
-            <div class="edu-right">
-              <em>August 2013 - March 2015</em>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-12" data-aos="fade-up">
-        <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-          <a href="https://thecathedralhighschool.in/" target="_blank">
-            <img src="https://thecathedralhighschool.in/wp-content/uploads/2024/02/Catehdral-WEb-Logo-3.png" class="img-fluid edu-logo" alt="Cathedral High School Logo">
-          </a>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h4>
-                <a href="https://thecathedralhighschool.in/" target="_blank" style="color:#0056b3">Cathedral High School</a>
-              </h4>
-            </div>
-            <div class="edu-right">
-              <em>Bangalore, Karnataka, India</em>
-            </div>
-          </div>
-  
-          <div class="edu-row">
-            <div class="edu-left">
-              <h5><em>High School Diploma</em></h5>
-            </div>
-            <div class="edu-right">
-              <em>August 2011 - March 2013</em>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-    </div>
-  </section>
-  
-
-  <section id="experience" class="services">
-    <div class="container">
-      <div class="section-title">
-        <h2>Experience</h2>
-      </div>
-      <div class="row">
-  
-        <!-- IHub-Data -->
-        <div class="col-lg-12" data-aos="fade-up">
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <a href="https://ihub-data.iiit.ac.in/" target="_blank">
-              <img src="https://ihub-data.iiit.ac.in/static/media/ihub.53c14a6a74af4047c694851010ece25a.svg" class="img-fluid edu-logo" alt="IHub-Data Logo">
-            </a>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h4><a href="https://ihub-data.iiit.ac.in/" target="_blank" style="color:#0056b3">IHub-Data</a></h4>
-              </div>
-              <div class="edu-right"><em>Hyderabad, Telangana, India</em></div>
-            </div>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h5><em>Young Research Assistant</em></h5>
-              </div>
-              <div class="edu-right"><em>December 2024 - Present</em></div>
-            </div>
-  
-            <ul>
-              <li>Developed a Proof of Concept for brain-controlled assistive robotics in healthcare, focusing on robotic arms for pick-and-place operations.</li>
-              <li>Trained Selective State Space models with Mamba Architecture to map EEG signals to objects of interest.</li>
-              <li>Designed deep learning models for object detection and point cloud processing for cameras. Integrated a robotic arm with a camera to identify object location, orientation, dimensions, and grasp points.</li>
-              <li>Built a motion planning system that computes obstacle-free trajectories for robotic arm movement. Implemented the entire pipeline in ROS2 Humble.</li>
-            </ul>
-          </div>
-        </div>
-  
-        <!-- Heterogeneous Robotics Lab -->
-        <div class="col-lg-12" data-aos="fade-up">
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <a href="https://herolab.org/" target="_blank">
-              <img src="https://herolab.org/wp-content/uploads/2021/04/herolab_newlogo_whitebg.png" class="img-fluid edu-logo" alt="Heterogeneous Robotics Lab Logo">
-            </a>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h4><a href="https://herolab.org/" target="_blank" style="color:#0056b3">Heterogeneous Robotics Lab</a></h4>
-              </div>
-              <div class="edu-right"><em>Athens, Georgia, United States</em></div>
-            </div>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h5><em>Graduate Research Assistant</em></h5>
-              </div>
-              <div class="edu-right"><em>January 2024 - August 2024</em></div>
-            </div>
-  
-            <ul>
-              <li>Pioneered a framework combining Deep Reinforcement Learning (DRL) with Behavior Trees (BTs) to develop effective and interpretable models for real-world applications.</li>
-              <li>Implemented interactive imitation learning techniques to automate the construction of Behavior Trees by leveraging expert and their trajectories.</li>
-              <li>Developed a decision tree-based system that iteratively optimized performance by aggregating expert feedback on model decisions in an iterative loop.</li>
-              <li>Designed an action template library to store decision rules extracted from the final decision tree, reducing rule complexity using logic minimizers and regularizers.</li>
-              <li>Created compact and verifiable control policies represented as Behavior Trees, improving transparency and interpretability of RL models.</li>
-            </ul>
-          </div>
-        </div>
-  
-        <!-- NUS Internship -->
-        <div class="col-lg-12" data-aos="fade-up">
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <a href="https://www.nus.edu.sg/" target="_blank">
-              <img src="https://www.nus.edu.sg/images/default-source/base/logo.png" class="img-fluid edu-logo" alt="NUS Logo">
-            </a>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h4><a href="https://www.nus.edu.sg/" target="_blank" style="color:#0056b3">National University of Singapore</a></h4>
-              </div>
-              <div class="edu-right"><em>Singapore, Singapore</em></div>
-            </div>
-  
-            <div class="edu-row">
-              <div class="edu-left">
-                <h5><em>Data Science Intern</em></h5>
-              </div>
-              <div class="edu-right"><em>May 2019 - June 2019</em></div>
-            </div>
-  
-            <ul>
-              <li>Conducted advanced exploratory data analysis (EDA) to uncover trends and correlations in daily news, extracting valuable insights to inform stock market predictions.</li>
-              <li>Integrated Natural Language Processing (NLP) techniques, including keyword detection and sentiment analysis, into the data pipeline to assess and interpret news content accurately.</li>
-              <li>Designed and implemented a predictive model leveraging CNNs and RNNs with LSTM to forecast stock market opening values based on news headlines.</li>
-              <li>Developed a multi-step pipeline for data preprocessing, model training, and evaluation, ensuring a robust and reliable forecasting system.</li>
-            </ul>
-          </div>
-        </div>
-  
-      </div>
-    </div>
-  </section>
-  
-
-  <section id="skills" class="services">
-    <div class="container">
-      <div class="section-title">
-        <h2>Skills</h2>
-      </div>
-      <div class="row">
-        <div class="col-lg-12" data-aos="fade-up">
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <h4 style="text-align:left;color:#0056b3;">Languages</h4>
-            <div style="text-align:left; display: flex; flex-wrap: wrap;">
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.cprogramming.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/c.svg" alt="c" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">C</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.cplusplus.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/cplusplus.svg" alt="cplusplus" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">C++</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.java.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Java</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.python.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Python</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">JavaScript</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.mathworks.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/matlab.svg" alt="matlab" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">MATLAB</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.r-project.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/r/r-original.svg" alt="r" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">R</figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <h4 style="text-align:left;color:#0056b3;">Technologies</h4>
-            <div style="text-align:left; display: flex; flex-wrap: wrap;">
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.latex-project.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.latex-project.org/img/latex-project-logo.svg" alt="latex" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">LaTeX</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://flask.palletsprojects.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://flask.palletsprojects.com/en/stable/_images/flask-horizontal.png" alt="flask" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Flask</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.mysql.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">MySQL</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://git-scm.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/git.svg" alt="git" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Git</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.docker.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Docker</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://aws.amazon.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">AWS</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://kubernetes.io" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg" alt="kubernetes" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Kubernetes</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://cloud.google.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" alt="gcp" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">GCP</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://kafka.apache.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/apache_kafka/apache_kafka-icon.svg" alt="kafka" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Kafka</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://unity.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/unity3d/unity3d-icon.svg" alt="unity" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Unity</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.linux.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Linux</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.gnu.org/software/bash/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/gnu_bash/gnu_bash-icon.svg" alt="bash" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Bash</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.ros.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/ros.svg" alt="ros" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">ROS</figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <h4 style="text-align:left;color:#0056b3;">ML Libraries</h4>
-            <div style="text-align:left; display: flex; flex-wrap: wrap;">
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://opencv.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">OpenCV</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://scikit-learn.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="scikit_learn" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Scikit-Learn</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://pytorch.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/pytorch/pytorch-icon.svg" alt="pytorch" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">PyTorch</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://keras.io" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/keras.svg" alt="keras" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Keras</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.tensorflow.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="tensorflow" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">TensorFlow</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://numpy.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/numpy.svg" alt="numpy" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">NumPy</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://pandas.pydata.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Pandas</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://matplotlib.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://raw.githubusercontent.com/arasgungore/arasgungore/main/icons/matplotlib.svg" alt="matplotlib" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Matplotlib</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://seaborn.pydata.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" alt="seaborn" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Seaborn</figcaption>
-              </figure>
-
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.langchain.com" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://images.seeklogo.com/logo-png/61/1/langchain-icon-logo-png_seeklogo-611655.png" alt="Langchain" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Langchain</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://huggingface.co/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Transformers" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Hugging Face</figcaption>
-              </figure>
-
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://stable-baselines3.readthedocs.io/en/master/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://stable-baselines3.readthedocs.io/en/master/_static/logo.png" alt="Stable Baselines3" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Stable Baselines3</figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-md-12 mt-4 mt-md-0 icon-box section-card" data-aos="fade-up" data-aos-delay="100">
-            <h4 style="text-align:left;color:#0056b3;">Robotics Libraries</h4>
-            <div style="text-align:left; display: flex; flex-wrap: wrap;">
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://moveit.picknik.ai" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://moveit.ai/assets/images/blog_posts/2022_06_02_MoveItHumble_lowres.png" alt="Moveit2" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Moveit2</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://gazebosim.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://classic.gazebosim.org/assets/logos/gazebo_vert_pos-fd53607be2db733ff38e9a9cdae9185722e5810ea7b089405dfd36917bc4c42f.png" alt="Gazebo" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">Gazebo</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://pytrees.readthedocs.io/en/latest/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://pytrees.readthedocs.io/en/latest/_static/logo.png" alt="PyTrees" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">PyTrees</figcaption>
-              </figure>
-              
-              <figure class="item" style="display:inline-block; width: 60px; text-align: center; vertical-align: top; margin: 10px;">
-                <a href="https://www.behaviortree.dev/" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://www.behaviortree.dev/img/logo.png" alt="BehaviorTree.CPP" width="40" height="40" /> </a>
-                <figcaption style="text-align:center;">BTree.CPP</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Floating Action Button -->
+  <a href="mailto:shailendrasekhar.bathula@gmail.com" class="fab" title="Get in touch">
+    <i class="bx bx-envelope"></i>
+  </a>
 
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -557,18 +314,7 @@
   <script src="assets/vendor/counterup/counterup.min.js"></script>
   <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/venobox/venobox.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/js/darkmode.js"></script>
-  <!-- <script src="main.js"></script> -->
-
-  <script type="text/javascript">
-    var typed = new Typed('.typing',{
-      strings: ["an Robotic Software Engineer", "an AI Researcher"],
-      loop: true,
-      typeSpeed: 85,
-      backSpeed: 85
-    });
-  </script>
+  <script src="assets/vendor/venobox/venobox.min.js"></script>  <script src="assets/vendor/typed.js/typed.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
