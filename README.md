@@ -18,8 +18,8 @@ A modern, interactive personal portfolio website showcasing my professional jour
 - Icon-based skills showcase
 
 ### 🚀 **Projects Showcase**
-- Dedicated projects page with 9+ projects across 4 categories
-- Real-time filtering by AI & ML, Robotics, Web Development, Games
+- Dedicated projects page with 4 focused projects across 3 categories
+- Real-time filtering by AI & ML, Robotics, Web Development
 - Interactive project cards with hover effects
 - Inline video/GIF demo playback modal
 - Direct links to GitHub repositories and live demos
