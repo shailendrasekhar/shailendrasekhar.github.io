@@ -36,14 +36,13 @@
             <a href="https://github.com/shailendrasekhar" target="_blank" class="github"><i class="bx bxl-github"></i></a>
             <a href="https://scholar.google.com/citations?user=WCKveKkAAAAJ&hl=en" target="_blank" class="scholar"><i class="bx bxl-google"></i></a>
           </div>
-        </div>
-    
-        <!-- Center: Navigation Menu -->
+        </div>        <!-- Center: Navigation Menu -->
         <div class="header-center">
           <nav class="nav-menu">
             <ul>
               <li class="active"><a href="#home"><span>Home</span></a></li>
               <li><a href="#about"><span>About Me</span></a></li>
+              <li><a href="#projects"><span>Projects</span></a></li>
             </ul>
           </nav>
         </div>
@@ -292,14 +291,305 @@
                         <a href="https://gazebosim.org" target="_blank" rel="noreferrer" style="display: block; text-align: center;"> <img src="https://classic.gazebosim.org/assets/logos/gazebo_vert_pos-fd53607be2db733ff38e9a9cdae9185722e5810ea7b089405dfd36917bc4c42f.png" alt="Gazebo" width="40" height="40" /> </a>
                       </figure>
                     </div>
-                  </div>
-                </div>
+                  </div>                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>    </div>
+      </div>
+    </div>
   </section>
+
+  <section id="projects" class="projects" style="display: none;">
+    <div class="container">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>Explore my latest work in AI, robotics, and software development</p>
+      </div>
+      
+      <div class="projects-filter">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="ai">AI & ML</button>
+        <button class="filter-btn" data-filter="robotics">Robotics</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="games">Games</button>
+      </div>      <div class="projects-grid">
+        <div class="project-card" data-category="robotics">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/8E44AD/FFFFFF?text=Franka+Pick+Place" alt="Franka Emika Panda Pick and Place" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <button class="project-link" onclick="openVideoModal('https://raw.githubusercontent.com/shailendrasekhar/pick_place/main/videos/red_object_pick_place_moveit2.gif', 'gif')" title="Watch Demo">
+                  <i class="bx bx-play-circle"></i>
+                </button>
+                <a href="https://github.com/shailendrasekhar/pick_place" target="_blank" class="project-link" title="View Code">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Robotics</div>
+            <h3>Franka Emika Panda Pick and Place</h3>
+            <p>Advanced robotic manipulation system using ROS2 and MoveIt2 for autonomous object detection and pick-and-place operations with Intel RealSense depth perception.</p>
+            <div class="project-tech">
+              <span class="tech-tag">ROS2</span>
+              <span class="tech-tag">MoveIt2</span>
+              <span class="tech-tag">C++</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Gazebo</span>
+              <span class="tech-tag">Intel RealSense</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI & ML Projects -->
+        <div class="project-card" data-category="ai">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/2C3E50/ECF0F1?text=Brain+Robotics" alt="Brain-Controlled Robotics" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="https://ihub-data.iiit.ac.in/" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">AI & Robotics</div>
+            <h3>Brain-Controlled Assistive Robotics</h3>
+            <p>Developed a Proof of Concept for brain-controlled assistive robotics using EEG signals and Mamba Architecture for object detection and robotic arm control.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Deep Learning</span>
+              <span class="tech-tag">ROS2</span>
+              <span class="tech-tag">EEG</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="ai">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/8E44AD/FFFFFF?text=Behavior+Trees" alt="Behavior Trees DRL" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="https://herolab.org/" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">AI & ML</div>
+            <h3>Interpretable Deep Reinforcement Learning</h3>
+            <p>Framework combining Deep Reinforcement Learning with Behavior Trees for interpretable AI models using interactive imitation learning.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">DRL</span>
+              <span class="tech-tag">Behavior Trees</span>
+              <span class="tech-tag">Unity</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="ai">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/E74C3C/FFFFFF?text=Stock+Prediction" alt="Stock Market Prediction" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="https://www.nus.edu.sg/" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">AI & ML</div>
+            <h3>News-Based Stock Market Prediction</h3>
+            <p>CNN and RNN with LSTM model to forecast stock market values based on news sentiment analysis and NLP techniques.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">NLP</span>
+              <span class="tech-tag">CNN</span>
+              <span class="tech-tag">LSTM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Web Development Projects -->
+        <div class="project-card" data-category="web">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/3498DB/FFFFFF?text=Portfolio+Website" alt="Personal Portfolio" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="https://shailendrasekhar.github.io" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar/shailendrasekhar.github.io" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Web Development</div>
+            <h3>Interactive Personal Portfolio</h3>
+            <p>Modern, responsive portfolio website with dark mode, smooth animations, and interactive elements built with vanilla JavaScript.</p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">CSS3</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Responsive</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/16A085/FFFFFF?text=Data+Analyzer" alt="Data Analysis Tool" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="#" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Web Development</div>
+            <h3>Automated Data Analysis Tool</h3>
+            <p>Web-based tool for automated data analysis and report generation with interactive visualizations and export capabilities.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Flask</span>
+              <span class="tech-tag">Pandas</span>
+              <span class="tech-tag">Chart.js</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games Projects -->
+        <div class="project-card" data-category="games">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/27AE60/FFFFFF?text=Snake+DQN" alt="Snake DQN" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="#" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Games & AI</div>
+            <h3>Snake Game with Deep Q-Learning</h3>
+            <p>Classic Snake game enhanced with Deep Q-Network (DQN) for autonomous gameplay and reinforcement learning demonstration.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">PyGame</span>
+              <span class="tech-tag">DQN</span>
+              <span class="tech-tag">OpenAI Gym</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="games">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/F39C12/FFFFFF?text=3D+Pool" alt="3D Pool Game" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="#" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Games</div>
+            <h3>3D Pool Game</h3>
+            <p>Realistic 3D pool game with physics simulation, realistic ball mechanics, and interactive gameplay elements.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">OpenGL</span>
+              <span class="tech-tag">Physics</span>
+              <span class="tech-tag">3D Graphics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Robotics Projects -->
+        <div class="project-card" data-category="robotics">
+          <div class="project-image">
+            <img src="https://via.placeholder.com/400x200/9B59B6/FFFFFF?text=Multi+Robot" alt="Multi-Robot Planning" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a href="#" target="_blank" class="project-link">
+                  <i class="bx bx-link-external"></i>
+                </a>
+                <a href="https://github.com/shailendrasekhar" target="_blank" class="project-link">
+                  <i class="bx bxl-github"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-category">Robotics</div>
+            <h3>Multi-Robot Behavior Tree Planning</h3>
+            <p>Advanced multi-robot planning system using behavior trees for coordinated autonomous navigation and task execution.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">ROS</span>
+              <span class="tech-tag">Behavior Trees</span>
+              <span class="tech-tag">Path Planning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  </section>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="video-modal" style="display: none;">
+    <div class="video-modal-content">
+      <div class="video-modal-header">
+        <h3>Project Demo Video</h3>
+        <button class="close-modal" onclick="closeVideoModal()">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>      <div class="video-container">
+        <div id="videoContent">
+          <!-- Video element for MP4/MOV files -->
+          <video id="modalVideo" controls width="100%" height="auto" style="display: none;">
+            <source src="" type="video/mp4">
+            <source src="" type="video/quicktime">
+            Your browser does not support the video tag.
+          </video>
+          <!-- Image element for GIF files -->
+          <img id="modalGif" src="" alt="Demo GIF" style="display: none; width: 100%; height: auto;">
+        </div>
+      </div>
+      <div class="video-modal-footer">
+        <p>Franka Emika Panda Robot performing pick and place operations with ROS2 and MoveIt2</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Floating Action Button -->
   <a href="mailto:shailendrasekhar.bathula@gmail.com" class="fab" title="Get in touch">

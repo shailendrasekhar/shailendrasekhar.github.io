@@ -12,29 +12,39 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const homeSection = document.getElementById('home');
   const aboutSection = document.getElementById('about');
+  const projectsSection = document.getElementById('projects');
   const homeLink = document.querySelector('a[href="#home"]');
   const aboutLink = document.querySelector('a[href="#about"]');
+  const projectsLink = document.querySelector('a[href="#projects"]');
   const darkModeToggle = document.getElementById('dark-mode-toggle');
   const header = document.getElementById('header');
 
   console.log('Dark mode toggle element:', darkModeToggle);
 
   // Show Home section by default
-  if (homeSection && aboutSection) {
+  if (homeSection && aboutSection && projectsSection) {
     homeSection.style.display = 'flex';
     aboutSection.style.display = 'none';
+    projectsSection.style.display = 'none';
   }
 
   // Enhanced page transitions
-  function transitionToSection(showSection, hideSection, isAbout = false) {
-    // Add fade out effect
-    hideSection.classList.add('fade-out');
+  function transitionToSection(showSection, hideSection1, hideSection2, displayType = 'flex') {
+    // Add fade out effect to current sections
+    if (hideSection1.style.display !== 'none') {
+      hideSection1.classList.add('fade-out');
+    }
+    if (hideSection2.style.display !== 'none') {
+      hideSection2.classList.add('fade-out');
+    }
     
     setTimeout(() => {
-      hideSection.style.display = 'none';
-      hideSection.classList.remove('fade-out');
+      hideSection1.style.display = 'none';
+      hideSection2.style.display = 'none';
+      hideSection1.classList.remove('fade-out');
+      hideSection2.classList.remove('fade-out');
       
-      showSection.style.display = isAbout ? 'block' : 'flex';
+      showSection.style.display = displayType;
       
       // Add fade in effect
       setTimeout(() => {
@@ -49,10 +59,10 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       
       // Smooth transition to home
-      transitionToSection(homeSection, aboutSection, false);
+      transitionToSection(homeSection, aboutSection, projectsSection, 'flex');
       
-      // Remove about-active class from body
-      document.body.classList.remove('about-active');
+      // Remove active classes from body
+      document.body.classList.remove('about-active', 'projects-active');
       
       // Update active nav
       document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
@@ -65,14 +75,32 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       
       // Smooth transition to about
-      transitionToSection(aboutSection, homeSection, true);
+      transitionToSection(aboutSection, homeSection, projectsSection, 'block');
       
       // Add about-active class to body
+      document.body.classList.remove('projects-active');
       document.body.classList.add('about-active');
       
       // Update active nav
       document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
       aboutLink.parentElement.classList.add('active');
+    });
+  }
+
+  if (projectsLink) {
+    projectsLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Smooth transition to projects
+      transitionToSection(projectsSection, homeSection, aboutSection, 'block');
+      
+      // Add projects-active class to body
+      document.body.classList.remove('about-active');
+      document.body.classList.add('projects-active');
+      
+      // Update active nav
+      document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+      projectsLink.parentElement.classList.add('active');
     });
   }
 
@@ -193,6 +221,153 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (e.key === '2' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       aboutLink.click();
+    } else if (e.key === '3' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      projectsLink.click();
+    }
+  });
+
+  // Projects filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  function filterProjects(activeFilter) {
+    let visibleCount = 0;
+    
+    projectCards.forEach((card, index) => {
+      const category = card.getAttribute('data-category');
+      
+      if (activeFilter === 'all' || category === activeFilter) {
+        card.classList.remove('hidden');
+        // Add staggered animation for visible cards
+        setTimeout(() => {
+          card.style.animation = 'fadeInUp 0.6s ease forwards';
+          card.style.animationDelay = `${visibleCount * 0.1}s`;
+        }, 10);
+        visibleCount++;
+      } else {
+        card.classList.add('hidden');
+        card.style.animation = 'none';
+      }
+    });
+    
+    // Show message if no projects found
+    const projectsGrid = document.querySelector('.projects-grid');
+    let noResultsMsg = document.querySelector('.no-results-message');
+    
+    if (visibleCount === 0) {
+      if (!noResultsMsg) {
+        noResultsMsg = document.createElement('div');
+        noResultsMsg.className = 'no-results-message';
+        noResultsMsg.innerHTML = '<p>No projects found in this category.</p>';
+        projectsGrid.appendChild(noResultsMsg);
+      }
+      noResultsMsg.style.display = 'block';
+    } else {
+      if (noResultsMsg) {
+        noResultsMsg.style.display = 'none';
+      }
+    }
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      // Update active filter button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter project cards
+      filterProjects(filter);
+    });
+  });
+
+  // Initialize project animations when projects section is viewed
+  const projectsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const cards = entry.target.querySelectorAll('.project-card');
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, index * 100);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  if (projectsSection) {
+    projectsObserver.observe(projectsSection);
+  }
+
+  // Video modal functionality
+  window.openVideoModal = function(mediaUrl, mediaType = 'video') {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+    const gif = document.getElementById('modalGif');
+    
+    // Hide both elements first
+    video.style.display = 'none';
+    gif.style.display = 'none';
+    
+    if (mediaType === 'gif') {
+      // Show GIF
+      gif.src = mediaUrl;
+      gif.style.display = 'block';
+    } else {
+      // Show video
+      const sources = video.querySelectorAll('source');
+      sources[0].src = mediaUrl.replace('.mov', '.mp4'); // Try mp4 first
+      sources[1].src = mediaUrl; // Original file
+      
+      video.load();
+      video.style.display = 'block';
+    }
+    
+    // Show modal with animation
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeVideoModal = function() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+    const gif = document.getElementById('modalGif');
+    
+    // Hide modal with animation
+    modal.classList.remove('show');
+    setTimeout(() => {
+      modal.style.display = 'none';
+      video.pause();
+      video.currentTime = 0;
+      gif.src = ''; // Clear GIF source
+    }, 300);
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+  };
+
+  // Close modal when clicking outside the content
+  document.getElementById('videoModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeVideoModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('videoModal');
+      if (modal.style.display === 'flex') {
+        closeVideoModal();
+      }
     }
   });
 });
