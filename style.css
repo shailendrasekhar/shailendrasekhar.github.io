@@ -474,6 +474,25 @@ section {
   border: 2px solid var(--bg-color);
 }
 
+.timeline-cloud {
+  position: absolute;
+  z-index: 10;
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent-color);
+  border-radius: 45px;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 12px var(--accent-color);
+  text-align: center;
+}
+
+.timeline-cloud span {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  font-style: italic;
+  font-weight: 500;
+}
+
 /* Responsive Timeline */
 @media (max-width: 768px) {
   .timeline-wrapper {
