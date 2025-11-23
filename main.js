@@ -1,15 +1,17 @@
-// Typed.js initialization for hero section
-var typed = new Typed('.typing', {
-  strings: ["a Robotic Software Engineer", "an AI Researcher"],
-  loop: true,
-  typeSpeed: 85,
-  backSpeed: 85
-});
-
 // Handle About Me navigation and Dark Mode
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   console.log('DOM loaded, initializing scripts...');
-  
+
+  // Typed.js initialization for hero section
+  if (document.querySelector('.typing')) {
+    var typed = new Typed('.typing', {
+      strings: ["an AI Researcher", "a Robotic Enthusiast"],
+      loop: true,
+      typeSpeed: 85,
+      backSpeed: 85
+    });
+  }
+
   const homeSection = document.getElementById('home');
   const aboutSection = document.getElementById('about');
   const projectsSection = document.getElementById('projects');
@@ -22,100 +24,99 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Dark mode toggle element:', darkModeToggle);
 
   // Show Home section by default
-  if (homeSection && aboutSection && projectsSection) {
+  if (homeSection && aboutSection) {
     homeSection.style.display = 'flex';
     aboutSection.style.display = 'none';
-    projectsSection.style.display = 'none';
+    if (projectsSection) {
+      projectsSection.style.display = 'none';
+    }
   }
 
   // Enhanced page transitions
   function transitionToSection(showSection, hideSection1, hideSection2, displayType = 'flex') {
-    // Add fade out effect to current sections
-    if (hideSection1.style.display !== 'none') {
-      hideSection1.classList.add('fade-out');
-    }
-    if (hideSection2.style.display !== 'none') {
-      hideSection2.classList.add('fade-out');
-    }
-    
-    setTimeout(() => {
+    // Immediately hide other sections to prevent overlap
+    if (hideSection1) {
       hideSection1.style.display = 'none';
+      hideSection1.classList.remove('fade-in', 'fade-out');
+    }
+    if (hideSection2) {
       hideSection2.style.display = 'none';
-      hideSection1.classList.remove('fade-out');
-      hideSection2.classList.remove('fade-out');
-      
-      showSection.style.display = displayType;
-      
-      // Add fade in effect
-      setTimeout(() => {
-        showSection.classList.add('fade-in');
-      }, 50);
-    }, 300);
+      hideSection2.classList.remove('fade-in', 'fade-out');
+    }
+
+    // Show target section
+    showSection.style.display = displayType;
+
+    // Add fade in effect
+    setTimeout(() => {
+      showSection.classList.add('fade-in');
+    }, 10);
+  }
+
+  // Helper to update active nav item
+  function updateActiveNav(activeLink) {
+    document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+    if (activeLink && activeLink.parentElement) {
+      activeLink.parentElement.classList.add('active');
+    }
   }
 
   // Handle navigation clicks with smooth transitions
   if (homeLink) {
-    homeLink.addEventListener('click', function(e) {
+    homeLink.addEventListener('click', function (e) {
       e.preventDefault();
-      
-      // Smooth transition to home
       transitionToSection(homeSection, aboutSection, projectsSection, 'flex');
-      
-      // Remove active classes from body
       document.body.classList.remove('about-active', 'projects-active');
-      
-      // Update active nav
-      document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
-      homeLink.parentElement.classList.add('active');
+      updateActiveNav(homeLink);
     });
   }
 
   if (aboutLink) {
-    aboutLink.addEventListener('click', function(e) {
+    aboutLink.addEventListener('click', function (e) {
       e.preventDefault();
-      
-      // Smooth transition to about
       transitionToSection(aboutSection, homeSection, projectsSection, 'block');
-      
-      // Add about-active class to body
       document.body.classList.remove('projects-active');
       document.body.classList.add('about-active');
-      
-      // Update active nav
-      document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
-      aboutLink.parentElement.classList.add('active');
+      updateActiveNav(aboutLink);
     });
   }
 
-  if (projectsLink) {
-    projectsLink.addEventListener('click', function(e) {
+  if (projectsLink && projectsSection) {
+    projectsLink.addEventListener('click', function (e) {
       e.preventDefault();
-      
-      // Smooth transition to projects
       transitionToSection(projectsSection, homeSection, aboutSection, 'block');
-      
-      // Add projects-active class to body
       document.body.classList.remove('about-active');
       document.body.classList.add('projects-active');
-      
-      // Update active nav
-      document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
-      projectsLink.parentElement.classList.add('active');
+      updateActiveNav(projectsLink);
     });
   }
 
-  // Header scroll effect
-  let lastScrollTop = 0;
-  window.addEventListener('scroll', function() {
+  // Header shows on mouse movement near top of screen
+  let headerTimeout;
+  window.addEventListener('mousemove', function (e) {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
+    // Add scrolled class for background
     if (scrollTop > 100) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
-    
-    lastScrollTop = scrollTop;
+
+    // Show header when mouse is near top of screen
+    if (e.clientY < 100) {
+      header.classList.add('show');
+
+      // Auto-hide after 3 seconds of no mouse movement
+      clearTimeout(headerTimeout);
+      headerTimeout = setTimeout(() => {
+        if (e.clientY >= 100) {
+          header.classList.remove('show');
+        }
+      }, 3000);
+    } else {
+      header.classList.remove('show');
+    }
   });
 
   // Add interactive tooltips to skill icons
@@ -123,12 +124,12 @@ document.addEventListener('DOMContentLoaded', function() {
   skillIcons.forEach(icon => {
     const img = icon.querySelector('img');
     const alt = img ? img.alt : '';
-    
+
     if (alt) {
       icon.setAttribute('title', alt);
-      
+
       // Add click effect
-      icon.addEventListener('click', function() {
+      icon.addEventListener('click', function () {
         this.style.transform = 'scale(0.95)';
         setTimeout(() => {
           this.style.transform = '';
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadingOverlay.className = 'loading-overlay';
     loadingOverlay.innerHTML = '<div class="loader"></div>';
     document.body.appendChild(loadingOverlay);
-    
+
     // Hide loading screen after 1.5 seconds
     setTimeout(() => {
       loadingOverlay.classList.add('hide');
@@ -182,11 +183,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Dark Mode Functionality
   if (darkModeToggle) {
     console.log('Setting up dark mode functionality...');
-    
+
     // Apply saved theme on load
     const savedTheme = localStorage.getItem("theme");
     console.log('Saved theme:', savedTheme);
-    
+
     if (savedTheme === "dark") {
       document.body.classList.add("dark-theme");
       darkModeToggle.textContent = "☀️";
@@ -196,13 +197,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Toggle dark mode on button click
-    darkModeToggle.addEventListener("click", function() {
+    darkModeToggle.addEventListener("click", function () {
       console.log('Dark mode toggle clicked');
       const isDark = document.body.classList.toggle("dark-theme");
       localStorage.setItem("theme", isDark ? "dark" : "light");
       darkModeToggle.textContent = isDark ? "☀️" : "🌙";
       console.log('Theme changed to:', isDark ? 'dark' : 'light');
-      
+
       // Add a little animation to the toggle
       this.style.transform = 'rotate(360deg) scale(1.2)';
       setTimeout(() => {
@@ -214,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Add keyboard navigation
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     if (e.key === '1' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       homeLink.click();
@@ -233,10 +234,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function filterProjects(activeFilter) {
     let visibleCount = 0;
-    
+
     projectCards.forEach((card, index) => {
       const category = card.getAttribute('data-category');
-      
+
       if (activeFilter === 'all' || category === activeFilter) {
         card.classList.remove('hidden');
         // Add staggered animation for visible cards
@@ -250,11 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.animation = 'none';
       }
     });
-    
+
     // Show message if no projects found
     const projectsGrid = document.querySelector('.projects-grid');
     let noResultsMsg = document.querySelector('.no-results-message');
-    
+
     if (visibleCount === 0) {
       if (!noResultsMsg) {
         noResultsMsg = document.createElement('div');
@@ -271,13 +272,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       const filter = this.getAttribute('data-filter');
-      
+
       // Update active filter button
       filterButtons.forEach(btn => btn.classList.remove('active'));
       this.classList.add('active');
-      
+
       // Filter project cards
       filterProjects(filter);
     });
@@ -303,15 +304,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Video modal functionality
-  window.openVideoModal = function(mediaUrl, mediaType = 'video') {
+  window.openVideoModal = function (mediaUrl, mediaType = 'video') {
     const modal = document.getElementById('videoModal');
     const video = document.getElementById('modalVideo');
     const gif = document.getElementById('modalGif');
-    
+
     // Hide both elements first
     video.style.display = 'none';
     gif.style.display = 'none';
-    
+
     if (mediaType === 'gif') {
       // Show GIF
       gif.src = mediaUrl;
@@ -321,26 +322,26 @@ document.addEventListener('DOMContentLoaded', function() {
       const sources = video.querySelectorAll('source');
       sources[0].src = mediaUrl.replace('.mov', '.mp4'); // Try mp4 first
       sources[1].src = mediaUrl; // Original file
-      
+
       video.load();
       video.style.display = 'block';
     }
-    
+
     // Show modal with animation
     modal.style.display = 'flex';
     setTimeout(() => {
       modal.classList.add('show');
     }, 10);
-    
+
     // Prevent body scroll
     document.body.style.overflow = 'hidden';
   };
 
-  window.closeVideoModal = function() {
+  window.closeVideoModal = function () {
     const modal = document.getElementById('videoModal');
     const video = document.getElementById('modalVideo');
     const gif = document.getElementById('modalGif');
-    
+
     // Hide modal with animation
     modal.classList.remove('show');
     setTimeout(() => {
@@ -349,20 +350,20 @@ document.addEventListener('DOMContentLoaded', function() {
       video.currentTime = 0;
       gif.src = ''; // Clear GIF source
     }, 300);
-    
+
     // Restore body scroll
     document.body.style.overflow = '';
   };
 
   // Close modal when clicking outside the content
-  document.getElementById('videoModal').addEventListener('click', function(e) {
+  document.getElementById('videoModal').addEventListener('click', function (e) {
     if (e.target === this) {
       closeVideoModal();
     }
   });
 
   // Close modal with Escape key
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       const modal = document.getElementById('videoModal');
       if (modal.style.display === 'flex') {
