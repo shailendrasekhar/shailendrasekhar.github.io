@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const projectsSection = document.getElementById('projects');
   const homeLink = document.querySelector('a[href="#home"]');
   const aboutLink = document.querySelector('a[href="#about"]');
+  const blogSection = document.getElementById('blog');
+  const blogLink = document.querySelector('a[href="#blog"]');
   const projectsLink = document.querySelector('a[href="#projects"]');
   const darkModeToggle = document.getElementById('dark-mode-toggle');
   const header = document.getElementById('header');
@@ -24,33 +26,33 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Dark mode toggle element:', darkModeToggle);
 
   // Show Home section by default
-  if (homeSection && aboutSection) {
+  if (homeSection) {
     homeSection.style.display = 'flex';
-    aboutSection.style.display = 'none';
-    if (projectsSection) {
-      projectsSection.style.display = 'none';
-    }
+    if (aboutSection) aboutSection.style.display = 'none';
+    if (blogSection) blogSection.style.display = 'none';
+    if (projectsSection) projectsSection.style.display = 'none';
   }
 
   // Enhanced page transitions
-  function transitionToSection(showSection, hideSection1, hideSection2, displayType = 'flex') {
+  function transitionToSection(showSection, displayType = 'flex') {
+    const allSections = [homeSection, aboutSection, projectsSection, blogSection];
+
     // Immediately hide other sections to prevent overlap
-    if (hideSection1) {
-      hideSection1.style.display = 'none';
-      hideSection1.classList.remove('fade-in', 'fade-out');
-    }
-    if (hideSection2) {
-      hideSection2.style.display = 'none';
-      hideSection2.classList.remove('fade-in', 'fade-out');
-    }
+    allSections.forEach(section => {
+      if (section && section !== showSection) {
+        section.style.display = 'none';
+        section.classList.remove('fade-in', 'fade-out');
+      }
+    });
 
     // Show target section
-    showSection.style.display = displayType;
-
-    // Add fade in effect
-    setTimeout(() => {
-      showSection.classList.add('fade-in');
-    }, 10);
+    if (showSection) {
+      showSection.style.display = displayType;
+      // Add fade in effect
+      setTimeout(() => {
+        showSection.classList.add('fade-in');
+      }, 10);
+    }
   }
 
   // Helper to update active nav item
@@ -65,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (homeLink) {
     homeLink.addEventListener('click', function (e) {
       e.preventDefault();
-      transitionToSection(homeSection, aboutSection, projectsSection, 'flex');
-      document.body.classList.remove('about-active', 'projects-active');
+      transitionToSection(homeSection, 'flex');
+      document.body.classList.remove('about-active', 'projects-active', 'blog-active');
       updateActiveNav(homeLink);
     });
   }
@@ -74,18 +76,28 @@ document.addEventListener('DOMContentLoaded', function () {
   if (aboutLink) {
     aboutLink.addEventListener('click', function (e) {
       e.preventDefault();
-      transitionToSection(aboutSection, homeSection, projectsSection, 'block');
-      document.body.classList.remove('projects-active');
+      transitionToSection(aboutSection, 'block');
+      document.body.classList.remove('projects-active', 'blog-active');
       document.body.classList.add('about-active');
       updateActiveNav(aboutLink);
+    });
+  }
+
+  if (blogLink) {
+    blogLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      transitionToSection(blogSection, 'block');
+      document.body.classList.remove('about-active', 'projects-active');
+      document.body.classList.add('blog-active');
+      updateActiveNav(blogLink);
     });
   }
 
   if (projectsLink && projectsSection) {
     projectsLink.addEventListener('click', function (e) {
       e.preventDefault();
-      transitionToSection(projectsSection, homeSection, aboutSection, 'block');
-      document.body.classList.remove('about-active');
+      transitionToSection(projectsSection, 'block');
+      document.body.classList.remove('about-active', 'blog-active');
       document.body.classList.add('projects-active');
       updateActiveNav(projectsLink);
     });
