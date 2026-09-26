@@ -1,0 +1,12 @@
+---
+import { timeline } from '../data/timeline';
+---
+<ol class="timeline" reversed>
+  {timeline.map((s, i) => (
+    <li class={s.current ? 'is-current' : undefined} data-reveal style={`--d: ${i * 60}ms`}>
+      <span class="when">{s.when}</span>
+      <span class="what"><strong>{s.role}</strong><span class="org">{s.org}</span></span>
+      <span class="where">{s.where}</span>
+    </li>
+  ))}
+</ol>

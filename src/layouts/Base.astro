@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Intro from '../components/Intro.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  jsonLd?: object;
+}
+const { title, description = site.description, image = '/media/hyderabad-traffic.jpg', jsonLd } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.fullName} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#101214" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" />
+
+    <!-- Theme and intro are decided before first paint so nothing flashes. -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        try {
+          // Asphalt (dark) unless the visitor has picked Paper.
+          d.dataset.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+        } catch (e) {}
+        try {
+          if (!sessionStorage.getItem('intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            d.dataset.intro = '1';
+            sessionStorage.setItem('intro-seen', '1');
+          }
+        } catch (e) {}
+        d.classList.add('js');
+      })();
+    </script>
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    {site.goatcounter && (
+      <script is:inline async data-goatcounter={`https://${site.goatcounter}.goatcounter.com/count`} data-goatcounter-settings='{"no_onload": true}' src="//gc.zgo.at/count.js"></script>
+    )}
+
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="lane-progress" aria-hidden="true" transition:persist="lane-progress"><span></span></div>
+    <div class="side-lane" aria-hidden="true" transition:persist="side-lane">
+      <div class="side-car">
+        <i class="beam"></i>
+        <i class="wheel fl"></i><i class="wheel fr"></i><i class="wheel rl"></i><i class="wheel rr"></i>
+        <i class="body"></i><i class="rear"></i><i class="roof"></i><i class="front"></i>
+        <i class="head hl"></i><i class="head hr"></i><i class="tail tl"></i><i class="tail tr"></i>
+      </div>
+    </div>
+    <Intro />
+    <Header />
+    <main id="main" data-page={Astro.url.pathname}>
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/ui';
+    </script>
+  </body>
+</html>

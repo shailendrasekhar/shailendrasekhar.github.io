@@ -1,0 +1,14 @@
+---
+import { news } from '../data/news';
+interface Props { limit?: number }
+const { limit } = Astro.props;
+const items = limit ? news.slice(0, limit) : news;
+---
+<ul class="news">
+  {items.map((item, i) => (
+    <li class={item.isNew ? 'is-new' : undefined} data-reveal style={`--d: ${i * 70}ms`}>
+      <time datetime={item.date}>{item.date}</time>
+      <p><span set:html={item.html} /></p>
+    </li>
+  ))}
+</ul>

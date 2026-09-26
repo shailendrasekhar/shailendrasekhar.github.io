@@ -1,0 +1,17 @@
+---
+import { site, social } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <hr class="lane-rule solid" data-reveal />
+    <div class="footer-row">
+      <ul class="links">
+        <li><a href={`mailto:${site.email}`}>Email</a></li>
+        {social.map((s) => <li><a href={s.href} rel="me noopener" target="_blank">{s.label}</a></li>)}
+        <li><a href="/drive/">Take the wheel</a></li>
+      </ul>
+      <p class="meta">© {year} {site.name} · Hyderabad</p>
+    </div>
+  </div>
+</footer>

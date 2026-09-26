@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import Timeline from '../components/Timeline.astro';
+import { site, social } from '../data/site';
+import { builds } from '../data/timeline';
+
+const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'Driver behaviour'];
+---
+<Base title="About" description="About Shailendra Sekhar: PhD student in autonomous driving at IIIT Hyderabad, movie buff, board gamer, occasional guitarist, new LEGO builder and hiker.">
+  <div class="wrap about">
+    <header class="with-margin head">
+      <div class="page-head">
+        <p class="label">About</p>
+        <h1 class="h1">Hi, I'm Shailendra.</h1>
+        <p class="lead">I'm a PhD student at the Robotics Research Center, IIIT Hyderabad, advised by Prof. K. Madhava Krishna. My work lives in autonomous driving, and like most PhD students I follow the interesting problems wherever they go.</p>
+      </div>
+      <figure class="figure headshot" data-reveal>
+        <div class="figure-plate shot"><span class="meta">Headshot · 4:5<br />placeholder</span></div>
+        <figcaption>Photo coming soon.</figcaption>
+      </figure>
+    </header>
+
+    <hr class="lane-rule" data-reveal />
+
+    <section class="section">
+      <div class="prose" data-reveal>
+        <h2 class="h2">What I work on</h2>
+        <p>Autonomous driving is a stack of problems rather than one, and I work across it: perception, planning, navigation, multi-agent interaction, and analysing how drivers actually behave.</p>
+        <p>What ties it together is that roads are shared with people, and people are hard to model. Most of us treat traffic law the way we treat Terms and Conditions: accepted, never read. So I lean on data. To borrow from Dr. House, <em>everybody lies</em>. Trajectories don't.</p>
+        <ul class="tags" aria-label="Areas">
+          {areas.map((a) => <li><span class="plate is-quiet">{a}</span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="prose" data-reveal>
+        <h2 class="h2">The road so far</h2>
+        <p>Electronics and communication first, then data science, then AI and robotics, and now cars.</p>
+      </div>
+      <Timeline />
+    </section>
+
+    <section class="section">
+      <div class="prose" data-reveal>
+        <h2 class="h2">Off the clock</h2>
+        <p>I'm a movie buff, and I still go looking for what's playing around the city. Board games take up more of my shelf than they should, the guitar is still on the deck, and I've recently started building LEGO. When I can get out of the city, I hike.</p>
+      </div>
+      <div class="shelf">
+        <p class="label" data-reveal>On the build table</p>
+        <ul class="builds">
+          {builds.map((b, i) => (
+            <li data-reveal style={`--d: ${i * 80}ms`}>
+              <figure class="figure">
+                <div class="figure-plate build">
+                  {b.src ? <img src={b.src} alt={b.name} loading="lazy" /> : <span class="meta">{b.note ?? 'Photo coming soon'}</span>}
+                </div>
+                <figcaption>{b.name}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section say-hello">
+      <div class="prose" data-reveal>
+        <h2 class="h2">Say hello</h2>
+        <p>Write to me about autonomous driving, a film I should see, a board game worth learning, or a good trail near Hyderabad.</p>
+      </div>
+      <div class="email" data-reveal>
+        <a class="link" href={`mailto:${site.email}`} id="email-address">{site.email}</a>
+        <button type="button" class="toggle" data-copy="email-address">Copy</button>
+      </div>
+      <ul class="links" data-reveal>
+        {social.map((s) => <li><a href={s.href} target="_blank" rel="me noopener">{s.label}</a></li>)}
+        <li><a href={site.cv}>CV</a></li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .about { display: flex; flex-direction: column; gap: var(--space-16); }
+  .about .lane-rule { margin: 0; }
+  .head { align-items: end; padding-top: var(--space-8); }
+  .headshot { max-width: 320px; }
+  .shot { aspect-ratio: 4 / 5; display: grid; place-items: center; text-align: center; }
+  .shelf { display: flex; flex-direction: column; gap: var(--space-4); }
+  .builds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
+  .build { aspect-ratio: 4 / 3; display: grid; place-items: center; }
+  .build img { width: 100%; height: 100%; object-fit: cover; }
+  .email { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 14px + 1.2vw, 36px); }
+  .email a { overflow-wrap: anywhere; }
+  @media (max-width: 760px) {
+    .builds { grid-template-columns: 1fr 1fr; }
+    .headshot { max-width: 220px; }
+  }
+</style>

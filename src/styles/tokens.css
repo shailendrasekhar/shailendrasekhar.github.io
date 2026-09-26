@@ -1,0 +1,86 @@
+/* Design tokens. Source of truth: the "Shailendra Sekhar" design system in Claude Design.
+   Asphalt (dark) is the default theme; Paper (light) is the alternative. */
+
+:root {
+  --paper: #101214;
+  --paper-raised: #171a1d;
+  --grid: #1d2125;
+  --line: #2e3338;
+  --ink: #e8e9e5;
+  --ink-muted: #9ba1a7;
+  --ink-faint: #5f656b;
+  --lane: #f0b429;
+  --lane-ink: #f0b429;
+  --lane-soft: #2e2410;
+  --on-lane: #101214;
+  --asphalt: #2a2f35;
+  --marking: #d6d8d3;
+  --agent: #b4b9be;
+
+  --font-display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "Overpass Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  --radius-0: 0px;
+  --radius-sm: 2px;
+  --radius-full: 999px;
+
+  /* Fluid type: every size grows smoothly with the window, between a phone minimum and a large-monitor maximum.
+     Roughly: 390px wide = the minimum, 1440px = +10% over the old fixed sizes, 1920px = +20%. */
+  --fs-xs: clamp(12px, 10.4px + 0.2vw, 15px);        /* labels, plates, chips, HUDs */
+  --fs-sm: clamp(13px, 10.9px + 0.25vw, 16.5px);     /* meta: dates, nav, links, captions, code */
+  --fs-small: clamp(15px, 12.2px + 0.33vw, 19px);    /* authors, summaries, organisations */
+  --fs-text-2: clamp(16px, 12.8px + 0.42vw, 21px);   /* secondary paragraphs (project rows) */
+  --fs-body: clamp(18px, 13.3px + 0.5vw, 23px);      /* running text */
+  --fs-lead: clamp(19px, 14.4px + 0.72vw, 29px);     /* one intro paragraph per page */
+  --fs-h3: clamp(19px, 14.6px + 0.55vw, 27px);       /* publication and project titles */
+  --fs-h2: clamp(24px, 16.5px + 1vw, 38px);
+  --fs-h1: clamp(34px, 20px + 1.8vw, 62px);
+  --fs-name: clamp(44px, 12px + 5.6vw, 132px);       /* the name on Home */
+  --fs-brand: clamp(18px, 14px + 0.5vw, 27px);       /* header wordmark; the logo is 1.7x this */
+
+  /* The content frame widens with the window instead of stopping at a fixed width. */
+  --page-max: clamp(1120px, 72vw, 1720px);
+  --date-col: calc(var(--fs-sm) * 8.5);
+
+  /* The side lane and its car scale with the window too. */
+  --lane-w: clamp(46px, 8px + 3vw, 84px);
+  --car-w: calc(var(--lane-w) * 0.46);
+  --car-h: calc(var(--car-w) * 1.8);
+  --lane-dash: 12px;
+  --lane-gap: 18px;
+  --gutter: clamp(16px, 5vw, 80px);
+
+  --ease-drive: cubic-bezier(.7, 0, .2, 1);
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --paper: #f3f4f1;
+  --paper-raised: #fafaf8;
+  --grid: #e3e5e0;
+  --line: #cfd2cb;
+  --ink: #14161a;
+  --ink-muted: #575c63;
+  --ink-faint: #8a8f95;
+  --lane: #e3a008;
+  --lane-ink: #8f5800;
+  --lane-soft: #f7e7bf;
+  --on-lane: #14161a;
+  --asphalt: #1f2327;
+  --marking: #f5f5f1;
+  --agent: #c3c7cb;
+  color-scheme: light;
+}

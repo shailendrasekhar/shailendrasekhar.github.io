@@ -1,80 +1,47 @@
-# Shailendra Sekhar - Personal Website
+# shailendrasekhar.github.io
 
-🌐 **Live Website:** [https://shailendrasekhar.github.io](https://shailendrasekhar.github.io)
+Personal site of Shailendra Sekhar, PhD student at the Robotics Research Center, IIIT Hyderabad.
+Built with [Astro](https://astro.build), deployed to GitHub Pages by GitHub Actions.
 
-A modern, interactive personal portfolio website showcasing my professional journey as an AI researcher and robotic software engineer. Built with vanilla HTML, CSS, and JavaScript for optimal performance.
+The previous hand-written site lives on the `legacy` branch.
 
-## 🚀 Key Features
+## Run it
 
-### 🏠 **Home Page**
-- Centered hero section with animated typing effect
-- Dynamic typing animation displaying "Robotic Software Engineer" and "AI Researcher"
-- Particle background with floating animations
-
-### 👤 **About Me Page**
-- Professional photo with hover effects
-- Comprehensive biography and expertise overview
-- Interactive timelines for education and experience
-- Icon-based skills showcase
-
-### 🚀 **Projects Showcase**
-- Dedicated projects page with 4 focused projects across 3 categories
-- Real-time filtering by AI & ML, Robotics, Web Development
-- Interactive project cards with hover effects
-- Inline video/GIF demo playback modal
-- Direct links to GitHub repositories and live demos
-
-## 🎯 Interactive Features
-
-- **Three-Section Navigation**: Home, About Me, and Projects with glass-morphism header
-- **Project Filtering**: Real-time category filtering with visual feedback and animations
-- **Video Modal System**: Inline demo playback with multi-format support (MP4, MOV, GIF)
-- **Dark Mode Toggle**: System-integrated theme switching with localStorage persistence
-- **Responsive Design**: Mobile-optimized touch interactions across all devices
-- **Keyboard Navigation**: Full accessibility support with shortcuts (Ctrl + 1/2/3)
-- **Smooth Animations**: Hardware-accelerated transitions and hover effects
-
-## 🛠️ Technical Stack
-
-- **HTML5**: Semantic markup with accessibility features
-- **CSS3**: Modern styling with flexbox, grid, and animations
-- **Vanilla JavaScript**: No external dependencies for core functionality
-- **Bootstrap**: Grid system and responsive utilities
-- **Boxicons**: Icon library for social links and UI elements
-- **Google Fonts**: Typography (Open Sans, Raleway, Poppins)
-
-## 📁 File Structure
-
-```
-├── index.html          # Main HTML structure
-├── style.css           # Complete styling and animations
-├── main.js            # Interactive functionality
-├── README.md          # This documentation
-└── assets/
-    ├── vendor/        # Third-party libraries
-    ├── common/        # Images and icons
-    └── about/         # Profile images
+```sh
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # static site in dist/
+npm run preview   # serve dist/
 ```
 
-## 🌐 Browser Compatibility
+## Where things live
 
-- ✅ **Chrome/Chromium**: Full feature support
-- ✅ **Firefox**: Full feature support
-- ✅ **Safari**: Full feature support
-- ✅ **Edge**: Full feature support
-- ⚡ **Mobile Browsers**: Optimized touch interactions
+| What | Where |
+| --- | --- |
+| News items | `src/data/news.ts` |
+| Publications | `src/data/publications.ts` |
+| Projects | `src/data/projects.ts` |
+| Timeline and LEGO builds | `src/data/timeline.ts` |
+| Email, links, analytics code | `src/data/site.ts` |
+| Colours, type, spacing | `src/styles/tokens.css` (mirrors the "Shailendra Sekhar" design system in Claude Design) |
+| Intro, theme, scroll effects | `src/scripts/ui.ts` |
+| Home hero overlay | `src/scripts/scene.ts` |
+| Take the wheel (three.js) | `src/scripts/drive.ts` |
+| CV | `public/cv.pdf` (placeholder) |
 
-## 🎮 Latest Updates (June 2025)
+**Add a LEGO photo:** put the image in `public/lego/` and add `src: '/lego/your-photo.jpg'` to an entry in `builds` in `src/data/timeline.ts`.
 
-- ✅ **Complete Projects Showcase**: Added dedicated projects page with 9+ projects
-- ✅ **Smart Filtering**: Real-time category-based project filtering
-- ✅ **Video Integration**: Inline demo playback with modal system
-- ✅ **Uniform Design**: Consistent project card layout
-- ✅ **Multi-format Support**: GIF/video compatibility for maximum browser support
-- ✅ **Cross-browser Compatibility**: Video/GIF fallback system
-- ✅ **Mobile Optimization**: Touch-friendly project interactions
+**Turn on analytics:** create a free site at [goatcounter.com](https://www.goatcounter.com) and put its code in `goatcounter` in `src/data/site.ts`. No cookies, so no consent banner.
 
----
+## Regenerating the home hero
 
-**Built with ❤️ by Shailendra Sekhar**  
-*Last Updated: June 2025*
+The hero plays 10 seconds of real Hyderabad traffic with detector output drawn on top. The boxes are precomputed:
+
+1. Cut a clip: `ffmpeg -ss 43 -i source.webm -t 10 -an -vf "scale=1280:720,fps=24" -c:v libx264 -crf 27 -pix_fmt yuv420p -movflags +faststart public/media/hyderabad-traffic.mp4`
+2. Track it with YOLO11 + ByteTrack (`pip install ultralytics`) and write `public/media/hyderabad-traffic.tracks.json`: `{fps, w, h, classes, frames: [[[id, class, conf, x, y, w, h], …], …]}`.
+
+Footage: [“Traffic in Hyderabad”](https://commons.wikimedia.org/wiki/File:Traffic_in_Hyderabad.webm) by Oleg Yunakov, CC BY-SA 4.0. The trimmed clip is shared under the same licence.
+
+## Deploying
+
+Pushing to `main` runs `.github/workflows/deploy.yml`. In the repository settings, Pages must use **GitHub Actions** as its source.

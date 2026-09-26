@@ -1,0 +1,17 @@
+---
+import { projects, type Project } from '../data/projects';
+interface Props { items?: Project[] }
+const { items = projects } = Astro.props;
+---
+<ul class="projects">
+  {items.map((p, i) => (
+    <li class="project" data-reveal style={`--d: ${i * 70}ms`}>
+      <h3>{p.title}</h3>
+      <p>{p.description}</p>
+      <p class="stack">{p.stack.join(' · ')}</p>
+      <ul class="links">
+        {p.links.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+      </ul>
+    </li>
+  ))}
+</ul>
