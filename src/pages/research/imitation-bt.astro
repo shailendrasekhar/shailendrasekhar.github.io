@@ -1,0 +1,116 @@
+---
+import Base from '../../layouts/Base.astro';
+import { publications } from '../../data/publications';
+
+const p = publications.find((x) => x.id === 'imitation-bt')!;
+const pdf = p.links.find((l) => l.label === 'PDF')!.href;
+const video = p.links.find((l) => l.label === 'Video')!.href;
+const ytId = 'T25eTGvKuNM';
+const bibtex = `@inproceedings{bathula2026imitationbt,
+  title     = {Imitation-BT: Automating Behavior Tree Generation by Echoing Reinforcement Learning Agents},
+  author    = {Bathula, Shailendra Sekhar and Parasuraman, Ramviyas},
+  booktitle = {2026 IEEE International Conference on Robotics and Automation (ICRA)},
+  year      = {2026},
+  address   = {Vienna, Austria}
+}`;
+const description = 'Imitation-BT turns opaque deep reinforcement learning policies into compact, readable behavior trees while keeping their performance. ICRA 2026.';
+---
+<Base title="Imitation-BT" description={description} image="/research/imitation-bt/pipeline.webp">
+  <Fragment slot="head">
+    <meta name="citation_title" content={p.title} />
+    <meta name="citation_author" content="Bathula, Shailendra Sekhar" />
+    <meta name="citation_author" content="Parasuraman, Ramviyas" />
+    <meta name="citation_publication_date" content="2026" />
+    <meta name="citation_conference_title" content="2026 IEEE International Conference on Robotics and Automation (ICRA)" />
+    <meta name="citation_pdf_url" content={pdf} />
+  </Fragment>
+
+  <article class="wrap paper">
+    <header class="page-head">
+      <p class="label"><a class="crumb" href="/research/">Research</a> / Paper</p>
+      <div class="plates"><span class="plate">ICRA 2026</span><span class="meta">Vienna, June 2026</span></div>
+      <h1 class="h1">{p.title}</h1>
+      <p class="pub-authors"><b>Shailendra Sekhar Bathula</b> and Ramviyas Parasuraman · School of Computing, University of Georgia</p>
+      <ul class="links">
+        <li><a href={pdf} target="_blank" rel="noopener">PDF</a></li>
+        <li><a href={video} target="_blank" rel="noopener">Video</a></li>
+        <li><a href="#bibtex">BibTeX</a></li>
+      </ul>
+    </header>
+
+    <hr class="lane-rule" data-reveal />
+
+    <section class="with-margin">
+      <div class="prose" data-reveal>
+        <h2 class="h2">In short</h2>
+        <p>Deep reinforcement learning policies work, but nobody can read them, which makes them hard to trust in places where mistakes are expensive. Behavior trees are the opposite: modular, reactive and readable node by node. Imitation-BT learns from a trained RL agent through interactive imitation learning and compiles what it learned into a compact behavior tree that keeps most of the agent's performance.</p>
+      </div>
+      <aside class="note" data-reveal style="--d: 120ms">
+        <p class="label">Behavior tree</p>
+        <p>A hierarchy of conditions and actions, ticked from the root every step. Each node returns Success, Failure or Running.</p>
+      </aside>
+    </section>
+
+    <figure class="figure paper-fig" data-reveal>
+      <div class="figure-plate"><img src="/research/imitation-bt/pipeline.webp" alt="Two-phase pipeline. Phase 1, interactive imitation learning: an expert RL agent labels states, a CART decision tree learns from a weighted sample. Phase 2, behavior tree construction: rules from the best tree go through a logic converter and minimiser into disjunctive normal form, then an action template library, then a behavior tree of selector, sequences, conditions and actions." width="1800" height="368" loading="lazy" /></div>
+      <figcaption><b>Fig. 1</b> The pipeline. Phase 1 imitates the RL expert with a decision tree, sampling the states that matter most. Phase 2 turns the tree's rules into minimised logic and then into a behavior tree.</figcaption>
+    </figure>
+
+    <section class="section results" aria-labelledby="results-h">
+      <h2 class="h2" id="results-h" data-reveal>What it shows</h2>
+      <ul class="facts">
+        <li data-reveal><span class="big">100%</span><span>of the expert's performance at best: near-perfect replication on CartPole and Acrobot, where offline methods such as RE:BT-Espresso struggled.</span></li>
+        <li data-reveal style="--d: 80ms"><span class="big">~10×</span><span>fewer nodes than prior behavior tree synthesis in complex domains such as Lunar Lander.</span></li>
+        <li data-reveal style="--d: 160ms"><span class="big">7 + 1</span><span>test domains: seven Gymnasium environments and a robot package delivery simulation, with DQN, PPO and A2C experts.</span></li>
+      </ul>
+    </section>
+
+    <figure class="figure paper-fig" data-reveal>
+      <div class="figure-plate"><img src="/research/imitation-bt/retention.webp" alt="Bar charts of performance retention for Behavior Cloning, DAgger, VIPER, BT-Espresso, RE-BT-Espresso and Imitation-BT across seven environments and three expert types. Imitation-BT is at or near the top in most panels." width="1800" height="440" loading="lazy" /></div>
+      <figcaption><b>Fig. 2</b> Performance retained relative to the expert, across seven environments and DQN, PPO and A2C experts. Imitation-BT is the light blue bar.</figcaption>
+    </figure>
+
+    <figure class="figure paper-fig" data-reveal>
+      <div class="figure-plate"><img src="/research/imitation-bt/interpretability.webp" alt="Bar charts of node counts per method and environment. Imitation-BT produces the smallest trees in most environments." width="1800" height="415" loading="lazy" /></div>
+      <figcaption><b>Fig. 3</b> Interpretability measured as node count: smaller trees are easier to read and check.</figcaption>
+    </figure>
+
+    <section class="with-margin">
+      <div class="prose" data-reveal>
+        <h2 class="h2">Abstract</h2>
+        <p>Understanding an autonomous agent's decision-making prowess is of paramount importance, as it increases trust and guarantees safety. Although agent policies learned through reinforcement learning (RL) and machine learning (ML) paradigms have demonstrated their dominance in various domains, they struggle with deployment in high-stakes environments due to their algorithmic opacity. A structured and transparent representation of a policy helps us understand, evaluate, and modify it if necessary. Due to their inherent reactivity, modularity, and transparent hierarchical representation, the Behavior Tree (BT) is an ideal solution to represent control policies. In this paper, we focus on building a knowledge representation transfer framework in which knowledge of trained RL agents is captured through imitation learning and then utilized to form a compact BT. Our primary focus is to retain maximum performance while improving the interpretability of the BTs. In combination with planning and learning, we automate the formation of a BT and offer an alternative, transparent architecture for policy representation. In an extensive analysis with a variety of gymnasium environments and the Robotics Package Delivery domain simulations, we demonstrate the significant performance retention capability and superior interpretability of the proposed Imitation-BT.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="video-h">
+      <h2 class="h2" id="video-h" data-reveal>Video</h2>
+      <div class="yt" data-reveal>
+        <button type="button" data-yt={ytId} aria-label="Play the Imitation-BT video" style={`background-image: url(https://i.ytimg.com/vi/${ytId}/hqdefault.jpg)`}><span>Play video</span></button>
+      </div>
+    </section>
+
+    <section class="section" id="bibtex" aria-labelledby="bib-h">
+      <h2 class="h2" id="bib-h">Cite</h2>
+      <div class="code">
+        <pre id="bib"><code>{bibtex}</code></pre>
+        <button type="button" data-copy="bib">Copy</button>
+      </div>
+      <p class="meta">Supported by the Army Research Laboratory under DCIST Cooperative Agreement W911NF-17-2-0181.</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .paper { display: flex; flex-direction: column; gap: var(--space-12); }
+  .paper .lane-rule { margin: 0; }
+  .crumb { color: inherit; text-decoration: none; }
+  .crumb:hover { color: var(--ink); }
+  .plates { display: flex; align-items: center; gap: var(--space-3); }
+  .paper-fig .figure-plate { background: #fff; padding: var(--space-4); }
+  .paper-fig img { width: 100%; height: auto; }
+  :global(:root[data-theme="dark"]) .paper-fig img { filter: brightness(.92); }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
+  .facts li { display: flex; flex-direction: column; gap: var(--space-2); border-top: 3px solid var(--lane); padding-top: var(--space-4); font-size: var(--fs-text-2); line-height: 1.5; }
+  .big { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h1); line-height: 1; font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) { .facts { grid-template-columns: 1fr; gap: var(--space-6); } }
+</style>

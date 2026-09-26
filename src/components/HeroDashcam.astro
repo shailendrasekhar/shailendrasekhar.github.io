@@ -1,0 +1,76 @@
+---
+// Phone hero: a line-drawn dashcam view with detection boxes. The page's <h1> sits in its sky.
+---
+<div class="hero-dashcam figure-plate" aria-hidden="true">
+  <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMax slice">
+    <line class="hz" x1="0" y1="210" x2="360" y2="210"></line>
+    <polygon class="asphalt" points="158,210 202,210 390,460 -30,460"></polygon>
+    <line class="mark" x1="161" y1="210" x2="8" y2="460"></line>
+    <line class="mark" x1="199" y1="210" x2="352" y2="460"></line>
+    <line class="mark dash" x1="173" y1="210" x2="112" y2="460"></line>
+    <line class="mark dash flow" x1="187" y1="210" x2="248" y2="460"></line>
+
+    <g class="obj">
+      <rect x="118" y="232" width="26" height="22" rx="5"></rect>
+      <line x1="121" y1="240" x2="141" y2="240"></line>
+    </g>
+    <g class="det jit2">
+      <rect class="box" x="113" y="227" width="36" height="32"></rect>
+      <rect class="chip" x="90" y="211" width="100" height="15"></rect>
+      <text x="94" y="222">auto 0.88 · 31 m</text>
+    </g>
+
+    <g class="obj">
+      <rect x="150" y="276" width="60" height="44" rx="6"></rect>
+      <rect x="158" y="281" width="44" height="14" rx="3"></rect>
+      <line x1="154" y1="310" x2="206" y2="310"></line>
+    </g>
+    <g class="det jit">
+      <rect class="box" x="144" y="268" width="72" height="58"></rect>
+      <rect class="chip" x="144" y="252" width="96" height="15"></rect>
+      <text x="148" y="263">car 0.97 · 18 m</text>
+    </g>
+
+    <g class="ped">
+      <circle cx="318" cy="306" r="7"></circle>
+      <line x1="318" y1="313" x2="318" y2="345"></line>
+      <line x1="318" y1="345" x2="309" y2="372"></line>
+      <line x1="318" y1="345" x2="328" y2="370"></line>
+      <line x1="318" y1="322" x2="308" y2="338"></line>
+      <line x1="318" y1="322" x2="329" y2="335"></line>
+      <path class="pred" d="M306 374 L 262 392"></path>
+    </g>
+    <g class="det jit2">
+      <rect class="box ink" x="300" y="294" width="36" height="84"></rect>
+      <rect class="chip ink" x="214" y="278" width="122" height="15"></rect>
+      <text class="on-ink" x="218" y="289">ped 0.62 · crossing?</text>
+    </g>
+
+    <path class="hood" d="M60 460 C 130 436, 230 436, 300 460 Z"></path>
+    <text class="hud" x="348" y="18" text-anchor="end">cam_front · 30 Hz</text>
+  </svg>
+</div>
+
+<style>
+  .hero-dashcam svg { width: 100%; height: auto; aspect-ratio: 360 / 460; }
+  .hz { stroke: var(--ink-faint); stroke-width: 1; }
+  .asphalt { fill: var(--asphalt); }
+  .mark { stroke: var(--marking); stroke-width: 2.5; }
+  .dash { stroke-dasharray: 18 24; }
+  .flow { animation: flow 1s linear infinite; }
+  .obj { fill: none; stroke: var(--agent); stroke-width: 1.8; }
+  .ped { fill: none; stroke: var(--ink-muted); stroke-width: 1.8; stroke-linecap: round; }
+  .pred { stroke-dasharray: 3 4; }
+  .box { fill: none; stroke: var(--marking); stroke-width: 1.3; }
+  .box.ink { stroke: var(--ink-muted); }
+  .chip { fill: var(--marking); }
+  .chip.ink { fill: var(--ink); }
+  .det text { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; fill: var(--asphalt); }
+  .det text.on-ink { fill: var(--paper); }
+  .hood { fill: var(--lane); }
+  .hud { font-family: var(--font-mono); font-size: 10px; fill: var(--ink-muted); }
+  .jit { animation: jitter .9s steps(1) infinite; }
+  .jit2 { animation: jitter 1.3s steps(1) infinite; }
+  @keyframes jitter { 0% { transform: translate(0, 0); } 25% { transform: translate(1px, -1px); } 50% { transform: translate(-1px, 0); } 75% { transform: translate(0, 1px); } }
+  @keyframes flow { to { stroke-dashoffset: -42; } }
+</style>

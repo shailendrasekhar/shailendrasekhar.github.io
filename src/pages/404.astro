@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Wrong turn" description="This page doesn't exist.">
+  <div class="wrap lost">
+    <svg class="lost-road" viewBox="0 0 600 120" aria-hidden="true">
+      <rect x="0" y="30" width="600" height="60" class="asphalt"></rect>
+      <line x1="0" y1="60" x2="600" y2="60" class="lane"></line>
+      <path d="M0 45 C 180 45, 260 110, 420 110 L 600 110" class="off"></path>
+      <rect x="-22" y="-7" width="22" height="14" rx="3" class="car">
+        <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto" path="M0 45 C 180 45, 260 110, 420 110 L 600 110"></animateMotion>
+      </rect>
+    </svg>
+    <p class="label">404</p>
+    <h1 class="h1">Wrong turn.</h1>
+    <p class="lead">This page isn't on the map. The planner suggests one of these instead.</p>
+    <ul class="links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/research/">Research</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/drive/">Take the wheel</a></li>
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .lost { padding-top: var(--space-16); display: flex; flex-direction: column; gap: var(--space-6); }
+  .lost-road { width: 100%; max-width: 600px; overflow: visible; }
+  .asphalt { fill: var(--asphalt); }
+  .lane { stroke: var(--lane); stroke-width: 3; stroke-dasharray: 12 18; }
+  .off { fill: none; stroke: var(--ink-faint); stroke-width: 1.5; stroke-dasharray: 3 5; }
+  .car { fill: var(--lane); }
+</style>

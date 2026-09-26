@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .road { stroke: #1f2327; }
+    .lane { stroke: #e3a008; }
+    @media (prefers-color-scheme: dark) { .road { stroke: #e8e9e5; } .lane { stroke: #f0b429; } }
+  </style>
+  <path class="road" d="M46 14 C 41 8, 20 8, 20 20 C 20 31, 44 29, 44 42 C 44 55, 22 56, 16 49" fill="none" stroke-width="15"/>
+  <path class="lane" d="M46 14 C 41 8, 20 8, 20 20 C 20 31, 44 29, 44 42 C 44 55, 22 56, 16 49" fill="none" stroke-width="3.2" stroke-dasharray="5 4"/>
+</svg>

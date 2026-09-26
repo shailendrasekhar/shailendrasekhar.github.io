@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import PubList from '../../components/PubList.astro';
+import { social } from '../../data/site';
+
+const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'Driver behaviour', 'Reinforcement learning', 'Explainable policies'];
+const scholar = social.find((s) => s.label === 'Scholar')!.href;
+---
+<Base title="Research" description="Research by Shailendra Sekhar across the autonomous driving stack: perception, planning, navigation, multi-agent systems and driver behaviour.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label">Research</p>
+      <h1 class="h1">Autonomous driving, across the stack</h1>
+      <p class="lead">I explore problems all the way from seeing the road to deciding what to do on it. The common thread is that roads are shared with people, and people are hard to predict.</p>
+      <ul class="tags" aria-label="Areas">
+        {areas.map((a, i) => <li data-reveal style={`--d: ${i * 50}ms`}><span class="plate is-quiet">{a}</span></li>)}
+      </ul>
+    </header>
+
+    <hr class="lane-rule" data-reveal />
+
+    <section class="section" aria-labelledby="pubs-h">
+      <div class="section-head">
+        <h2 class="label" id="pubs-h">Publications</h2>
+        <a class="meta" href={scholar} target="_blank" rel="noopener">Google Scholar ↗</a>
+      </div>
+      <PubList />
+    </section>
+  </div>
+</Base>

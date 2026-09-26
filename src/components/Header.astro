@@ -1,0 +1,22 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href.replace(/\/$/, '')));
+---
+<header class="site-header" transition:persist="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Shailendra Sekhar, home">
+      <Logo id="brand" />
+      <span class="brand-word">{site.name}</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined} data-nav={item.href}>{item.label}</a>
+      ))}
+      <a href={site.cv} data-nav="cv">CV</a>
+      <button class="toggle" type="button" data-theme-toggle aria-label="Switch colour theme"><i aria-hidden="true"></i><span data-theme-label>Theme</span></button>
+    </nav>
+  </div>
+</header>

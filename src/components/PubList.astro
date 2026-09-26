@@ -1,0 +1,26 @@
+---
+import { publications, ME, type Publication } from '../data/publications';
+interface Props { items?: Publication[]; summaries?: boolean }
+const { items = publications, summaries = true } = Astro.props;
+---
+<ol class="pubs" reversed>
+  {items.map((p, i) => (
+    <li class="pub" data-reveal style={`--d: ${i * 90}ms`}>
+      <div class="pub-venue"><span class={`plate ${p.kind === 'quiet' ? 'is-quiet' : ''}`}>{p.venue}</span></div>
+      <div class="pub-body">
+        <h3 class="pub-title">{p.page ? <a href={p.page}>{p.title}</a> : p.title}</h3>
+        <p class="pub-authors">
+          {p.authors.map((a, j) => (
+            <>{a === ME ? <b>{a}</b> : a}{j < p.authors.length - 1 ? ', ' : ''}</>
+          ))}
+        </p>
+        {summaries && p.summary && <p class="pub-summary">{p.summary}</p>}
+        <ul class="links">
+          {p.page && <li><a href={p.page}>Project page</a></li>}
+          {p.links.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+          {p.page && <li><a href={`${p.page}#bibtex`}>BibTeX</a></li>}
+        </ul>
+      </div>
+    </li>
+  ))}
+</ol>

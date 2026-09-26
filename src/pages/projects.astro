@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectList from '../components/ProjectList.astro';
+---
+<Base title="Projects" description="Projects by Shailendra Sekhar: bird's-eye layout estimation, robotics visualisations, robot manipulation, multi-robot coordination and tools.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label">Projects</p>
+      <h1 class="h1">Things I've built</h1>
+      <p class="lead">Coursework, tools and side projects, most of them on GitHub. Code that goes with a paper lives on that paper's page under Research.</p>
+    </header>
+    <hr class="lane-rule" data-reveal />
+    <ProjectList />
+    <p class="meta more"><a class="link" href="https://github.com/shailendrasekhar" target="_blank" rel="noopener">More on GitHub ↗</a></p>
+  </div>
+</Base>
+
+<style>
+  .more { margin-top: var(--space-8); }
+</style>
