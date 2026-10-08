@@ -12,7 +12,7 @@ interface Props {
   image?: string;
   jsonLd?: object;
 }
-const { title, description = site.description, image = '/media/hyderabad-traffic.jpg', jsonLd } = Astro.props;
+const { title, description = site.description, image = '/og.jpg', jsonLd } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(image, site.url).href;

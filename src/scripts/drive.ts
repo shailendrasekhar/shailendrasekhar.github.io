@@ -130,34 +130,34 @@ function palette() {
 }
 
 /* ================================================================== mount */
+// The home page backdrop: the autopilot drives under a slow drone camera until "Take the wheel" hands it over.
 export function mount(host: HTMLElement): () => void {
   const stage = host.querySelector<HTMLElement>('[data-stage]')!;
+  const q = <T extends HTMLElement>(sel: string) => host.querySelector<T>(sel);
   const hud = {
-    speed: host.querySelector<HTMLElement>('[data-hud-speed]')!,
-    mode: host.querySelector<HTMLElement>('[data-hud-mode]')!,
-    signal: host.querySelector<HTMLElement>('[data-hud-signal]')!,
-    you: host.querySelector<HTMLElement>('[data-hud-you]')!,
-    world: host.querySelector<HTMLElement>('[data-hud-world]')!,
-    toast: host.querySelector<HTMLElement>('[data-hud-toast]')!,
-    start: host.querySelector<HTMLButtonElement>('[data-start]')!,
-    exit: host.querySelector<HTMLButtonElement>('[data-act="exit"]')!,
+    speed: q('[data-hud-speed]'), mode: q('[data-hud-mode]'), signal: q('[data-hud-signal]'), you: q('[data-hud-you]'),
+    world: q('[data-hud-world]'), toast: q('[data-hud-toast]'), live: q('[data-hud-live]'),
+    start: q<HTMLButtonElement>('[data-start]'), exit: q<HTMLButtonElement>('[data-act="exit"]'),
   };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let seed = 11;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   let running = false;
-  let cameraMode: 'chase' | 'top' | 'hood' = 'chase';
+  type Cam = 'chase' | 'top' | 'hood' | 'drone';
+  let cameraMode: Cam = 'drone';
   let snapCamera = true;
   const pick = <T,>(a: T[]) => a[Math.floor(rnd() * a.length)];
+  const heightScale = 0.55; // a low skyline keeps the drone shot clear
 
   /* ---------------- renderer, scene, materials ---------------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
+  renderer.setPixelRatio(Math.min(1.5, devicePixelRatio || 1));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
-  renderer.domElement.tabIndex = 0;
-  renderer.domElement.setAttribute('aria-label', 'Driving simulation. Arrow keys or W A S D to drive, space to brake, P for autopilot, C to change camera, Escape to stop driving.');
+  // Decorative until someone takes the wheel; startDriving() labels it and makes it focusable.
+  renderer.domElement.tabIndex = -1;
+  renderer.domElement.setAttribute('aria-hidden', 'true');
   stage.prepend(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(55, 16 / 9, 0.1, 700);
@@ -363,11 +363,11 @@ export function mount(host: HTMLElement): () => void {
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     for (let a = HALF_ROAD + 10; a < ARM_END - 16; a += 11 + rnd() * 5) {
       const w = 7 + rnd() * 5, d = 8 + rnd() * 7;
-      addBuilding(sx * (a + w / 2), sz * (HALF_ROAD + 5 + d / 2), w, d, 5 + rnd() * rnd() * 34);
+      addBuilding(sx * (a + w / 2), sz * (HALF_ROAD + 5 + d / 2), w, d, 5 + rnd() * rnd() * 34 * heightScale);
     }
     for (let a = HALF_ROAD + 27; a < ARM_END - 16; a += 11 + rnd() * 5) {
       const w = 7 + rnd() * 5, d = 8 + rnd() * 6;
-      addBuilding(sx * (HALF_ROAD + 5 + d / 2), sz * (a + w / 2), d, w, 5 + rnd() * rnd() * 34);
+      addBuilding(sx * (HALF_ROAD + 5 + d / 2), sz * (a + w / 2), d, w, 5 + rnd() * rnd() * 34 * heightScale);
     }
   }
   for (const c of centres) for (const ang of [Math.PI / 4, (3 * Math.PI) / 4, (5 * Math.PI) / 4, (7 * Math.PI) / 4]) {
@@ -386,7 +386,7 @@ export function mount(host: HTMLElement): () => void {
   };
   const edgeCache = new Map<THREE.BufferGeometry, THREE.EdgesGeometry>();
   const edgesOf = (geo: THREE.BufferGeometry) => { if (!edgeCache.has(geo)) edgeCache.set(geo, g(new THREE.EdgesGeometry(geo))); return edgeCache.get(geo)!; };
-  const dims = (geo: THREE.BufferGeometry) => geo.parameters as { width: number; height: number; depth: number };
+  const dims = (geo: THREE.BufferGeometry) => (geo as THREE.BoxGeometry).parameters; // only ever called on boxes
   function vehicleModel(kind: Kind | 'ego', wrongWay = false): THREE.Group {
     const grp = new THREE.Group();
     const spec = kind === 'ego' ? shapes.car : shapes[kind];
@@ -555,27 +555,47 @@ export function mount(host: HTMLElement): () => void {
   const world = { reds: 0, cutins: 0, jaywalk: 0, pickups: 0, incidents: 0 };
   let toastTimer = 0;
   function toast(text: string, ms = 2800) {
-    hud.toast.textContent = text;
-    hud.toast.hidden = false;
+    const el = hud.toast;
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => (hud.toast.hidden = true), ms);
+    toastTimer = window.setTimeout(() => (el.hidden = true), ms);
   }
-  const CAM_LABEL = { chase: 'Chase cam', top: "Bird's-eye", hood: 'Driver view' };
+  const CAM_LABEL = { chase: 'Chase cam', top: "Bird's-eye", hood: 'Driver view', drone: 'Drone' };
   const wrongWay = vehicles.filter((v) => v.dir === -1).length;
+  const set = (el: HTMLElement | null, text: string) => { if (el && el.textContent !== text) el.textContent = text; };
   function updateHud() {
-    hud.speed.textContent = `${Math.round(Math.abs(ego.v) * 3.6)}`;
-    hud.mode.textContent = `${ego.auto ? `Autopilot · ${ego.status}` : running ? 'You are driving' : 'Manual'} · ${CAM_LABEL[cameraMode]}`;
+    set(hud.speed, `${Math.round(Math.abs(ego.v) * 3.6)}`);
+    set(hud.mode, `${ego.auto ? `Autopilot · ${ego.status}` : running ? 'You are driving' : 'Manual'} · ${CAM_LABEL[cameraMode]}`);
     const ew = signalAt('ew', clock), ns = signalAt('ns', clock);
     const [road, s] = ew.color !== 'red' ? ['E–W', ew] : ns.color !== 'red' ? ['N–S', ns] : ['All', ew];
-    hud.signal.textContent = `Signal · ${road} ${s.color} · ${Math.ceil(s.left)} s`;
-    hud.you.textContent = `pedestrians hit ${you.peds} · contacts ${you.contacts} · near misses ${you.near} · red lights ${you.reds}`;
-    hud.world.textContent = `Around you: ${world.reds} red lights jumped · ${world.cutins} cut-ins · ${world.jaywalk} jaywalkers · ${world.pickups} sudden stops · ${wrongWay} riders on the wrong side`;
+    set(hud.signal, `Signal · ${road} ${s.color} · ${Math.ceil(s.left)} s`);
+    set(hud.you, `pedestrians hit ${you.peds} · contacts ${you.contacts} · near misses ${you.near} · red lights ${you.reds}`);
+    set(hud.world, `Around you: ${world.reds} red lights jumped · ${world.cutins} cut-ins · ${world.jaywalk} jaywalkers · ${world.pickups} sudden stops · ${wrongWay} riders on the wrong side`);
+    if (hud.live) {
+      const doing = ego.status === 'Clear road' ? 'cruising' : ego.status.charAt(0).toLowerCase() + ego.status.slice(1);
+      const n = (k: number, one: string, many: string) => `${k} ${k === 1 ? one : many}`;
+      const seen = [
+        world.reds && n(world.reds, 'red light jumped', 'red lights jumped'),
+        world.jaywalk && n(world.jaywalk, 'jaywalker', 'jaywalkers'),
+        world.cutins && n(world.cutins, 'cut-in', 'cut-ins'),
+      ].filter(Boolean);
+      set(hud.live, `Live · the autopilot is ${doing}${seen.length ? ` · around it so far: ${seen.join(', ')}` : ''}`);
+    }
   }
 
   /* ---------------- input ---------------- */
   const keys = new Set<string>();
   const touch = { gas: false, brake: false, left: false, right: false };
-  const cams: (typeof cameraMode)[] = ['chase', 'top', 'hood'];
+  const cams: Cam[] = ['chase', 'top', 'hood'];
+  const parallax = { x: 0, y: 0, tx: 0, ty: 0 };
+  const onPointer = (e: PointerEvent) => {
+    const r = host.getBoundingClientRect();
+    parallax.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+    parallax.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+  };
+  host.addEventListener('pointermove', onPointer);
 
   function setAuto(on: boolean, quiet = false) {
     if (on && !ego.auto) attachAutopilot();
@@ -586,20 +606,33 @@ export function mount(host: HTMLElement): () => void {
   function startDriving() {
     if (running) return;
     running = true;
-    hud.start.hidden = true;
-    hud.exit.hidden = false;
+    // Drive in place: the copy steps aside, the HUD comes up, the camera drops behind the car.
+    host.classList.add('is-driving');
+    host.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+    cameraMode = 'chase'; // no snap: the camera flies down from the drone shot
+    renderer.domElement.removeAttribute('aria-hidden');
+    renderer.domElement.setAttribute('aria-label', 'Driving the town. Arrow keys or W A S D to drive, space to brake, P for autopilot, C to change camera, Escape to stop driving.');
+    if (reduced) { snapCamera = true; play(); } // under reduced motion the town only moves while someone drives
+    resize();
+    if (hud.exit) hud.exit.hidden = false;
     setAuto(false);
-    renderer.domElement.focus();
+    renderer.domElement.focus({ preventScroll: true });
   }
   function stopDriving() {
     if (!running) return;
     running = false;
     keys.clear();
     Object.keys(touch).forEach((k) => (touch[k as keyof typeof touch] = false));
-    hud.start.hidden = false;
-    hud.exit.hidden = true;
+    if (hud.exit) hud.exit.hidden = true;
     setAuto(true, true);
-    toast('Stopped. The autopilot has the wheel again.');
+    host.classList.remove('is-driving');
+    cameraMode = 'drone';
+    snapCamera = reduced; // under reduced motion, cut straight back to the drone shot and hold it
+    renderer.domElement.setAttribute('aria-hidden', 'true');
+    renderer.domElement.removeAttribute('aria-label');
+    resize();
+    if (reduced) { pause(); still(); }
+    hud.start?.focus({ preventScroll: true });
   }
   const cycleCamera = () => { cameraMode = cams[(cams.indexOf(cameraMode) + 1) % cams.length]; snapCamera = true; };
 
@@ -619,6 +652,7 @@ export function mount(host: HTMLElement): () => void {
   };
   const kd = (e: KeyboardEvent) => onKey(e, true);
   const ku = (e: KeyboardEvent) => onKey(e, false);
+  // Keys are only acted on while driving, so listening the rest of the time is harmless.
   addEventListener('keydown', kd);
   addEventListener('keyup', ku);
 
@@ -644,7 +678,7 @@ export function mount(host: HTMLElement): () => void {
     if (running) renderer.domElement.focus();
   };
   actButtons.forEach((b) => b.addEventListener('click', onAct));
-  hud.start.addEventListener('click', startDriving);
+  hud.start?.addEventListener('click', startDriving);
 
   /* ---------------- simulation ---------------- */
   let clock = 0;
@@ -916,14 +950,27 @@ export function mount(host: HTMLElement): () => void {
 
   /* ---------------- camera ---------------- */
   const camTarget = new THREE.Vector3(), camPos = new THREE.Vector3(), lookAt = new THREE.Vector3();
+  let droneT = 0;
   function updateCamera(dt: number) {
     const f = egoFwd();
-    if (cameraMode === 'chase') { camPos.copy(ego.pos).addScaledVector(f, -9).setY(4.2); camTarget.copy(ego.pos).addScaledVector(f, 8).setY(1.2); }
+    if (cameraMode === 'drone') {
+      // A slow drone shot: behind and above the autopilot, drifting from side to side, nudged by the pointer.
+      droneT += dt;
+      parallax.x += (parallax.tx - parallax.x) * Math.min(1, dt * 2);
+      parallax.y += (parallax.ty - parallax.y) * Math.min(1, dt * 2);
+      const yaw = Math.sin(droneT * 0.09) * 0.8 + parallax.x * 0.3;
+      const bx = -f.x, bz = -f.z;
+      const rx = bx * Math.cos(yaw) - bz * Math.sin(yaw), rz = bx * Math.sin(yaw) + bz * Math.cos(yaw);
+      camPos.set(ego.pos.x + rx * 30, 19 - parallax.y * 4, ego.pos.z + rz * 30);
+      camTarget.copy(ego.pos).addScaledVector(f, 12).setY(0);
+    }
+    else if (cameraMode === 'chase') { camPos.copy(ego.pos).addScaledVector(f, -9).setY(4.2); camTarget.copy(ego.pos).addScaledVector(f, 8).setY(1.2); }
     else if (cameraMode === 'top') { camPos.copy(ego.pos).addScaledVector(f, -4).setY(52); camTarget.copy(ego.pos).addScaledVector(f, 6); }
     else { camPos.copy(ego.pos).addScaledVector(f, 0.2).setY(1.35); camTarget.copy(ego.pos).addScaledVector(f, 20).setY(1.1); }
-    const k = snapCamera ? 1 : 1 - Math.exp(-dt * (cameraMode === 'hood' ? 20 : 5));
+    const drone = cameraMode === 'drone';
+    const k = snapCamera ? 1 : 1 - Math.exp(-dt * (cameraMode === 'hood' ? 20 : drone ? 1.2 : 5));
     camera.position.lerp(camPos, k);
-    lookAt.lerp(camTarget, snapCamera ? 1 : 1 - Math.exp(-dt * 8));
+    lookAt.lerp(camTarget, snapCamera ? 1 : 1 - Math.exp(-dt * (drone ? 2 : 8)));
     camera.lookAt(lookAt);
     snapCamera = false;
     sun.position.set(ego.pos.x - 40, 90, ego.pos.z + 30);
@@ -936,9 +983,13 @@ export function mount(host: HTMLElement): () => void {
     const r = stage.getBoundingClientRect();
     renderer.setSize(r.width, r.height, false);
     camera.aspect = r.width / Math.max(1, r.height);
+    // The text sits on the left, so frame the action right of centre until someone drives.
+    if (!running) camera.setViewOffset(r.width, r.height, -r.width * 0.26, 0, r.width, r.height);
+    else camera.clearViewOffset();
     camera.updateProjectionMatrix();
   }
-  const ro = new ResizeObserver(resize);
+  // A paused town (reduced motion) would go blank on resize, so redraw its still frame.
+  const ro = new ResizeObserver(() => { resize(); if (!raf) still(); });
   ro.observe(stage);
   resize();
 
@@ -951,25 +1002,35 @@ export function mount(host: HTMLElement): () => void {
   }
   function frame(now: number) {
     raf = requestAnimationFrame(frame);
-    const dt = Math.min(0.05, (now - last) / 1000);
+    if (!visible) { last = now; return; }
+    // While nobody is driving, 30 fps is plenty for a backdrop and easier on laptop batteries.
+    if (!running && now - last < 1000 / 30 - 2) return;
+    const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
     last = now;
-    if (!visible) return;
     step(dt);
     hudTimer += dt;
     if (hudTimer > 0.1) { hudTimer = 0; updateHud(); }
     updateCamera(dt);
     renderer.render(scene, camera);
   }
+  function play() { if (raf) return; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function pause() { cancelAnimationFrame(raf); raf = 0; }
+  function still() { updateCamera(0); renderer.render(scene, camera); }
   // Warm up so the first frame already shows traffic in motion.
   for (let i = 0; i < 150; i++) { clock += 1 / 30; stepSignals(); stepPeds(1 / 30); stepVehicles(1 / 30); }
   Object.assign(world, { reds: 0, cutins: 0, jaywalk: 0, pickups: 0, incidents: 0 });
   updateCamera(1);
   updateHud();
   renderer.render(scene, camera);
-  if (!reduced) raf = requestAnimationFrame(frame);
-  else hud.start.addEventListener('click', () => { last = performance.now(); raf = requestAnimationFrame(frame); }, { once: true });
+  // Fade the canvas in once it has a frame. "Take the wheel" only shows once there is a town to drive.
+  requestAnimationFrame(() => { stage.classList.add('ready'); host.classList.add('has-town'); });
+  if (!reduced) play(); // under reduced motion the town holds this still frame until someone drives
 
-  const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0.05 });
+  const io = new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    // Scrolling the town mostly out of view hands the keys back to the page.
+    if (running && e.intersectionRatio < 0.3) stopDriving();
+  }, { threshold: [0, 0.05, 0.3] });
   io.observe(stage);
   const onVis = () => { if (!document.hidden) last = performance.now(); };
   document.addEventListener('visibilitychange', onVis);
@@ -983,6 +1044,7 @@ export function mount(host: HTMLElement): () => void {
     io.disconnect();
     removeEventListener('keydown', kd);
     removeEventListener('keyup', ku);
+    host.removeEventListener('pointermove', onPointer);
     removeEventListener('themechange', onTheme);
     document.removeEventListener('visibilitychange', onVis);
     touchButtons.forEach((b) => ['pointerdown', 'pointerup', 'pointercancel'].forEach((t) => b.removeEventListener(t, onTouch as EventListener)));
@@ -1000,19 +1062,19 @@ export function mount(host: HTMLElement): () => void {
 }
 
 /* ================================================================== lifecycle */
-let teardown: (() => void) | null = null;
+// The home page mounts the town on wide screens only.
+const teardowns: (() => void)[] = [];
 function run() {
-  const host = document.querySelector<HTMLElement>('[data-drive]');
-  if (!host || host.dataset.mounted) return;
+  const host = document.querySelector<HTMLElement>('[data-town-hero]');
+  if (!host || host.dataset.mounted || !matchMedia('(min-width: 900px)').matches) return;
   host.dataset.mounted = '1';
-  teardown?.();
   try {
-    teardown = mount(host);
+    teardowns.push(mount(host));
   } catch (err) {
-    host.querySelector<HTMLElement>('[data-fallback]')?.removeAttribute('hidden');
+    // No WebGL: the grid backdrop stays, and so does the hidden "Take the wheel" (see .has-town in global.css).
     console.error(err);
   }
 }
 run();
 document.addEventListener('astro:page-load', run);
-document.addEventListener('astro:before-swap', () => { teardown?.(); teardown = null; });
+document.addEventListener('astro:before-swap', () => { teardowns.splice(0).forEach((t) => t()); });

@@ -10,6 +10,7 @@ The previous hand-written site lives on the `legacy` branch.
 ```sh
 npm install
 npm run dev       # http://localhost:4321
+npm run check     # type-check the .astro and .ts files
 npm run build     # static site in dist/
 npm run preview   # serve dist/
 ```
@@ -25,23 +26,20 @@ npm run preview   # serve dist/
 | Email, links, analytics code | `src/data/site.ts` |
 | Colours, type, spacing | `src/styles/tokens.css` (mirrors the "Shailendra Sekhar" design system in Claude Design) |
 | Intro, theme, scroll effects | `src/scripts/ui.ts` |
-| Home hero overlay | `src/scripts/scene.ts` |
-| Take the wheel (three.js) | `src/scripts/drive.ts` |
+| The home hero town and "Take the wheel" (three.js) | `src/scripts/drive.ts` |
+| About page photos | `src/assets/about/` (resized at build time), listed in `src/data/timeline.ts` |
 | CV | `public/cv.pdf` (placeholder) |
 
 **Add a LEGO photo:** put the image in `public/lego/` and add `src: '/lego/your-photo.jpg'` to an entry in `builds` in `src/data/timeline.ts`.
 
 **Turn on analytics:** create a free site at [goatcounter.com](https://www.goatcounter.com) and put its code in `goatcounter` in `src/data/site.ts`. No cookies, so no consent banner.
 
-## Regenerating the home hero
+## The home hero
 
-The hero plays 10 seconds of real Hyderabad traffic with detector output drawn on top. The boxes are precomputed:
+On screens 900px and wider, a live 3D town plays behind the home hero: the autopilot drives, a slow drone camera follows it and drifts with the pointer. "Take the wheel" drives it in place: the copy steps aside, the HUD and controls come up, and Esc (or scrolling away) hands it back to the autopilot. three.js loads after the page (and the intro) is on screen, and not at all on phones or with Save-Data on; phones get the line-drawn dashcam in `src/components/HeroDashcam.astro`. The "Take the wheel" button only appears once the town is running, so Save-Data or a browser without WebGL never shows a dead button. Until someone takes the wheel the town renders at 30 fps. Under reduced motion it holds one still frame, and only moves while someone is driving. The old `/drive` page redirects to the home page.
 
-1. Cut a clip: `ffmpeg -ss 43 -i source.webm -t 10 -an -vf "scale=1280:720,fps=24" -c:v libx264 -crf 27 -pix_fmt yuv420p -movflags +faststart public/media/hyderabad-traffic.mp4`
-2. Track it with YOLO11 + ByteTrack (`pip install ultralytics`) and write `public/media/hyderabad-traffic.tracks.json`: `{fps, w, h, classes, frames: [[[id, class, conf, x, y, w, h], …], …]}`.
-
-Footage: [“Traffic in Hyderabad”](https://commons.wikimedia.org/wiki/File:Traffic_in_Hyderabad.webm) by Oleg Yunakov, CC BY-SA 4.0. The trimmed clip is shared under the same licence.
+`public/og.jpg`, the link-preview image, is a 1200×630 screenshot of the home page with the town running. Paper pages can pass their own 1200×630 image to `Base` (see `public/research/imitation-bt/og.jpg`).
 
 ## Deploying
 
-Pushing to `main` runs `.github/workflows/deploy.yml`. In the repository settings, Pages must use **GitHub Actions** as its source.
+Pushing to `main` runs `.github/workflows/deploy.yml`: type-check, build, deploy. Pull requests run the type-check and build only. In the repository settings, Pages must use **GitHub Actions** as its source.

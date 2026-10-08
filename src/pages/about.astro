@@ -1,10 +1,17 @@
 ---
+import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Timeline from '../components/Timeline.astro';
 import { site, social } from '../data/site';
-import { builds } from '../data/timeline';
+import { builds, portrait, photos } from '../data/timeline';
 
 const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'Driver behaviour'];
+// The LEGO shelf appears once there are real photos of builds.
+const shelf = builds.filter((b) => b.src);
+
+// Resized at build time: the portrait is never wider than 520px, the strip photos are a third of the page.
+const shot = await getImage({ src: portrait.src, width: 1040, widths: [520, 1040], format: 'webp' });
+const strip = await Promise.all(photos.map((p) => getImage({ src: p.src, width: 900, widths: [450, 900], format: 'webp' })));
 ---
 <Base title="About" description="About Shailendra Sekhar: PhD student in autonomous driving at IIIT Hyderabad, movie buff, board gamer, occasional guitarist, new LEGO builder and hiker.">
   <div class="wrap about">
@@ -15,8 +22,8 @@ const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'D
         <p class="lead">I'm a PhD student at the Robotics Research Center, IIIT Hyderabad, advised by Prof. K. Madhava Krishna. My work lives in autonomous driving, and like most PhD students I follow the interesting problems wherever they go.</p>
       </div>
       <figure class="figure headshot" data-reveal>
-        <div class="figure-plate shot"><span class="meta">Headshot · 4:5<br />placeholder</span></div>
-        <figcaption>Photo coming soon.</figcaption>
+        <div class="figure-plate shot"><img src={shot.src} srcset={shot.srcSet.attribute} sizes="min(520px, 100vw)" alt={portrait.alt} width={portrait.src.width} height={portrait.src.height} /></div>
+        <figcaption>{portrait.caption}</figcaption>
       </figure>
     </header>
 
@@ -46,21 +53,31 @@ const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'D
         <h2 class="h2">Off the clock</h2>
         <p>I'm a movie buff, and I still go looking for what's playing around the city. Board games take up more of my shelf than they should, the guitar is still on the deck, and I've recently started building LEGO. When I can get out of the city, I hike.</p>
       </div>
-      <div class="shelf">
-        <p class="label" data-reveal>On the build table</p>
-        <ul class="builds">
-          {builds.map((b, i) => (
-            <li data-reveal style={`--d: ${i * 80}ms`}>
-              <figure class="figure">
-                <div class="figure-plate build">
-                  {b.src ? <img src={b.src} alt={b.name} loading="lazy" /> : <span class="meta">{b.note ?? 'Photo coming soon'}</span>}
-                </div>
-                <figcaption>{b.name}</figcaption>
-              </figure>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul class="photos">
+        {photos.map((p, i) => (
+          <li data-reveal style={`--d: ${i * 90}ms`}>
+            <figure class="figure">
+              <div class="figure-plate photo"><img src={strip[i].src} srcset={strip[i].srcSet.attribute} sizes="(max-width: 760px) 100vw, 33vw" alt={p.alt} width={p.src.width} height={p.src.height} loading="lazy" decoding="async" /></div>
+              <figcaption>{p.caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+      {shelf.length > 0 && (
+        <div class="shelf">
+          <p class="label" data-reveal>On the build table</p>
+          <ul class="builds">
+            {shelf.map((b, i) => (
+              <li data-reveal style={`--d: ${i * 80}ms`}>
+                <figure class="figure">
+                  <div class="figure-plate build"><img src={b.src} alt={b.name} loading="lazy" /></div>
+                  <figcaption>{b.name}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
 
     <section class="section say-hello">
@@ -83,17 +100,27 @@ const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'D
 <style>
   .about { display: flex; flex-direction: column; gap: var(--space-16); }
   .about .lane-rule { margin: 0; }
-  .head { align-items: end; padding-top: var(--space-8); }
-  .headshot { max-width: 320px; }
-  .shot { aspect-ratio: 4 / 5; display: grid; place-items: center; text-align: center; }
+  /* The portrait is shown whole (it's nearly square), so it gets a wider column than a headshot would. */
+  .head { align-items: center; padding-top: var(--space-8); grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  .headshot { max-width: 520px; justify-self: end; width: 100%; }
+  .shot img { width: 100%; height: auto; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .photos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
+  .photo { aspect-ratio: 3 / 4; }
+  .photos li:hover img { transform: scale(1.03); }
+  .photo img { transition: transform .8s var(--ease-drive); }
   .shelf { display: flex; flex-direction: column; gap: var(--space-4); }
   .builds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
   .build { aspect-ratio: 4 / 3; display: grid; place-items: center; }
   .build img { width: 100%; height: 100%; object-fit: cover; }
   .email { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 14px + 1.2vw, 36px); }
   .email a { overflow-wrap: anywhere; }
+  @media (max-width: 900px) {
+    .head { grid-template-columns: 1fr; }
+    .headshot { justify-self: start; max-width: 520px; }
+  }
   @media (max-width: 760px) {
     .builds { grid-template-columns: 1fr 1fr; }
-    .headshot { max-width: 220px; }
+    .photos { grid-template-columns: 1fr; gap: var(--space-8); }
   }
 </style>

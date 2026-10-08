@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import HeroScene from '../components/HeroScene.astro';
 import HeroDashcam from '../components/HeroDashcam.astro';
 import NewsList from '../components/NewsList.astro';
 import PubList from '../components/PubList.astro';
@@ -25,17 +24,49 @@ const person = {
 };
 ---
 <Base jsonLd={person}>
-  <section class="hero wrap" aria-labelledby="hero-name">
-    <p class="label hero-label">PhD student · Robotics Research Center, IIIT Hyderabad</p>
-    <h1 class="hero-name" id="hero-name"><span class="detect" data-chip="researcher 0.99 · id 07" data-name-detect>Shailendra Sekhar</span></h1>
-    <p class="lead hero-lead">I work on autonomous driving: how cars perceive, plan and move through traffic they share with people who don't always follow the rules.</p>
-    <ul class="links hero-links">
-      <li><a href={`mailto:${site.email}`}>Email</a></li>
-      {social.map((s) => <li><a href={s.href} target="_blank" rel="me noopener">{s.label}</a></li>)}
-      <li><a href={site.cv}>CV</a></li>
-    </ul>
-    <HeroDashcam />
-    <HeroScene />
+  <!-- On wide screens a live 3D town plays behind the hero, and "Take the wheel" drives it in place.
+       Phones get the line-drawn dashcam. -->
+  <section class="town-hero" data-town-hero aria-labelledby="hero-name">
+    <div class="town-stage" data-stage aria-hidden="true"></div>
+    <div class="town-scrim" aria-hidden="true"></div>
+    <div class="town-hud">
+      <div class="hud hud-tl">
+        <p class="speed"><span data-hud-speed>0</span><small>km/h</small></p>
+        <p class="hud-line" data-hud-mode></p>
+        <p class="hud-line" data-hud-signal></p>
+      </div>
+      <p class="hud hud-tr hud-line" data-hud-you></p>
+      <div class="town-bar">
+        <div class="acts" role="group" aria-label="Driving controls">
+          <button type="button" class="toggle" data-act="auto" aria-pressed="false">Autopilot</button>
+          <button type="button" class="toggle" data-act="cam">Camera</button>
+          <button type="button" class="toggle" data-act="reset">Reset</button>
+          <button type="button" class="toggle stop" data-act="exit" hidden>Stop driving</button>
+        </div>
+        <p class="meta keys"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive · <kbd>Space</kbd> brake · <kbd>P</kbd> autopilot · <kbd>C</kbd> camera · <kbd>R</kbd> reset · <kbd>Esc</kbd> stop</p>
+        <p class="hud-line hud-world" data-hud-world></p>
+      </div>
+      <div class="touch" aria-hidden="true">
+        <div class="pad"><button type="button" data-touch="left" tabindex="-1">◀</button><button type="button" data-touch="right" tabindex="-1">▶</button></div>
+        <div class="pad"><button type="button" data-touch="brake" tabindex="-1">Brake</button><button type="button" data-touch="gas" tabindex="-1">Go</button></div>
+      </div>
+    </div>
+    <p class="toast" data-hud-toast role="status" hidden></p>
+    <div class="hero wrap">
+      <p class="label hero-label">PhD student · Robotics Research Center, IIIT Hyderabad</p>
+      <h1 class="hero-name" id="hero-name"><span class="detect" data-chip="researcher 0.99 · id 07" data-name-detect>Shailendra Sekhar</span></h1>
+      <p class="lead hero-lead">I work on autonomous driving: how cars perceive, plan and move through traffic they share with people who don't always follow the rules.</p>
+      <ul class="links hero-links">
+        <li><a href={`mailto:${site.email}`}>Email</a></li>
+        {social.map((s) => <li><a href={s.href} target="_blank" rel="me noopener">{s.label}</a></li>)}
+        <li><a href={site.cv}>CV</a></li>
+      </ul>
+      <div class="hero-cta">
+        <button type="button" class="cta" data-start>Take the wheel</button>
+        <p class="meta hero-live" data-hud-live>A live 3D town behind this page, not a video.</p>
+      </div>
+      <HeroDashcam />
+    </div>
   </section>
 
   <div class="wrap">
@@ -56,31 +87,39 @@ const person = {
         <PubList items={publications.slice(0, 1)} />
       </section>
     </div>
-
-    <hr class="lane-rule" data-reveal />
-
-    <section class="drive-teaser" data-reveal>
-      <div>
-        <h2 class="h2">Think you'd drive better than the auto-rickshaws?</h2>
-        <p class="meta">A small 3D town with a signalled junction and four roundabouts, where red lights are optional, riders come the wrong way and pedestrians cross wherever they like. Drive it yourself or hand it to the autopilot.</p>
-      </div>
-      <a class="cta" href="/drive/">Take the wheel</a>
-    </section>
   </div>
 </Base>
 
-<style>
-  .drive-teaser { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-6); }
-  .drive-teaser > div { display: flex; flex-direction: column; gap: var(--space-2); }
-</style>
-
 <script>
-  // On desktop, the name gets "detected" once after the page settles, as a hint that it can be hovered.
+  const root = document.documentElement;
+  let heroObserver: IntersectionObserver | null = null;
+
   document.addEventListener('astro:page-load', () => {
-    const el = document.querySelector<HTMLElement>('[data-name-detect]');
-    if (!el || !matchMedia('(min-width: 900px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const delay = document.documentElement.dataset.intro ? 3000 : 900;
-    setTimeout(() => el.classList.add('on'), delay);
-    setTimeout(() => el.classList.remove('on'), delay + 2200);
+    const hero = document.querySelector<HTMLElement>('[data-town-hero]');
+    if (!hero) return;
+    const wide = matchMedia('(min-width: 900px)').matches;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Load three.js and the town only on wide screens, after the intro has handed over the page.
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    if (wide && !saveData) setTimeout(() => import('../scripts/drive'), root.dataset.intro ? 1700 : 0);
+
+    // The side-lane car steps aside while the town fills the screen.
+    heroObserver?.disconnect();
+    heroObserver = new IntersectionObserver(([e]) => root.classList.toggle('hero-in-view', e.intersectionRatio > 0.35), { threshold: [0, 0.35, 1] });
+    heroObserver.observe(hero);
+
+    // On desktop, the name gets "detected" once after the page settles, as a hint that it can be hovered.
+    const name = hero.querySelector<HTMLElement>('[data-name-detect]');
+    if (!name || !wide || reduced) return;
+    const delay = root.dataset.intro ? 3000 : 900;
+    setTimeout(() => name.classList.add('on'), delay);
+    setTimeout(() => name.classList.remove('on'), delay + 2200);
+  });
+
+  document.addEventListener('astro:before-swap', () => {
+    heroObserver?.disconnect();
+    heroObserver = null;
+    root.classList.remove('hero-in-view');
   });
 </script>

@@ -7,4 +7,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  // The Drive page now lives in the home hero; old links land there.
+  redirects: { '/drive': '/' },
 });

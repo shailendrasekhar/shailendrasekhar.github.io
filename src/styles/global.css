@@ -152,14 +152,75 @@ main { flex: 1; }
 @media (max-width: 900px) { .with-margin { grid-template-columns: 1fr; } }
 
 /* ---------- home hero ---------- */
-.hero { display: grid; gap: var(--space-4); padding-top: var(--space-12); grid-template-areas: "label" "name" "lead" "links" "scene"; }
+.hero { display: grid; gap: var(--space-4); padding-top: var(--space-12); grid-template-areas: "label" "name" "lead" "links" "cta"; }
 .hero-label { grid-area: label; }
 .hero-name { grid-area: name; margin: 18px 0 0; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-name); line-height: .95; letter-spacing: -.01em; }
 .hero-lead { grid-area: lead; margin-top: var(--space-2); }
 .hero-links { grid-area: links; }
-.hero-scene { grid-area: scene; margin-top: var(--space-8); }
 .hero .hero-dashcam { grid-area: stage; display: none; }
-.hero-cta { margin-top: var(--space-2); }
+.hero-cta { grid-area: cta; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); margin-top: var(--space-4); }
+.hero-live { max-width: 52ch; font-variant-numeric: tabular-nums; }
+
+/* The live town: a full-width 3D backdrop behind the hero on wide screens. */
+.town-hero { position: relative; }
+.town-stage, .town-scrim { display: none; }
+@media (min-width: 900px) {
+  .town-hero { min-height: clamp(560px, calc(100vh - 110px), 1000px); display: flex; align-items: center; overflow: hidden; isolation: isolate; }
+  .town-stage {
+    display: block; position: absolute; inset: 0; z-index: -2;
+    background-color: var(--paper-raised);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .town-stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity 1.4s var(--ease-out); }
+  .town-stage.ready canvas { opacity: 1; }
+  /* Paper fades in from the left so the copy reads; the town shows on the right. */
+  .town-scrim {
+    display: block; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(90deg, var(--paper) 0%, color-mix(in srgb, var(--paper) 92%, transparent) 32%, color-mix(in srgb, var(--paper) 55%, transparent) 55%, transparent 74%),
+      linear-gradient(0deg, var(--paper) 0%, transparent 16%),
+      linear-gradient(180deg, var(--paper) 0%, transparent 10%);
+  }
+  .town-hero .hero { padding-block: var(--space-12); pointer-events: none; transition: opacity .5s var(--ease-out), transform .6s var(--ease-drive); }
+  .town-hero .hero :is(a, button, .detect) { pointer-events: auto; }
+  .town-hero .hero-lead, .town-hero .hero-live { max-width: min(58%, 40em); }
+  /* "Take the wheel" waits for the town (drive.ts adds .has-town), so Save-Data or no WebGL never leaves a dead button. */
+  .town-hero .hero-cta { transition: opacity .6s var(--ease-out); }
+  .town-hero:not(.has-town) .hero-cta { visibility: hidden; opacity: 0; }
+  .town-scrim { transition: opacity .6s var(--ease-out); }
+  html.hero-in-view .side-lane { opacity: 0; }
+
+  /* "Take the wheel": the copy steps aside and the driving HUD comes up over the town. */
+  .town-hero.is-driving .hero { opacity: 0; transform: translateX(-24px); }
+  .town-hero.is-driving .hero :is(a, button, .detect) { pointer-events: none; }
+  .town-hero.is-driving .town-scrim { opacity: 0; }
+  .town-hud { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .5s var(--ease-out), visibility 0s linear .5s; }
+  .town-hero.is-driving .town-hud { opacity: 1; visibility: visible; transition: opacity .5s var(--ease-out) .15s, visibility 0s; }
+  .town-hud .hud { position: absolute; margin: 0; font-family: var(--font-mono); color: #f5f5f1; }
+  .town-hud .hud-tl { top: var(--space-4); left: var(--gutter); display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .town-hud .hud-tr { top: var(--space-4); right: var(--gutter); }
+  .town-hud .hud-line { margin: 0; font-family: var(--font-mono); font-size: var(--fs-xs); line-height: 1.3; color: #f5f5f1; background: rgba(16, 18, 20, .72); padding: 6px 8px; }
+  .town-hud .speed { margin: 0; display: flex; align-items: baseline; gap: 6px; background: rgba(16, 18, 20, .72); padding: 6px 10px; }
+  .town-hud .speed span { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--fs-h1) * .8); line-height: 1; font-variant-numeric: tabular-nums; min-width: 2ch; }
+  .town-hud .speed small { font-size: var(--fs-xs); }
+  .town-bar { position: absolute; left: var(--gutter); right: var(--gutter); bottom: var(--space-6); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-6); pointer-events: auto; }
+  .town-bar .acts { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .town-bar .toggle { background: rgba(16, 18, 20, .72); color: #f5f5f1; border-color: rgba(245, 245, 241, .35); }
+  .town-bar .toggle:hover { border-color: #f5f5f1; }
+  .town-bar .toggle[aria-pressed="true"] { color: var(--on-lane); background: var(--lane); border-color: var(--lane); }
+  .town-bar .stop { border-color: #f5f5f1; }
+  .town-bar .keys { color: #f5f5f1; background: rgba(16, 18, 20, .72); padding: 6px 8px; }
+  .town-bar .hud-world { flex-basis: 100%; }
+  .town-bar kbd { font-family: var(--font-mono); font-size: calc(var(--fs-xs) * .9); border: 1px solid rgba(245, 245, 241, .4); border-bottom-width: 2px; padding: 0 4px; margin: 0 1px; border-radius: var(--radius-sm); }
+  .town-hero .toast { position: absolute; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; font-family: var(--font-mono); font-size: var(--fs-sm); background: var(--lane); color: var(--on-lane); padding: 8px 12px; pointer-events: none; max-width: calc(100% - 48px); text-align: center; }
+  .town-hud .touch { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(var(--space-24) + var(--space-8)); display: none; justify-content: space-between; }
+  .town-hud .pad { display: flex; gap: 10px; pointer-events: auto; }
+  .town-hud .touch button { width: 64px; height: 56px; font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: 600; background: rgba(16, 18, 20, .6); color: #f5f5f1; border: 1px solid rgba(245, 245, 241, .4); border-radius: var(--radius-sm); touch-action: none; user-select: none; -webkit-user-select: none; }
+  .town-hud .touch button[data-touch="gas"] { background: var(--lane); color: var(--on-lane); border-color: var(--lane); }
+  @media (pointer: coarse) { .town-hud .touch { display: flex; } .town-bar .keys { display: none; } }
+}
+@media (max-width: 899px) { .hero-cta, .town-hud, .town-hero .toast { display: none; } }
 
 /* The name gets "detected": corner brackets and a chip, like a perception box. */
 .detect { position: relative; display: inline-block; padding: .14em .22em .04em; margin: -.14em -.22em -.04em; }
@@ -179,9 +240,8 @@ main { flex: 1; }
 .detect:hover::after, .detect.on::after { opacity: 1; transform: none; }
 
 @media (max-width: 899px) {
-  .hero { grid-template-areas: "label" "stage" "lead" "links"; padding-top: var(--space-6); }
+  .hero { grid-template-areas: "label" "stage" "lead" "links" "cta"; padding-top: var(--space-6); }
   .hero .hero-dashcam { display: block; }
-  .hero .hero-scene { display: none; }
   .hero-name { grid-area: stage; align-self: start; justify-self: start; z-index: 2; margin: 44px 0 0 18px; font-size: clamp(38px, 11vw, 60px); }
   .hero-name .detect { width: min-content; }
   .hero-name .detect::before, .hero-name .detect::after { opacity: 1; transform: none; }
@@ -272,7 +332,7 @@ main { flex: 1; }
 .yt-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
 /* ---------- button-ish link ---------- */
-.cta { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: 600; letter-spacing: .04em; color: var(--on-lane); background: var(--lane); padding: var(--space-2) var(--space-4); text-decoration: none; border-radius: var(--radius-sm); transition: transform .25s var(--ease-drive); }
+.cta { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: 600; letter-spacing: .04em; color: var(--on-lane); background: var(--lane); padding: var(--space-2) var(--space-4); text-decoration: none; border: 0; cursor: pointer; border-radius: var(--radius-sm); transition: transform .25s var(--ease-drive); }
 .cta:hover { transform: translateX(4px); }
 .cta::after { content: "\2192"; }
 

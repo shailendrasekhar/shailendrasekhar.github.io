@@ -22,6 +22,4 @@ export const social = [
 export const nav = [
   { label: 'Research', href: '/research/' },
   { label: 'Projects', href: '/projects/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Drive', href: '/drive/' },
-];
+  { label: 'About', href: '/about/' },];
