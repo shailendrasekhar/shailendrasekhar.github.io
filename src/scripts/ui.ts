@@ -228,6 +228,39 @@ function setupCopy() {
   });
 }
 
+// The About contact form: post to Web3Forms in place and report back, instead of leaving the page.
+function setupContact() {
+  document.querySelectorAll<HTMLFormElement>('form[data-contact]').forEach((form) => {
+    if (form.dataset.ready) return;
+    form.dataset.ready = '1';
+    const status = form.querySelector<HTMLElement>('[data-contact-status]')!;
+    const send = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      send.disabled = true;
+      status.dataset.state = '';
+      status.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message);
+        form.reset();
+        status.dataset.state = 'ok';
+        status.textContent = 'Sent. Thanks for writing.';
+      } catch {
+        status.dataset.state = 'error';
+        status.textContent = "That didn't go through. Please try again in a moment.";
+      } finally {
+        send.disabled = false;
+      }
+    });
+  });
+}
+
 function setupLiteYouTube() {
   document.querySelectorAll<HTMLButtonElement>('[data-yt]').forEach((btn) => {
     if (btn.dataset.ready) return;
@@ -257,6 +290,7 @@ document.addEventListener('astro:page-load', () => {
   syncToggle();
   syncNav();
   setupCopy();
+  setupContact();
   setupLiteYouTube();
   updateProgress();
   car.lastScroll = scrollY;

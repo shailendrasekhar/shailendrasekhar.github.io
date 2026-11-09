@@ -28,9 +28,11 @@ npm run preview   # serve dist/
 | Intro, theme, scroll effects | `src/scripts/ui.ts` |
 | The home hero town and "Take the wheel" (three.js) | `src/scripts/drive.ts` |
 | About page photos | `src/assets/about/` (resized at build time), listed in `src/data/timeline.ts` |
-| CV | `public/cv.pdf` (placeholder) |
+| CV | `public/cv.pdf` (replace the file to update it; the header links to it) |
 
 **Add a LEGO photo:** put the image in `public/lego/` and add `src: '/lego/your-photo.jpg'` to an entry in `builds` in `src/data/timeline.ts`.
+
+**Turn on the contact form:** go to [web3forms.com](https://web3forms.com), enter the address messages should go to, and put the access key they email you in `contactKey` in `src/data/site.ts`. The form on About and the "Contact" links in the home hero and footer appear once it is set. Your address is never in the page; the key is safe to publish, as it can only send to you.
 
 **Turn on analytics:** create a free site at [goatcounter.com](https://www.goatcounter.com) and put its code in `goatcounter` in `src/data/site.ts`. No cookies, so no consent banner.
 

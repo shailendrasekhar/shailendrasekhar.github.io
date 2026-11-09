@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Timeline from '../components/Timeline.astro';
-import { site, social } from '../data/site';
+import { site } from '../data/site';
 import { builds, portrait, photos } from '../data/timeline';
 
 const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'Driver behaviour'];
@@ -80,20 +80,30 @@ const strip = await Promise.all(photos.map((p) => getImage({ src: p.src, width: 
       )}
     </section>
 
-    <section class="section say-hello">
-      <div class="prose" data-reveal>
-        <h2 class="h2">Say hello</h2>
-        <p>Write to me about autonomous driving, a film I should see, a board game worth learning, or a good trail near Hyderabad.</p>
-      </div>
-      <div class="email" data-reveal>
-        <a class="link" href={`mailto:${site.email}`} id="email-address">{site.email}</a>
-        <button type="button" class="toggle" data-copy="email-address">Copy</button>
-      </div>
-      <ul class="links" data-reveal>
-        {social.map((s) => <li><a href={s.href} target="_blank" rel="me noopener">{s.label}</a></li>)}
-        <li><a href={site.cv}>CV</a></li>
-      </ul>
-    </section>
+    {site.contactKey && (
+      <section class="section say-hello" id="contact">
+        <div class="prose" data-reveal>
+          <h2 class="h2">Say hello</h2>
+          <p>Write to me about autonomous driving, a film I should see, a board game worth learning, or a good trail near Hyderabad.</p>
+        </div>
+        <!-- Sent by Web3Forms, which forwards it to my inbox. ui.ts posts it in place; without JS it posts the normal way. -->
+        <form class="contact" action="https://api.web3forms.com/submit" method="POST" data-contact data-reveal>
+          <input type="hidden" name="access_key" value={site.contactKey} />
+          <input type="hidden" name="subject" value="New message from your website" />
+          <input type="hidden" name="from_name" value={site.url.replace('https://', '')} />
+          <input type="checkbox" name="botcheck" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="row">
+            <label class="field"><span class="label">Name</span><input type="text" name="name" autocomplete="name" maxlength="100" /></label>
+            <label class="field"><span class="label">Your email</span><input type="email" name="email" autocomplete="email" maxlength="200" required /></label>
+          </div>
+          <label class="field"><span class="label">Message</span><textarea name="message" rows="6" maxlength="5000" required></textarea></label>
+          <div class="send">
+            <button type="submit" class="cta">Send</button>
+            <p class="meta" role="status" data-contact-status></p>
+          </div>
+        </form>
+      </section>
+    )}
   </div>
 </Base>
 
@@ -113,8 +123,18 @@ const strip = await Promise.all(photos.map((p) => getImage({ src: p.src, width: 
   .builds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
   .build { aspect-ratio: 4 / 3; display: grid; place-items: center; }
   .build img { width: 100%; height: 100%; object-fit: cover; }
-  .email { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 14px + 1.2vw, 36px); }
-  .email a { overflow-wrap: anywhere; }
+  .contact { display: grid; gap: var(--space-4); max-width: 48rem; }
+  .contact .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+  .field { display: grid; gap: var(--space-2); }
+  .field input, .field textarea { width: 100%; font-family: var(--font-display); font-size: var(--fs-small); line-height: 1.5; color: var(--ink); background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: var(--space-3); transition: border-color .2s; }
+  .field textarea { resize: vertical; min-height: 10em; }
+  .field :is(input, textarea):hover { border-color: var(--ink-faint); }
+  .field :is(input, textarea):focus-visible { outline: 2px solid var(--lane-ink); outline-offset: 0; border-color: transparent; }
+  .trap { display: none; }
+  .send { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); margin-top: var(--space-2); }
+  .send .cta:disabled { opacity: .6; cursor: progress; transform: none; }
+  [data-contact-status][data-state="ok"] { color: var(--lane-ink); }
+  [data-contact-status][data-state="error"] { color: var(--ink); }
   @media (max-width: 900px) {
     .head { grid-template-columns: 1fr; }
     .headshot { justify-self: start; max-width: 520px; }
@@ -122,5 +142,6 @@ const strip = await Promise.all(photos.map((p) => getImage({ src: p.src, width: 
   @media (max-width: 760px) {
     .builds { grid-template-columns: 1fr 1fr; }
     .photos { grid-template-columns: 1fr; gap: var(--space-8); }
+    .contact .row { grid-template-columns: 1fr; }
   }
 </style>
