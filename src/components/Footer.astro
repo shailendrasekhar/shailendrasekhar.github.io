@@ -7,8 +7,9 @@ const year = new Date().getFullYear();
     <hr class="lane-rule solid" data-reveal />
     <div class="footer-row">
       <ul class="links">
-        <li><a href={`mailto:${site.email}`}>Email</a></li>
-        {social.map((s) => <li><a href={s.href} rel="me noopener" target="_blank">{s.label}</a></li>)}      </ul>
+        {site.contactKey && <li><a href={site.contact}>Contact</a></li>}
+        {social.map((s) => <li><a href={s.href} rel="me noopener" target="_blank">{s.label}</a></li>)}
+      </ul>
       <p class="meta">© {year} {site.name} · Hyderabad</p>
     </div>
   </div>
