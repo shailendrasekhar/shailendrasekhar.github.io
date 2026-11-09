@@ -9,7 +9,7 @@ export const site = {
   // The contact form on About sends through Web3Forms (https://web3forms.com), so no address is in the page.
   // Put the access key they email you here. It is meant to be public: it can only send to your inbox.
   // While it is empty, the form and the Contact links are left out.
-  contactKey: '',
+  contactKey: 'ce4a91d9-f809-45b5-8900-347eebed1586',
   contact: '/about/#contact',
   // GoatCounter site code, e.g. 'shailendrasekhar' for https://shailendrasekhar.goatcounter.com.
   // Leave empty to load no analytics at all.
