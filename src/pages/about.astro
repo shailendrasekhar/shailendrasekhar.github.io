@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Timeline from '../components/Timeline.astro';
-import { site, social } from '../data/site';
+import { site } from '../data/site';
 import { builds, portrait, photos } from '../data/timeline';
 
 const areas = ['Perception', 'Planning', 'Navigation', 'Multi-agent systems', 'Driver behaviour'];
@@ -89,10 +89,6 @@ const strip = await Promise.all(photos.map((p) => getImage({ src: p.src, width: 
         <a class="link" href={`mailto:${site.email}`} id="email-address">{site.email}</a>
         <button type="button" class="toggle" data-copy="email-address">Copy</button>
       </div>
-      <ul class="links" data-reveal>
-        {social.map((s) => <li><a href={s.href} target="_blank" rel="me noopener">{s.label}</a></li>)}
-        <li><a href={site.cv}>CV</a></li>
-      </ul>
     </section>
   </div>
 </Base>

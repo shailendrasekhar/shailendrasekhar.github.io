@@ -28,7 +28,7 @@ npm run preview   # serve dist/
 | Intro, theme, scroll effects | `src/scripts/ui.ts` |
 | The home hero town and "Take the wheel" (three.js) | `src/scripts/drive.ts` |
 | About page photos | `src/assets/about/` (resized at build time), listed in `src/data/timeline.ts` |
-| CV | `public/cv.pdf` (placeholder) |
+| CV | `public/cv.pdf` (replace the file to update it; the header links to it) |
 
 **Add a LEGO photo:** put the image in `public/lego/` and add `src: '/lego/your-photo.jpg'` to an entry in `builds` in `src/data/timeline.ts`.
 
